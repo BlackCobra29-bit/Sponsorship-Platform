@@ -1,0 +1,100 @@
+{% extends 'super_admin_base.html' %}
+
+{% load static %}
+
+{% block main-body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0"><span class="fa fa-home"></span> Home</h1>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small card -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{ total_family_count }}</h3>
+
+              <p>Total Families</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <a href="{% url 'family-management' %}" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small card -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{ unsponsored_family_count }}</h3>
+
+              <p>Sponsored Families</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-hands-helping"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small card -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{ unsponsored_family_count }}</h3>
+
+              <p>Sponsors</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small card -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>65,000$</h3>
+
+              <p>Sponsored Amount</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main-block %}
+<main class="main"></main>
+
+<!-- Page Title -->
+<div class="page-title">
+    <nav class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{% url 'home-page' %}">Home</a></li>
+                <li class="current">Blog Details</li>
+            </ol>
+        </div>
+    </nav>
+</div><!-- End Page Title -->
+
+<!-- Sponsor Section -->
+<section id="sponsor" class="team section">
+
+    <div class="container">
+
+        <div class="row gy-1 pt-2">
+            <div class="card">
+                <h3 class="text-center pt-5"><b>Our Beginning:</b></h3>
+            <p class="ps-5 pe-5">
+                Hidrina was established in 2021 by Tigrayans from all over the world. The organizations aims to create a
+                long term service to the families of those who are fighting for our future and sacrificing their lives.
+                It focuses in assisting families of martyrs by utilising variety of resources to create job
+                opportunities to help the families left behind. Our heroes are sacrificing their precious lives for the
+                liberty of Tigray and Tigrayans and as our name indicates we will honour the sacrifice they paid for
+                peace and prosperity of Tigray and Tegaru.
+            </p>
+            <h3 class="text-center pt-5"><b>Our Value:</b></h3>
+            <p class="ps-5 pe-5">
+                To honour and value the lives paid for the freedom and liberty of our people, we vow to keep our
+                promises to the martyrs and their families.
+            </p>
+            <h3 class="text-center pt-5"><b>Our Mission:</b></h3>
+            <p class="ps-5 pe-5">
+                Hidrina believes adequate support wasn't provided for our veterans and martyrs families in the past, and
+                we want to change that. we will support our martyrs and their families to provide physical,
+                psychological, Financial and social support services to improve the wellbeing.
+            </p>
+        </div>
+        </div>
+    </div>
+
+</section><!-- /Team Section -->
+
+</main>
+{% endblock %}

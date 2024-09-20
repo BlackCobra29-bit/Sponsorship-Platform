@@ -1,0 +1,97 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block main-body %}
+<div class="register-box">
+    <div class="card card-outline card-success">
+        <div class="card-header text-center login-logo">
+            <a href="{% url 'home-page' %}">
+                <img src="{% static 'img/logo-removebg-preview.png' %}" alt="Logo" style="width: 12%">
+                <b id="auth_logo_text">Hidrina</b>
+            </a>
+        </div>
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Already have an account? <a href="{% url 'admin-login' %}">Log in here.</a></p>
+
+            <form method="post" id="create_form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="first_name" class="form-control" placeholder="First name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="last_name" class="form-control" placeholder="Last name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" placeholder="Username" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" class="form-control"
+                                placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="password" name="confirm_password" class="form-control"
+                                placeholder="Confirm password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="iti">
+                        <input type="tel" name="phone" id="sender_phone" class="form-control" required>
+                    </div>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-phone"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success btn-block">Create account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Loading spinner -->
+<div id="loadingIndicator">
+    <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
+</div>
+
+<!-- Include SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Centered loading spinner styling -->
+<style>
+    #loadingIndicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        /* Ensure it's above other elements */
+    }
+</style>
+
+{% endblock %}

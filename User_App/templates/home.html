@@ -1,0 +1,299 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Hidrina</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/logo-removebg-preview.png' %}" rel="icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<!-- Page specfic style -->
+<style>
+  @media (max-width: 767.98px) {
+    .mobile-style {
+      width: 50%;
+      margin-bottom: 10px;
+    }
+  }
+</style>
+<!-- End of style -->
+
+<body class="index-page">
+
+  <div id="land-page">
+    <header id="header" class="header fixed-top">
+
+      <div class="branding d-flex align-items-cente">
+
+        <div class="container position-relative d-flex align-items-center justify-content-between">
+          <a href="{% url 'home-page' %}" class="logo d-flex align-items-center">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <img src="{% static 'img/logo-removebg-preview.png' %}" alt="">
+            <h1 class="sitename">Hidrina</h1>
+          </a>
+
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="{% url 'home-page' %}" class="active"><i class="bi bi-bank"></i>&nbsp Home<br></a></li>
+              <li><a href="{% url 'family-list-page' %}"><i class="bi bi-currency-dollar"></i>&nbsp Sponsor a Family</a>
+              </li>
+              <li><a href="{% url 'about-us-page' %}"><i class="bi bi-file-person"></i>&nbsp About Us</a></li>
+              <li><a href="{% url 'admin-login' %}"><i class="bi bi-telephone-outbound-fill"></i>&nbsp Sign in</a></li>
+
+              <div class="social-links d-none d-md-flex align-items-center">
+                <a href="https://x.com/Hidrina1_Org" target="_blank" class="twitter me-2 text-info"><i
+                    class="bi bi-twitter-x"></i></a>
+                <a href="https://www.facebook.com/HidrinaOrg" target="_blank" class="facebook me-2 text-info"><i
+                    class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/hidrina_org/?hl=en" target="_blank"
+                  class="instagram me-2 text-info"><i class="bi bi-instagram"></i></a>
+              </div>
+
+
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section accent-background d-flex align-items-center pt-2">
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 d-flex flex-column justify-content-center">
+            <h2 class="animate__animated animate__rollIn"><span>Welcome to </span><span class="accent">Hidrina</span>
+            </h2>
+            <p class="animate__animated animate__rollIn">Our mission is to provide physical, psychological, financial,
+              and social support services to improve the
+              wellbeing of our martyrs' families.</p>
+            <div class="d-flex justify-content-center">
+              <a href="#sponsor" class="btn-get-started animate__animated animate__rollIn">Get Started</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <main class="main">
+    <!-- Sponsor Section -->
+    <section id="sponsor" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title animate__animated animate__rollIn">
+        <h2><i class="bi bi-person-rolodex"></i> Martyr's Family</h2>
+        <p>Choose a family to view detailed information and make a sponsorship commitment.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#modal{{ family.id }}">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal for Each Family -->
+          <div class="modal fade" id="modal{{ family.id }}" tabindex="-1" aria-labelledby="modalLabel{{ family.id }}"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header bg-dark d-flex justify-content-between align-items-center">
+                  <div class="w-100 text-center">
+                    <h4 class="modal-title text-white mb-0"><b><span class="bi bi-info-circle"></span> Detail
+                        Information</b></h4>
+                  </div>
+                </div>
+
+                <div class="modal-body">
+                  <!-- Container for images -->
+                  <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px;">
+                    {% for image in family.images.all %}
+                    <div class="m-2">
+                      <img src="{{ image.photo.url }}" class="img-fluid rounded" alt="{{ family.family_name }}"
+                        style="height: 200px; width: auto;">
+                    </div>
+                    {% empty %}
+                    <div class="m-2">
+                      <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
+                        alt="No Image Available" style="height: 200px; width: auto;">
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <hr>
+                  <p><b><i class="bi bi-check-circle"></i> Full Name: </b>{{ family.family_name }}</p>
+                  <p><b><i class="bi bi-check-circle"></i> Address: </b>{{ family.location }}</p>
+                  <p><b><i class="bi bi-check-circle"></i> Number of Family Members: </b>{{ family.no_of_family_members
+                    }}</p>
+                  {% if family.contact_address %}
+                  <p><b><i class="bi bi-check-circle"></i> Contact: </b>{{ family.contact_address }}</p>
+                  {% endif %}
+                  <p><b><i class="bi bi-check-circle"></i> Family Bio: </b>{{ family.family_bio }}</p>
+                  <!-- Add more details if necessary -->
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="" class="btn btn-outline-warning"><i class="bi bi-chat-heart"></i> Sponsor Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h2 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Registered Families
+              Found</span></h2>
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- See More Button -->
+    <div class="container text-center mt-3" style="padding-bottom: 100px;">
+      <a href="{% url 'family-list-page' %}" class="btn btn-dark rounded"><i class="bi bi-chevron-down"></i>
+        See more</a>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2><i class="bi bi-telephone-outbound-fill"></i> Contact Us</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gx-lg-0 gy-4 justify-content-center">
+
+          <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade" data-aos-delay="100">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="8" placeholder="Message" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+
+  </main>
+
+  <footer id="footer" class="footer accent-background">
+
+    <div class="container copyright text-center mt-4">
+      <p>&copy Copyright <span id="copyright-year"></span><strong class="px-1 sitename">Hidrina.</strong> <span>All
+          Rights Reserved</span></p>
+      <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
+      <div class="credits">
+        Developed by <a href="https://www.linkedin.com/in/tesfahiwet-truneh-2a2139179/" target="_blank">Tesfahiwet
+          Truneh</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

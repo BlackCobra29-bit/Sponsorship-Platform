@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hidrina</title>
+
+  <link href="{% static 'img/logo-removebg-preview.png' %}" rel="icon">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'admin/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'admin/css/adminlte.min.css' %}">
+  <!-- international tel -->
+  <link rel="stylesheet" href="{% static 'admin/css/international-telephone-input.css' %}">
+</head>
+
+<body class="hold-transition register-page"></body>
+
+{% block main-body %}
+
+{% endblock %}
+<!-- jQuery -->
+<script src="{% static 'admin/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'admin/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'admin/js/adminlte.min.js' %}"></script>
+<!-- international tel -->
+<script src="{% static 'admin/js/international-telephone-input.js' %}"></script>
+<!-- jquery validation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    // On form submit
+    $('#auth_form').on('submit', function (event) {
+      var isValid = true;
+
+      // Check if the email field is empty
+      if ($('#username').val().trim() === '') {
+        $('#username').addClass('is-invalid'); // Bootstrap class for red border
+        $('#usernameError').show(); // Show error message
+        isValid = false;
+      } else {
+        $('#username').removeClass('is-invalid');
+        $('#usernameError').hide();
+      }
+
+      // Check if the password field is empty
+      if ($('#password').val().trim() === '') {
+        $('#password').addClass('is-invalid');
+        $('#passwordError').show();
+        isValid = false;
+      } else {
+        $('#password').removeClass('is-invalid');
+        $('#passwordError').hide();
+      }
+
+      // Prevent form submission if any field is invalid
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    
+    // Validate the form
+    $('#create_form').validate({
+      rules: {
+        first_name: {
+          required: true
+        },
+        last_name: {
+          required: true
+        },
+        email: {
+          required: true,
+          email: true
+        },
+        username: {
+          required: true
+        },
+        password: {
+          required: true,
+          minlength: 6
+        },
+        confirm_password: {
+          required: true,
+          equalTo: "#password"  // Ensures confirm_password matches password
+        },
+        phone: {
+          required: true
+        }
+      },
+      messages: {
+        first_name: "Please enter a first name",
+        last_name: "Please enter a last name",
+        email: {
+          required: "Please enter an email address",
+          email: "Please enter a valid email address"
+        },
+        username: "Please enter a username",
+        password: {
+          required: "Please provide a password",
+          minlength: "Your password must be at least 6 characters long"
+        },
+        confirm_password: {
+          required: "Please confirm your password",
+          equalTo: "Passwords do not match"
+        },
+        phone: "Please enter your phone number"
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        if (element.closest('.input-group').length) {
+          error.insertAfter(element.closest('.input-group'));
+        } else {
+          error.insertAfter(element);
+        }
+      },
+      highlight: function (element) {
+        $(element).addClass('is-invalid');
+      },
+      unhighlight: function (element) {
+        $(element).removeClass('is-invalid');
+      },
+      
+      // This function runs when form is valid
+      submitHandler: function (form) {
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{% url "create-account" %}');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        // Show the spinner when the form is submitted
+        document.getElementById('loadingIndicator').style.display = 'block';
+
+        xhr.onload = function () {
+          // Hide the spinner when the response is received
+          document.getElementById('loadingIndicator').style.display = 'none';
+
+          var response = JSON.parse(xhr.responseText);
+
+          if (response.success) {
+            // Success SweetAlert
+            Swal.fire({
+              icon: 'success',
+              title: 'Account Created',
+              text: response.message,
+              confirmButtonText: 'OK',
+              timer: 3000
+            }).then(function () {
+              window.location.href = '{% url "admin-login" %}';  // Redirect on success
+            });
+          } else {
+            // Error SweetAlert
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: response.message,
+              confirmButtonText: 'Try Again',
+            });
+          }
+        };
+
+        xhr.send(formData);
+      }
+    });
+  });
+</script>
+
+
+</body>
+
+</html>

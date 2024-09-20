@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main-block %}
+<main class="main"></main>
+
+<!-- Page Title -->
+<div class="page-title">
+    <nav class="breadcrumbs">
+        <div class="container">
+            <ol>
+                <li><a href="{% url 'home-page' %}">Home</a></li>
+                <li class="current">Blog Details</li>
+            </ol>
+        </div>
+    </nav>
+</div><!-- End Page Title -->
+
+<!-- Sponsor Section -->
+<section id="sponsor" class="team section">
+
+    <div class="container">
+
+        <div class="row gy-4">
+
+            {% if page_obj %}
+            {% for family in page_obj %}
+            
+            <!-- Family Item -->
+            <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+              <div class="member card">
+                {% if family.images.all %}
+                <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                  style="height: 130px;">
+                {% else %}
+                <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                  style="height: 130px;">
+                {% endif %}
+                <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+                <span><b>Address: </b>{{ family.location }}</span>
+                <!-- Sponsor Button -->
+                <div class="d-flex justify-content-center mt-3">
+                  <!-- Trigger Button for Modal -->
+                  <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#modal{{ family.id }}">
+                    <i class="bi bi-chat-heart"></i> Sponsor
+                  </a>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Modal for Each Family -->
+            <div class="modal fade" id="modal{{ family.id }}" tabindex="-1" aria-labelledby="modalLabel{{ family.id }}"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header bg-dark d-flex justify-content-between align-items-center">
+                    <div class="w-100 text-center">
+                      <h4 class="modal-title text-white mb-0"><b><span class="bi bi-info-circle"></span> Detail Information</b></h4>
+                    </div>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <!-- Container for images -->
+                    <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px;">
+                      {% for image in family.images.all %}
+                      <div class="m-2">
+                        <img src="{{ image.photo.url }}" class="img-fluid rounded" alt="{{ family.family_name }}"
+                          style="height: 200px; width: auto;">
+                      </div>
+                      {% empty %}
+                      <div class="m-2">
+                        <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
+                          alt="No Image Available" style="height: 200px; width: auto;">
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <hr>
+                    <p><b><i class="bi bi-check-circle"></i> Full Name: </b>{{ family.family_name }}</p>
+                    <p><b><i class="bi bi-check-circle"></i> Address: </b>{{ family.location }}</p>
+                    <p><b><i class="bi bi-check-circle"></i> Number of Family Members: </b>{{ family.no_of_family_members }}</p>
+                    {% if family.contact_address %}
+                    <p><b><i class="bi bi-check-circle"></i> Contact: </b>{{ family.contact_address }}</p>
+                    {% endif %}
+                    <p><b><i class="bi bi-check-circle"></i> Family Bio: </b>{{ family.family_bio }}</p>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="" class="btn btn-outline-warning"><i class="bi bi-chat-heart"></i> Sponsor Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            {% endfor %}
+            {% else %}
+            <h2 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Registered Families Found</span></h2>
+            {% endif %}
+          </div>
+          
+          <!-- Pagination Controls -->
+          <div class="pagination justify-content-center pt-5">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+          
+                {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                  <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                  {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                  <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                  {% endif %}
+                {% endfor %}
+          
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>          
+    </div>
+
+</section><!-- /Team Section -->
+
+<!-- Page specfic style -->
+<style>
+    @media (max-width: 767.98px) {
+        .mobile-style {
+            width: 50%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+<!-- End of style -->
+
+</main>
+{% endblock %}
