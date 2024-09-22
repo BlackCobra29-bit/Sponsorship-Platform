@@ -51,4 +51,10 @@ def AddFamily(request):
 @login_required(login_url="/login-page", redirect_field_name="authentication_required")
 def FamilyManagement(request):
 
-    return render(request, 'family_management.html')
+    total_families = FamilyList.objects.all()
+
+    context = {
+        'total_families': total_families
+    }
+
+    return render(request, 'family_management.html', context)

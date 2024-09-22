@@ -1,68 +1,81 @@
-{% extends 'super_admin_base.html' %}
-
-{% load static %}
-
-{% block main-body %}
+{% extends 'super_admin_base.html' %} {% load static %} {% block main-body %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0"><span class="fas fa-users"></span> Family Management</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <!-- center column -->
-                <div class="col-lg-10 ">
-                    <!-- general form elements -->
-                    <div class="card card-default">
-                          <div class="card-body">
-                        <table id="example" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                </tr>
-                                <!-- Add more rows as needed -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- card body  -->
-
-                    </div>
-                    <!-- /.card -->
-                     </div>
-                    <!-- ./col -->
-                </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">
+            <span class="fas fa-users"></span> Family Management
+          </h1>
         </div>
-        <!-- /.content -->
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
 
-    {% endblock %}
+  <!-- Main content -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <!-- center column -->
+        <div class="col-lg-10">
+          <!-- general form elements -->
+          <div class="card card-default">
+            <div class="card-body">
+              <table
+                id="example"
+                class="table table-striped table-bordered"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>Index</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for family in total_families %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ family.family_name }}</td>
+                    <td>{{ family.location }}</td>
+                    <td>{{ family.contact_address }}</td>
+                    <td>{{ family.family_bio|slice:":17" }}...</td>
+                    <td>
+                      {% if not family.is_sponsored %}
+                      <button class="btn btn-danger btn-xs">Unsponsored</button>
+                      {% else %}
+                      <button class="btn btn-success btn-xs">Sponsored</button>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  <!-- Add more rows as needed -->
+                </tbody>
+              </table>
+            </div>
+            <!-- card body  -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}
