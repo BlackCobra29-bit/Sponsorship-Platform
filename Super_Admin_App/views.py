@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .models import FamilyList
 from .models import FamilyImage
+from .forms import FamilyListForm
+from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 
 # Create your views here.
@@ -48,13 +53,49 @@ def AddFamily(request):
 
     return render(request, "add_family.html")
 
+
 @login_required(login_url="/login-page", redirect_field_name="authentication_required")
 def FamilyManagement(request):
 
     total_families = FamilyList.objects.all()
 
-    context = {
-        'total_families': total_families
-    }
+    context = {"total_families": total_families}
 
-    return render(request, 'family_management.html', context)
+    return render(request, "family_management.html", context)
+
+
+@method_decorator(
+    login_required(
+        login_url="/login-page", redirect_field_name="authentication_required"
+    ),
+    name="dispatch",
+)
+class FamilyListUpdateView(UpdateView):
+    model = FamilyList
+    form_class = FamilyListForm
+    template_name = "family_update.html"
+    success_url = reverse_lazy("family-management")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["family"] = self.object
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Family details updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error updating the family details. Please correct the errors below.')
+        return super().form_invalid(form)
+
+
+@method_decorator(
+    login_required(
+        login_url="/login-page", redirect_field_name="authentication_required"
+    ),
+    name="dispatch",
+)
+class FamilyDeleteView(DeleteView):
+    model = FamilyList
+    success_url = reverse_lazy("family-management")

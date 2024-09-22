@@ -55880,7 +55880,8 @@ input[type=tel] {
 .navbar-light .navbar-nav .nav-link {
     color: #000000ba;
 }
-.register-box{
+
+.register-box {
     width: 600px;
 }
 
@@ -55891,5 +55892,21 @@ input[type=tel] {
 .btn-xs {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
-    line-height: 1.5;
+    line-height: 1;
+}
+
+.circular-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: white;
+}
+
+
+.icon-spacing {
+    margin-right: 4px;
 }

@@ -151,10 +151,10 @@
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <div class="modal-header bg-dark d-flex justify-content-between align-items-center">
+                <div class="modal-header bg-default d-flex justify-content-between align-items-center">
                   <div class="w-100 text-center">
-                    <h4 class="modal-title text-white mb-0"><b><span class="bi bi-info-circle"></span> Detail
-                        Information</b></h4>
+                    <h6 class="modal-title mb-0"><span class="bi bi-info-circle"></span> <b>Detail
+                        Information</b></h6>
                   </div>
                 </div>
 
@@ -176,8 +176,9 @@
                   <hr>
                   <p><b><i class="bi bi-check-circle"></i> Full Name: </b>{{ family.family_name }}</p>
                   <p><b><i class="bi bi-check-circle"></i> Address: </b>{{ family.location }}</p>
-                  <p><b><i class="bi bi-check-circle"></i> Number of Family Members: </b>{{ family.no_of_family_members
-                    }}</p>
+                  <p><b><i class="bi bi-check-circle"></i> Number of Family Members: </b>
+                    {{ family.no_of_family_members}}
+                  </p>
                   {% if family.contact_address %}
                   <p><b><i class="bi bi-check-circle"></i> Contact: </b>{{ family.contact_address }}</p>
                   {% endif %}
@@ -194,8 +195,8 @@
 
           {% endfor %}
           {% else %}
-          <h2 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Registered Families
-              Found</span></h2>
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
           {% endif %}
 
         </div>

@@ -18,6 +18,8 @@ from Sponsor_App.views import my_sponsorship
 from Super_Admin_App.views import dashboard
 from Super_Admin_App.views import AddFamily
 from Super_Admin_App.views import FamilyManagement
+from Super_Admin_App.views import FamilyListUpdateView
+from Super_Admin_App.views import FamilyDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,5 +39,7 @@ urlpatterns = [
     path('dashboard/', dashboard, name = 'admin-dashboard'),
     path('add-family/', AddFamily, name = 'add-family'),
     path('family-management/', FamilyManagement, name = 'family-management'),
+    path('family/<int:pk>/update/', FamilyListUpdateView.as_view(), name='family-update'),
+    path('family/<int:pk>/delete/', FamilyDeleteView.as_view(), name='family-delete'),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
