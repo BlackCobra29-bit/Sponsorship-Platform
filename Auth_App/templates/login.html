@@ -6,6 +6,15 @@
 
 <div class="login-box">
 
+    {% if messages %}
+            {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}
+    </div>
+      {% endfor %}
+      {% endif %}
+
     <div class="card card-outline card-success">
         <div class="card-header text-center login-logo">
             <a href="{% url 'home-page' %}"><img src="{% static 'img/logo-removebg-preview.png' %}" alt="Hidrina Logo"
@@ -21,7 +30,8 @@
                     <label for="username" class="text-danger" id="usernameError" style="display: none;">Username is
                         required</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="login_username" id="username" class="form-control" placeholder="Username">
+                        <input type="text" name="login_username" id="username" class="form-control"
+                            placeholder="Username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -35,7 +45,8 @@
                     <label for="password" class="text-danger" id="passwordError" style="display: none;">Password is
                         required</label>
                     <div class="input-group mb-3">
-                        <input type="password" name="login_password" id="password" class="form-control" placeholder="Password">
+                        <input type="password" name="login_password" id="password" class="form-control"
+                            placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

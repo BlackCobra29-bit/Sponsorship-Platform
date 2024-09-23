@@ -8,40 +8,25 @@ from Sponsor_App.models import SponosrAccount
 from django.http import JsonResponse
 
 
-# Create your views here.
 def render_login_page(request):
-
     if request.user.is_authenticated:
+        return redirect(
+            "admin-dashboard" if request.user.is_superuser else "sponsor-home-page"
+        )
 
-        if request.user.is_superuser == False:
-
-            return redirect("sponsor-home-page")
-
+    if request.method == "POST":
+        username = request.POST.get("login_username")
+        password = request.POST.get("login_password")
+        # Authenticate user
+        user_auth = authenticate(request, username=username, password=password)
+        if user_auth is not None:
+            login(request, user_auth)
+            return redirect(
+                "admin-dashboard" if user_auth.is_superuser else "sponsor-home-page"
+            )
         else:
-
-            return redirect("admin-dashboard")
-
-    else:
-
-        if request.method == "POST":
-
-            username = request.POST.get("login_username")
-            password = request.POST.get("login_password")
-            # authenticate user
-            user_auth = authenticate(username=username, password=password)
-            if user_auth is not None:
-                login(request, user_auth)
-
-                if request.user.is_superuser == False:
-
-                    return redirect("sponsor-home-page")
-
-                else:
-
-                    return redirect("admin-dashboard")
-            else:
-                print("Incorrect login credenials")
-                return redirect("admin-login")
+            messages.error(request, "Invalid username or password.")
+            return redirect("admin-login")
 
     return render(request, "login.html")
 
@@ -65,7 +50,12 @@ def render_create_account_page(request):
 
         # Check if username already exists
         if User.objects.filter(username=username).exists():
-            return JsonResponse({'success': False, 'message': 'Username already taken. Please choose another.'})
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Username already taken. Please choose another.",
+                }
+            )
 
         # Create the user
         user = User.objects.create(
@@ -80,7 +70,9 @@ def render_create_account_page(request):
         SponosrAccount.objects.create(user=user, phone_number=phone)
 
         # Return JSON response
-        return JsonResponse({'success': True, 'message': 'Account created successfully!'})
+        return JsonResponse(
+            {"success": True, "message": "Account created successfully!"}
+        )
 
     return render(request, "create_account.html")
 
