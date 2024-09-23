@@ -20,6 +20,9 @@ from Super_Admin_App.views import AddFamily
 from Super_Admin_App.views import FamilyManagement
 from Super_Admin_App.views import FamilyListUpdateView
 from Super_Admin_App.views import FamilyDeleteView
+from Super_Admin_App.views import UpdateFamilyImage
+from Super_Admin_App.views import DeleteFamilyImage
+from Super_Admin_App.views import ExportFamilyData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,5 +44,9 @@ urlpatterns = [
     path('family-management/', FamilyManagement, name = 'family-management'),
     path('family/<int:pk>/update/', FamilyListUpdateView.as_view(), name='family-update'),
     path('family/<int:pk>/delete/', FamilyDeleteView.as_view(), name='family-delete'),
+    path('family/image/<int:image_id>/update/', UpdateFamilyImage, name='update_family_image'),
+    path('family/image/<int:image_id>/delete/', DeleteFamilyImage, name='delete_family_image'),
+    path('export-data', ExportFamilyData, name='export-family-data')
+
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

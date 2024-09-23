@@ -3,9 +3,7 @@
 {% load static %}
 
 {% block main-body %}
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container">
             <div class="row mb-2">
@@ -15,82 +13,101 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
+    
     <div class="content">
         <div class="container">
             <div class="row">
                 <div class="col-lg-1"></div>
-                <!-- center column -->
-                <div class="col-lg-10">
-                    <!-- general form elements -->
-                    <div class="card card-default">
-                        <!-- form start -->
-                        <form method="POST" enctype="multipart/form-data" id="update_family_form">
-                            {% csrf_token %}
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFullName">Full Name: <code>*</code></label>
-                                            <input type="text" class="form-control" name="family_name"
-                                                placeholder="Enter full name" value="{{ family.family_name }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputAddress">Address: <code>*</code></label>
-                                            <input type="text" class="form-control" name="location"
-                                                placeholder="Enter address" value="{{ family.location }}" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFamilies">Number of Families: <code>*</code></label>
-                                            <input type="text" class="form-control" name="no_of_family_members"
-                                                placeholder="Enter the number of families" value="{{ family.no_of_family_members }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputContact">Family Contact:</label>
-                                            <input type="text" class="form-control" name="contact_address"
-                                                placeholder="Enter contact number" value="{{ family.contact_address }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">Family Photos: </label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" name="images"  accept="image/*" multiple>
-                                                    <label class="custom-file-label">Select Multiple Images</label>
+                <div class="col-10">
+                    <div class="card">
+                        <div class="card-header d-flex p-0">
+                            <ul class="nav nav-pills ml-auto p-2">
+                                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><i class="fa fa-user-friends"></i> Family Information</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><i class="fa fa-image"></i> Family Photos</a></li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_1">
+                                    <!-- Family Information Form -->
+                                    <form method="POST" enctype="multipart/form-data" id="update_family_form">
+                                        {% csrf_token %}
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputFullName">Full Name: <code>*</code></label>
+                                                        <input type="text" class="form-control" name="family_name" placeholder="Enter full name" value="{{ family.family_name }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputAddress">Address: <code>*</code></label>
+                                                        <input type="text" class="form-control" name="location" placeholder="Enter address" value="{{ family.location }}" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputFamilies">Number of Families: <code>*</code></label>
+                                                        <input type="text" class="form-control" name="no_of_family_members" placeholder="Enter the number of families" value="{{ family.no_of_family_members }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputContact">Family Contact:</label>
+                                                        <input type="text" class="form-control" name="contact_address" placeholder="Enter contact number" value="{{ family.contact_address }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputBio">Family Bio: <code>*</code></label>
+                                                        <textarea class="form-control" rows="4" name="family_bio" placeholder="Enter family bio..." required>{{ family.family_bio }}</textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputBio">Family Bio: <code>*</code></label>
-                                            <textarea class="form-control" rows="4" name="family_bio"
-                                                placeholder="Enter family bio..." required>{{ family.family_bio }}</textarea>
+                                        <div class="card-footer float-right">
+                                            <button type="submit" class="btn btn-primary">Update</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
+                                <!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="tab_2">
+                                    <h5>Current Family Photos</h5>
+                                    <ol>
+                                        {% for image in family.images.all %}
+                                            <li>
+                                                <img src="{{ image.photo.url }}" alt="Family Photo" style="width: 100px; height: auto;" />
+                                                <form action="{% url 'delete_family_image' image.id %}" method="POST" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <a href="#" class="text-danger" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                        <i class="fa fa-trash"></i> Delete
+                                                    </a>
+                                                </form>
+                                                <form action="{% url 'update_family_image' image.id %}" method="POST" enctype="multipart/form-data" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <input type="file" name="new_image" accept="image/*" required>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Replace</button>
+                                                </form>
+                                            </li>
+                                        {% empty %}
+                                            <li>No images uploaded.</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                                <!-- /.tab-pane -->
                             </div>
-                            <div class="card-footer float-right">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-                        </form>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
+                    <!-- ./card -->
                 </div>
-                <!-- ./col -->
+                <!-- /.col -->
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->

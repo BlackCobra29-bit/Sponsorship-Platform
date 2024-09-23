@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -89,6 +89,27 @@ class FamilyListUpdateView(UpdateView):
         messages.error(self.request, 'There was an error updating the family details. Please correct the errors below.')
         return super().form_invalid(form)
 
+@login_required(login_url="/login-page", redirect_field_name="authentication_required")
+def UpdateFamilyImage(request, image_id):
+    image = get_object_or_404(FamilyImage, id=image_id)
+    if request.method == 'POST':
+        new_image = request.FILES.get('new_image')
+        if new_image:
+            image.photo.delete()
+            image.photo = new_image
+            image.save()
+        return redirect('family-update', pk=image.family.id)
+    return redirect('family-update', pk=image.family.id)
+
+@login_required(login_url="/login-page", redirect_field_name="authentication_required")
+def DeleteFamilyImage(request, image_id):
+    image = get_object_or_404(FamilyImage, id=image_id)
+    family_id = image.family.id
+    if request.method == 'POST':
+        image.photo.delete()
+        image.delete()
+        return redirect('family-update', pk=family_id)
+    return redirect('family-update', pk=family_id)
 
 @method_decorator(
     login_required(
@@ -99,3 +120,12 @@ class FamilyListUpdateView(UpdateView):
 class FamilyDeleteView(DeleteView):
     model = FamilyList
     success_url = reverse_lazy("family-management")
+
+@login_required(login_url="/login-page", redirect_field_name="authentication_required")
+def ExportFamilyData(request):
+    
+    total_families = FamilyList.objects.all()
+
+    context = {"total_families": total_families}
+
+    return render(request, "export-family-data.html", context)
