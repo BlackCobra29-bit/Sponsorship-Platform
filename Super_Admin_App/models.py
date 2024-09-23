@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image as PilImage
+from django.core.exceptions import ValidationError
 
 class FamilyList(models.Model):
     family_name = models.CharField(max_length=100)
@@ -17,9 +19,16 @@ class FamilyList(models.Model):
     def __str__(self):
         return self.family_name
     
+def validate_image(image):
+    try:
+        img = PilImage.open(image)
+        img.verify()
+    except Exception:
+        raise ValidationError(_("The uploaded file is not a valid image."))
+    
 class FamilyImage(models.Model):
     family = models.ForeignKey(FamilyList, related_name='images', on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='family_photos/')
+    photo = models.ImageField(upload_to='family_photos/', validators=[validate_image])
 
     def __str__(self):
         return f"{self.family.family_name} - photo"
