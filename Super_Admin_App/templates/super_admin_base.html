@@ -15,10 +15,13 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{% static 'admin/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static 'admin/css/adminlte.min.css' %}">
-    <!-- Datatble CSS CDN -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <!-- Datatble CSS -->
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -57,9 +60,11 @@
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                                 <li><a href="{% url 'add-family' %}" class="dropdown-item"><span
                                             class="fa fa-plus-circle"></span> Add New Family</a></li>
-                                <li><a href="{% url 'family-management' %}" class="dropdown-item"><i class="fas fa-users"></i> Family Management</a>
+                                <li><a href="{% url 'family-management' %}" class="dropdown-item"><i
+                                            class="fas fa-users"></i> Family Management</a>
                                 </li>
-                                <li><a href="{% url 'export-family-data' %}" class="dropdown-item"><i class="fas fa-download"></i> Export Data</a>
+                                <li><a href="{% url 'export-family-data' %}" class="dropdown-item"><i
+                                            class="fas fa-download"></i> Export Data</a>
                                 </li>
                             </ul>
                         </li>
@@ -189,17 +194,74 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
     <!-- custom image upload CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-    <!-- DataTables JS CDNs -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <!-- DataTables Plugins -->
+    <script src="{% static 'admin/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <!-- DataTable Initialization -->
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+            });
+        });
     
-      <!-- DataTable Initialization -->
-      <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [
+                    "copy",
+                    "csv",
+                    "excel",
+                    {
+                        extend: "pdf",
+                        messageTop: "Registry of Martyrs' Families",
+                        customize: function (doc) {
+    
+                            var rowIndex = 1;
+                            // Update the table with row numbering
+                            doc.content.forEach(function (element) {
+                                if (element.table) {
+                                    element.table.body.forEach(function (row, rowIndexInTable) {
+                                        row.forEach(function (cell, cellIndex) {
+                                        });
+                                    });
+                                }
+                            });
+    
+                            // Add watermark with a link reference
+                            doc.watermark = {
+                                text: '\u00A9 Hidrina Org',
+                                color: '#ccc',
+                                opacity: 0.3,
+                                italics: true,
+                                bold: true,
+                                angle: 325
+                            };
+                        }
+                    },
+                    "print",
+                    "colvis"
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
     
+
     <!-- File input field intialization -->
     <script>
         $(function () {
