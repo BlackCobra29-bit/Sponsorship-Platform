@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from Sponsor_App.models import SponosrAccount
 from django.http import JsonResponse
+from captcha.helpers import captcha_image_url
+from captcha.models import CaptchaStore
 
 
 def render_login_page(request):
@@ -17,6 +19,20 @@ def render_login_page(request):
     if request.method == "POST":
         username = request.POST.get("login_username")
         password = request.POST.get("login_password")
+        captcha_key = request.POST.get("captcha_0")  # Captcha key
+        captcha_value = request.POST.get("captcha_1")  # User-entered captcha text
+
+        # Validate CAPTCHA
+        try:
+            captcha_obj = CaptchaStore.objects.get(hashkey=captcha_key)
+            # Case-insensitive comparison
+            if captcha_obj.response.lower() != captcha_value.lower():
+                messages.error(request, "Invalid CAPTCHA.")
+                return redirect("admin-login")
+        except CaptchaStore.DoesNotExist:
+            messages.error(request, "Invalid CAPTCHA.")
+            return redirect("admin-login")
+
         # Authenticate user
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
@@ -28,8 +44,11 @@ def render_login_page(request):
             messages.error(request, "Invalid username or password.")
             return redirect("admin-login")
 
-    return render(request, "login.html")
+    # Generate CAPTCHA for GET requests
+    captcha_key = CaptchaStore.generate_key()
+    captcha_image = captcha_image_url(captcha_key)
 
+    return render(request, "login.html", {"captcha_image": captcha_image, "captcha_key": captcha_key})
 
 def render_logout(request):
 

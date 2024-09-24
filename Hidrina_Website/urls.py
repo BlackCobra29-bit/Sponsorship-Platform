@@ -26,6 +26,7 @@ from Super_Admin_App.views import ExportFamilyData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('captcha/', include('captcha.urls')),
     # url pattern for User_App
     path('', home_view, name='home-page'),
     path('families-list/', FamiliesListPage, name='family-list-page'),

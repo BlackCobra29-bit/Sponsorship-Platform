@@ -7,25 +7,28 @@
 <div class="login-box">
 
     {% if messages %}
-            {% for message in messages %}
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        {{ message }}
-    </div>
-      {% endfor %}
-      {% endif %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <div class="card card-outline card-success">
         <div class="card-header text-center login-logo">
-            <a href="{% url 'home-page' %}"><img src="{% static 'img/logo-removebg-preview.png' %}" alt="Hidrina Logo"
-                    style="width: 12%"> <b id="auth_logo_text">Hidrina</b></a>
+            <a href="{% url 'home-page' %}">
+                <img src="{% static 'img/logo-removebg-preview.png' %}" alt="Hidrina Logo" style="width: 12%">
+                <b id="auth_logo_text">Hidrina</b>
+            </a>
         </div>
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign In to continue</p>
 
             <form method="post" id="auth_form">
                 {% csrf_token %}
-                <!-- Email Field -->
+                
+                <!-- Username Field -->
                 <div class="form-group">
                     <label for="username" class="text-danger" id="usernameError" style="display: none;">Username is
                         required</label>
@@ -54,6 +57,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- CAPTCHA Field -->
+                <div class="form-group text-center">
+                    <!-- CAPTCHA Image -->
+                    <img src="{{ captcha_image }}" class="mb-2" alt="CAPTCHA Image" id="captcha-image">
+                    
+                    <!-- CAPTCHA Input Field -->
+                    <input type="text" name="captcha_1" id="captcha" class="form-control mt-2"
+                        placeholder="Enter CAPTCHA">
+                    <input type="hidden" name="captcha_0" value="{{ captcha_key }}">
+                </div>
+                
 
                 <!-- Submit Button -->
                 <div class="row">

@@ -41,8 +41,14 @@ INSTALLED_APPS = [
     'User_App',
     'Auth_App',
     'Sponsor_App',
-    'Super_Admin_App'
+    'Super_Admin_App',
+    'captcha',
 ]
+
+CAPTCHA_FONT_SIZE = 40
+CAPTCHA_IMAGE_SIZE = (150, 50)
+CAPTCHA_FOREGROUND_COLOR = '#001F3F'
+CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
