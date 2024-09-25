@@ -1,6 +1,7 @@
 import random
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -9,14 +10,18 @@ from django.http import JsonResponse
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
 
+class LoginView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
+        
+        # Generate CAPTCHA for GET requests
+        captcha_key = CaptchaStore.generate_key()
+        captcha_image = captcha_image_url(captcha_key)
 
-def render_login_page(request):
-    if request.user.is_authenticated:
-        return redirect(
-            "admin-dashboard" if request.user.is_superuser else "sponsor-home-page"
-        )
+        return render(request, "login.html", {"captcha_image": captcha_image, "captcha_key": captcha_key})
 
-    if request.method == "POST":
+    def post(self, request):
         username = request.POST.get("login_username")
         password = request.POST.get("login_password")
         captcha_key = request.POST.get("captcha_0")  # Captcha key
@@ -25,7 +30,6 @@ def render_login_page(request):
         # Validate CAPTCHA
         try:
             captcha_obj = CaptchaStore.objects.get(hashkey=captcha_key)
-            # Case-insensitive comparison
             if captcha_obj.response.lower() != captcha_value.lower():
                 messages.error(request, "Invalid CAPTCHA.")
                 return redirect("admin-login")
@@ -37,28 +41,23 @@ def render_login_page(request):
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
             login(request, user_auth)
-            return redirect(
-                "admin-dashboard" if user_auth.is_superuser else "sponsor-home-page"
-            )
+            return redirect("admin-dashboard" if user_auth.is_superuser else "sponsor-home-page")
         else:
             messages.error(request, "Invalid username or password.")
             return redirect("admin-login")
 
-    # Generate CAPTCHA for GET requests
-    captcha_key = CaptchaStore.generate_key()
-    captcha_image = captcha_image_url(captcha_key)
 
-    return render(request, "login.html", {"captcha_image": captcha_image, "captcha_key": captcha_key})
-
-def render_logout(request):
-
-    logout(request)
-
-    return redirect("admin-login")
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("admin-login")
 
 
-def render_create_account_page(request):
-    if request.method == "POST":
+class CreateAccountView(View):
+    def get(self, request):
+        return render(request, "create_account.html")
+
+    def post(self, request):
         # Get the form inputs
         username = request.POST.get("username")
         first_name = request.POST.get("first_name")
@@ -85,7 +84,7 @@ def render_create_account_page(request):
             password=make_password(password),  # Password is hashed for security
         )
 
-        # Create associated SponosrAccount
+        # Create associated SponsorAccount
         SponosrAccount.objects.create(user=user, phone_number=phone)
 
         # Return JSON response
@@ -93,9 +92,7 @@ def render_create_account_page(request):
             {"success": True, "message": "Account created successfully!"}
         )
 
-    return render(request, "create_account.html")
 
-
-def render_forgot_password_page(request):
-
-    return render(request, "forgot_password.html")
+class ForgotPasswordView(View):
+    def get(self, request):
+        return render(request, "forgot_password.html")
