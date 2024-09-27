@@ -55910,3 +55910,18 @@ input[type=tel] {
 .icon-spacing {
     margin-right: 4px;
 }
+
+/* navbar link menus active and hover property */
+.nav-link.active {
+    border-bottom: 1px solid #ec775c;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+   background-color: #3d444a;
+}
+
+nav{
+    position: sticky; 
+    top: 0px;
+}

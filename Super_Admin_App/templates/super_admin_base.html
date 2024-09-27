@@ -21,14 +21,15 @@
     <link rel="stylesheet" href="{% static 'admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static 'admin/css/adminlte.min.css' %}">
-    <!-- Datatble CSS -->
+    <!-- Mailbox compose summernote -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-dark" style="position: sticky; top: 0px">
             <div class="container">
                 <a href="{% url 'home-page' %}" class="navbar-brand">
                     <img src="{% static 'img/logo-removebg-preview.png' %}" alt="Hidrina Logo"
@@ -46,31 +47,43 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{% url 'admin-dashboard' %}" class="nav-link"><span class="fa fa-home"></span>
-                                Home</a>
+                            <a href="{% url 'admin-dashboard' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'admin-dashboard' %}active{% endif %}">
+                                <span class="fa fa-home"></span> Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'my-sponsorship' %}" class="nav-link"><i class="fa fa-hands-helping"></i>
-                                Sponsorships Management</a>
+                            <a href="{% url 'my-sponsorship' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}">
+                                <i class="fa fa-hands-helping"></i> Sponsorships
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" class="nav-link dropdown-toggle"><i
-                                    class="fa fa-user-friends"></i> Family Management</a>
+                                aria-expanded="false"
+                                class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'add-family' or request.resolver_match.url_name == 'family-management' or request.resolver_match.url_name == 'export-family-data' %}active{% endif %}">
+                                <i class="fa fa-user-friends"></i> Family
+                            </a>
                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                <li><a href="{% url 'add-family' %}" class="dropdown-item"><span
-                                            class="fa fa-plus-circle"></span> Add New Family</a></li>
-                                <li><a href="{% url 'family-management' %}" class="dropdown-item"><i
-                                            class="fas fa-users"></i> Family Management</a>
-                                </li>
-                                <li><a href="{% url 'export-family-data' %}" class="dropdown-item"><i
-                                            class="fas fa-download"></i> Export Data</a>
-                                </li>
+                                <li><a href="{% url 'add-family' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'add-family' %}active{% endif %}">
+                                        <span class="fa fa-plus-circle"></span> Add New Family</a></li>
+                                <li><a href="{% url 'family-management' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'family-management' %}active{% endif %}">
+                                        <i class="fas fa-users"></i> Family Management</a></li>
+                                <li><a href="{% url 'export-family-data' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'export-family-data' %}active{% endif %}">
+                                        <i class="fas fa-download"></i> Export Data</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fa fa-user-shield"></i>
-                                Admins</a>
+                            <a href="{% url 'mail-page' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'mail-page' %}active{% endif %}">
+                                <i class="nav-icon far fa-envelope"></i> Mailbox
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class="fa fa-user-shield"></i> Admins</a>
                         </li>
                     </ul>
                 </div>
@@ -84,61 +97,7 @@
                             <span class="badge badge-danger navbar-badge">3</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            John Pierce
-                                            <span class="float-right text-sm text-muted"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">I got your message bro</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Nora Silvester
-                                            <span class="float-right text-sm text-warning"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">The subject goes here</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                            <!-- Messages here... -->
                         </div>
                     </li>
                     <!-- Notifications Dropdown Menu -->
@@ -161,6 +120,7 @@
             </div>
         </nav>
         <!-- /.navbar -->
+
         {% block main-body %}
 
         {% endblock %}
@@ -207,6 +167,21 @@
     <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
     <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
     <script src="{% static 'admin/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+    <!-- Mailbox compose summernote -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+
+    <!-- Summernote Insialization -->
+    <!-- Initialize Summernote -->
+    <script>
+        $(document).ready(function () {
+            $('#compose-textarea').summernote({
+                height: 300,   // Set the height of the editor
+                minHeight: null,  // Minimum height of the editor
+                maxHeight: null,  // Maximum height of the editor
+                focus: true     // Set focus to the editor after loading
+            });
+        });
+    </script>
 
     <!-- DataTable Initialization -->
     <script>
@@ -217,7 +192,7 @@
                 "autoWidth": false,
             });
         });
-    
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true,
@@ -231,7 +206,7 @@
                         extend: "pdf",
                         messageTop: "Registry of Martyrs' Families",
                         customize: function (doc) {
-    
+
                             var rowIndex = 1;
                             // Update the table with row numbering
                             doc.content.forEach(function (element) {
@@ -242,7 +217,7 @@
                                     });
                                 }
                             });
-    
+
                             // Add watermark with a link reference
                             doc.watermark = {
                                 text: '\u00A9 Hidrina Org',
@@ -260,7 +235,7 @@
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
-    
+
 
     <!-- File input field intialization -->
     <script>

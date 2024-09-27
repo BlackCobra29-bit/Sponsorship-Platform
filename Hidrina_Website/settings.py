@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Auth_App',
     'Sponsor_App',
     'Super_Admin_App',
+    'Messaging',
     'captcha',
 ]
 

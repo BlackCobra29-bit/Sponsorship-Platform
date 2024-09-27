@@ -23,6 +23,8 @@ from Super_Admin_App.views import FamilyDeleteView
 from Super_Admin_App.views import UpdateFamilyImage
 from Super_Admin_App.views import DeleteFamilyImage
 from Super_Admin_App.views import ExportFamilyData
+# import Messaging urls
+from Messaging.views import MailPage, ComposePage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,5 +49,8 @@ urlpatterns = [
     path('family/<int:pk>/delete/', FamilyDeleteView.as_view(), name='family-delete'),
     path('family/image/<int:image_id>/update/', UpdateFamilyImage, name='update_family_image'),
     path('family/image/<int:image_id>/delete/', DeleteFamilyImage, name='delete_family_image'),
-    path('export-data', ExportFamilyData, name='export-family-data')
+    path('export-data/', ExportFamilyData, name='export-family-data'),
+    # url pattern for Super_Admin_Base
+    path('mail-page', MailPage, name = "mail-page"),
+    path('compose-page', ComposePage, name = "compose-page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
