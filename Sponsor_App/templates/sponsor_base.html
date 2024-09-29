@@ -43,15 +43,16 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{% url 'sponsor-home-page' %}" class="nav-link"><span class="fa fa-home"></span>
+                            <a href="{% url 'sponsor-home-page' %}" class="nav-link {% if request.resolver_match.url_name == 'sponsor-home-page' %}active{% endif %}"><span class="fa fa-home"></span>
                                 Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'my-sponsorship' %}" class="nav-link"><i class="fa fa-hand-holding-heart"></i> My Sponsorship</a>
+                            <a href="{% url 'my-sponsorship' %}" class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}"><i
+                                    class="fa fa-hand-holding-heart"></i> My Sponsorship</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link"><i class="fa fa-user-plus"></i>
-                                 New Sponsorship</a>
+                                New Sponsorship</a>
                         </li>
                     </ul>
 
@@ -66,61 +67,7 @@
                             <span class="badge badge-danger navbar-badge">3</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            John Pierce
-                                            <span class="float-right text-sm text-muted"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">I got your message bro</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar"
-                                        class="img-size-50 img-circle mr-3">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Nora Silvester
-                                            <span class="float-right text-sm text-warning"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">The subject goes here</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                            <!-- Messages here... -->
                         </div>
                     </li>
                     <!-- Notifications Dropdown Menu -->
@@ -148,26 +95,27 @@
         {% endblock %}
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
-          <!-- Control sidebar content goes here -->
+            <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
-        
+
         <!-- Main Footer -->
         <footer class="main-footer">
-          <!-- Default to the left -->
-          <strong>Copyright &copy; <span id="copyright-year"></span> <a href="{% url 'home-page' %}">Hidrina</a>.</strong> All rights reserved.
-          <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; <span id="copyright-year"></span> <a
+                    href="{% url 'home-page' %}">Hidrina</a>.</strong> All rights reserved.
+            <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
 
         </footer>
-        </div>
-        <!-- ./wrapper -->
-         
-        <!-- jQuery -->
-        <script src="{% static 'admin/plugins/jquery/jquery.min.js' %}"></script>
-        <!-- Bootstrap 4 -->
-        <script src="{% static 'admin/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-        <!-- AdminLTE App -->
-        <script src="{% static 'admin/js/adminlte.min.js' %}"></script>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'admin/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin/js/adminlte.min.js' %}"></script>
 
 </body>
 

@@ -902,7 +902,7 @@ section,
   width: 100%;
   position: relative;
   padding: 140px 0 0 0;
-  background: linear-gradient(rgba(15, 23, 43, .9), rgba(15, 23, 43, .7)), url(../../static/img/cover.jpeg);
+  background: linear-gradient(rgb(0 0 0 / 95%), rgb(0 0 0 / 75%)), url(../../static/img/cover.jpeg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -928,6 +928,7 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 40%);
   font-weight: 400;
   margin-bottom: 30px;
+  font-size: 17px;
 }
 
 .hero .btn-get-started {
