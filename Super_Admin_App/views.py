@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
-from .models import FamilyList, FamilyImage
+from .models import FamilyList, FamilyImage, MonthlyAmount
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.urls import reverse
 
 
 # Dashboard View (CBV)
@@ -119,3 +120,25 @@ class ExportFamilyDataView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['total_families'] = FamilyList.objects.all()
         return context
+    
+
+# Monthly sponsorship amount View (CBV)
+class MonthlySponsorshipAmount(LoginRequiredMixin, TemplateView):
+    login_url = "/login-page"
+    redirect_field_name = "authentication_required"
+    template_name = "settings.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        monthly_amount = get_object_or_404(MonthlyAmount)
+        context['amount'] = monthly_amount.amount
+        return context
+
+    def post(self, request, *args, **kwargs):
+        monthly_amount = get_object_or_404(MonthlyAmount)
+        new_amount = request.POST.get('monthly_amount')
+        if new_amount:
+            monthly_amount.amount = new_amount
+            monthly_amount.save()
+
+        return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})

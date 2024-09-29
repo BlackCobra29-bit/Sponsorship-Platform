@@ -2899,3 +2899,14 @@ section,
 .rounded{
   border-radius: 50px;
 }
+
+/* Hero image text animation https://tobiasahlin.com/ */
+.ml2 {
+  font-weight: 900;
+  font-size: 3.5em;
+}
+
+.ml2 .letter {
+  display: inline-block;
+  line-height: 1em;
+}

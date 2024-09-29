@@ -44,3 +44,20 @@ class Administrator(models.Model):
 
     def __str__(self):
         return f'{self.user.email}'
+
+class MonthlyAmount(models.Model):
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Monthly Amount"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Monthly Amount"
+        verbose_name_plural = "Monthly Amounts"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.amount} (Created: {self.created_at.strftime('%Y-%m-%d')})"

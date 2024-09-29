@@ -22,6 +22,7 @@ from Super_Admin_App.views import (
     UpdateFamilyImageView,
     DeleteFamilyImageView,
     ExportFamilyDataView,
+    MonthlySponsorshipAmount
 )
 
 # import Messaging views
@@ -69,6 +70,7 @@ urlpatterns = [
         name="delete_family_image",
     ),
     path("export-data/", ExportFamilyDataView.as_view(), name="export-family-data"),
+    path("sponsor-settings/", MonthlySponsorshipAmount.as_view(), name = "monthly-sponsorship-settings"),
     # url pattern for Messaging App
     path("mail-page/", MailPage, name="mail-page"),
     path("compose-page/", ComposePage, name="compose-page"),
