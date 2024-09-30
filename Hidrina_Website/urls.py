@@ -22,11 +22,12 @@ from Super_Admin_App.views import (
     UpdateFamilyImageView,
     DeleteFamilyImageView,
     ExportFamilyDataView,
-    MonthlySponsorshipAmount
+    MonthlySponsorshipAmount,
+    SponsorManagementPage
 )
 
 # import Messaging views
-from Messaging.views import MailPage, ComposePage
+from Messaging.views import MailPageView, ComposePageView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -51,6 +52,7 @@ urlpatterns = [
     ),  # Changed to CBV
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
+    path("family-sponsors/", SponsorManagementPage.as_view(), name="sponsors-management"),
     path("add-family/", AddFamilyView.as_view(), name="add-family"),
     path(
         "family-management/", FamilyManagementView.as_view(), name="family-management"
@@ -72,6 +74,6 @@ urlpatterns = [
     path("export-data/", ExportFamilyDataView.as_view(), name="export-family-data"),
     path("sponsor-settings/", MonthlySponsorshipAmount.as_view(), name = "monthly-sponsorship-settings"),
     # url pattern for Messaging App
-    path("mail-page/", MailPage, name="mail-page"),
-    path("compose-page/", ComposePage, name="compose-page"),
+    path("mail-page/", MailPageView.as_view(), name="mail-page"),
+    path("send-message/", ComposePageView.as_view(), name="compose-page"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

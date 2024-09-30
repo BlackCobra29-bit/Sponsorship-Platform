@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .models import FamilyList, FamilyImage, MonthlyAmount
+from Sponsor_App.models import SponosrAccount
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -20,7 +21,17 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['total_family_count'] = FamilyList.objects.all().count()
         context['unsponsored_family_count'] = FamilyList.objects.filter(is_sponsored=False).count()
         return context
+    
+# Sponsored management Page View (CBV)
+class SponsorManagementPage(LoginRequiredMixin, TemplateView):
+    login_url = "/login-page"
+    redirect_field_name = "authentication_required"
+    template_name = 'sponsors_management.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["SponsorsAccount"] = SponosrAccount.objects.all()
+        return context
 
 # Add Family View (CBV)
 class AddFamilyView(LoginRequiredMixin, CreateView):

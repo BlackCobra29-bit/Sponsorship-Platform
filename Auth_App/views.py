@@ -1,7 +1,6 @@
-import random
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.views import View
+from django.views.generic import TemplateView, View
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -9,9 +8,14 @@ from Sponsor_App.models import SponosrAccount
 from django.http import JsonResponse
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class LoginView(View):
-    def get(self, request):
+
+# Login View (CBV)
+class LoginView(TemplateView):
+    template_name = "login.html"
+
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
         
@@ -19,9 +23,12 @@ class LoginView(View):
         captcha_key = CaptchaStore.generate_key()
         captcha_image = captcha_image_url(captcha_key)
 
-        return render(request, "login.html", {"captcha_image": captcha_image, "captcha_key": captcha_key})
+        return self.render_to_response({
+            "captcha_image": captcha_image,
+            "captcha_key": captcha_key
+        })
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         username = request.POST.get("login_username")
         password = request.POST.get("login_password")
         captcha_key = request.POST.get("captcha_0")  # Captcha key
@@ -47,17 +54,18 @@ class LoginView(View):
             return redirect("admin-login")
 
 
-class LogoutView(View):
+# Logout View (CBV)
+class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect("admin-login")
 
 
-class CreateAccountView(View):
-    def get(self, request):
-        return render(request, "create_account.html")
+# Create Account View (CBV)
+class CreateAccountView(TemplateView):
+    template_name = "create_account.html"
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         # Get the form inputs
         username = request.POST.get("username")
         first_name = request.POST.get("first_name")
@@ -92,7 +100,6 @@ class CreateAccountView(View):
             {"success": True, "message": "Account created successfully!"}
         )
 
-
-class ForgotPasswordView(View):
-    def get(self, request):
-        return render(request, "forgot_password.html")
+# Forgot Password View (CBV)
+class ForgotPasswordView(TemplateView):
+    template_name = "forgot_password.html"
