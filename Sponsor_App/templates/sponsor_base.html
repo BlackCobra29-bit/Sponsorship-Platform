@@ -62,7 +62,8 @@
                 </div>
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Notifications Dropdown Menu -->
+
+                    <!-- Message Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fab fa-facebook-messenger"></i>
@@ -76,16 +77,27 @@
                             <span class="dropdown-item dropdown-header">{{ unread_messages.count }} Unread
                                 Messages</span>
                             {% for message in unread_messages|slice:":3" %}
-                            <div class="dropdown-divider"></div>
+
                             <a href="{% url 'view-message' %}?message_id={{ message.pk }}&{{ message.sender.first_name }} {{ message.sender.last_name }}" class="dropdown-item">
-                                <i class="fa fa-user-circle"></i> {{ message.subject|slice:":25" }}...
-                            </a>
-                            {% endfor %}
-                            <div class="dropdown-divider"></div>
+                                <!-- Message Start -->
+                                <div class="media">
+                                  <img src="{{ message.sender.administrator.admin_photo.url }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                  <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                      {{ message.sender.first_name }} {{ message.sender.last_name }}
+                                    </h3>
+                                    <p class="text-sm">{{ message.subject|slice:":25" }}...</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>{{ message.timestamp|date:"d M Y" }}</p>
+                                  </div>
+                                </div>
+                                <!-- Message End -->
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              {% endfor %}
                             <a href="{% url 'received-messages' %}" class="dropdown-item dropdown-footer">See All Messages</a>
-                        </div>
                     </li>
-                    <!-- End Notifications Dropdown Menu -->
+                    <!-- End message Dropdown Menu -->
+
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <img src="{{ request.user.sponosraccount.sponsor_photo.url }}" class="img-circle" style="width: 30px; height: 30px;" alt="User Image">
