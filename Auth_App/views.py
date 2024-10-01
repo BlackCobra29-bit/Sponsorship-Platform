@@ -73,6 +73,7 @@ class CreateAccountView(TemplateView):
         email = request.POST.get("email")
         password = request.POST.get("password")
         phone = request.POST.get("phone")
+        sponsor_photo = request.FILES.get("profile_pic")
 
         # Check if username already exists
         if User.objects.filter(username=username).exists():
@@ -93,7 +94,7 @@ class CreateAccountView(TemplateView):
         )
 
         # Create associated SponsorAccount
-        SponosrAccount.objects.create(user=user, phone_number=phone)
+        SponosrAccount.objects.create(user=user, phone_number=phone, sponsor_photo = sponsor_photo)
 
         # Return JSON response
         return JsonResponse(

@@ -5,6 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 class SponosrAccount(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = PhoneNumberField(blank=True, null=True)
+    sponsor_photo = models.ImageField(upload_to = 'sponsor_media')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

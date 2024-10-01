@@ -34,7 +34,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Index</th>
-                                                <th>Message Sender</th>
+                                                <th>Message Receiver</th>
                                                 <th>Message Subject</th>
                                                 <th>Timestamp</th>
                                                 <th>Status</th>
@@ -45,9 +45,9 @@
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
                                                 <td>
-                                                    <!-- <img src="{{ message.receiver.administrator.admin_photo.url }}"
+                                                    <img src="{{ message.receiver.sponosraccount.sponsor_photo.url }}"
                                                         class="img-circle" style="width: 30px; height: 30px;"
-                                                        alt="User Image"> -->
+                                                        alt="User Image">
                                                     {{ message.receiver.first_name }} {{ message.receiver.last_name }}
                                                 </td>
                                                 <td>

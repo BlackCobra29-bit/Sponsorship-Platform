@@ -58,10 +58,5 @@ class ViewMessageAdmin(SuperAdminRequiredMixin, TemplateView):
         message_id = self.request.GET.get("message_id")
         message = get_object_or_404(Message, pk=message_id)
         
-        # Update the 'is_read' field and save the instance
-        if not message.is_read:
-            message.is_read = True
-            message.save()
-        
         context["message"] = message
         return context

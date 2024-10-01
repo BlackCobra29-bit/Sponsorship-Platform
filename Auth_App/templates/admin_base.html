@@ -37,6 +37,15 @@
 <!-- jquery validation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
+<!-- custom image upload CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+<!-- File input field intialization -->
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+</script>
 
 <script>
   $(document).ready(function () {
@@ -74,7 +83,7 @@
 
 <script>
   $(document).ready(function () {
-    
+
     // Validate the form
     $('#create_form').validate({
       rules: {
@@ -101,6 +110,9 @@
         },
         phone: {
           required: true
+        },
+        profile_pic: {
+          required: true
         }
       },
       messages: {
@@ -119,7 +131,10 @@
           required: "Please confirm your password",
           equalTo: "Passwords do not match"
         },
-        phone: "Please enter your phone number"
+        phone: { 
+          required: "Please enter your phone number"
+        },
+        profile_pic: "Please upload your picture"
       },
       errorElement: 'span',
       errorPlacement: function (error, element) {
@@ -136,7 +151,7 @@
       unhighlight: function (element) {
         $(element).removeClass('is-invalid');
       },
-      
+
       // This function runs when form is valid
       submitHandler: function (form) {
         var formData = new FormData(form);
