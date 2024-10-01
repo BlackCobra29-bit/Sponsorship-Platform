@@ -1,4 +1,4 @@
-{% extends 'super_admin_base.html' %}
+{% extends 'sponsor_base.html' %}
 {% load static %}
 
 {% block main-body %}
@@ -33,7 +33,7 @@
                                     <table id="example" class="table table-striped" style="width: 100%">
                                         <thead>
                                             <tr>
-                                                <th>Message Receiver</th>
+                                                <th>Message Sender</th>
                                                 <th>Message Subject</th>
                                                 <th>Timestamp</th>
                                                 <th>Status</th>
@@ -43,7 +43,7 @@
                                             {% for message in messages_list %}
                                             <tr>
                                                 <td><a href="read-mail.html">
-                                                        {{ message.receiver.first_name }} {{ message.receiver.last_name }}</a></td>
+                                                        {{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
                                                 <td>{{ message.subject|slice:":67" }}...</td>
                                                 <td>{{ message.timestamp|date:"d M Y" }}
                                                 </td>

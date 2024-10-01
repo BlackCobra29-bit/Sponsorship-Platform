@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="{% static 'admin/css/adminlte.min.css' %}">
     <!-- international tel -->
     <link rel="stylesheet" href="{% static 'admin/css/international-telephone-input.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
 </head>
 
 <body class="hold-transition layout-top-nav">
@@ -43,31 +47,44 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{% url 'sponsor-home-page' %}" class="nav-link {% if request.resolver_match.url_name == 'sponsor-home-page' %}active{% endif %}"><span class="fa fa-home"></span>
+                            <a href="{% url 'sponsor-home-page' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'sponsor-home-page' %}active{% endif %}"><span
+                                    class="fa fa-home"></span>
                                 Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'my-sponsorship' %}" class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}"><i
+                            <a href="{% url 'my-sponsorship' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}"><i
                                     class="fa fa-hand-holding-heart"></i> My Sponsorship</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fa fa-user-plus"></i>
-                                New Sponsorship</a>
+                            <a href="{% url 'received-messages' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'received-messages' %}active{% endif %}">
+                                <i class="nav-icon far fa-envelope"></i> Mailbox
+                            </a>
                         </li>
                     </ul>
 
                 </div>
-
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Messages Dropdown Menu -->
+                    <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge badge-danger navbar-badge">3</span>
+                            <i class="fab fa-facebook-messenger"></i>
+                            <span class="badge badge-danger navbar-badge">{{ unread_messages.count }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <!-- Messages here... -->
+                            <span class="dropdown-item dropdown-header">{{ unread_messages.count }} Unread
+                                Messages</span>
+                            {% for message in unread_messages|slice:":3" %}
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fa fa-user-circle"></i> {{ message.subject|slice:":25" }}...
+                            </a>
+                            {% endfor %}
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                         </div>
                     </li>
                     <!-- Notifications Dropdown Menu -->
@@ -116,7 +133,22 @@
     <script src="{% static 'admin/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- AdminLTE App -->
     <script src="{% static 'admin/js/adminlte.min.js' %}"></script>
+    <!-- DataTables Plugins -->
+    <script src="{% static 'admin/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    
+    <!-- DataTable Initialization -->
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+            });
+        });
+    </script>
 
 </body>
-
 </html>

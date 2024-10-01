@@ -25,41 +25,36 @@
                 <div class="col-lg-10">
                     <!-- New row to properly nest col-md-3 and col-md-9 -->
                     <div class="row">
-                        <div class="col-md-3">
-
-                            {% include 'mail-card-include.html' %}
-                            
-                        </div>
-                        <!-- /.col -->
 
                         <!-- Main compose content -->
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="card card-outline">
                                 <div class="card-header">
                                     <h3 class="card-title">Send Message to <b class="text-blue">{{ user.first_name }} {{ user.last_name }}</b></h3>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="To:" value="{{ user.username }}" hidden>
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Subject:">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea id="compose-textarea" class="form-control" style="height: 300px">
-
+                                <form method="POST" enctype="multipart/form-data" id="send_message">
+                                    {% csrf_token %}
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <input class="form-control" placeholder="Subject:" name="subject">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea id="compose-textarea" placeholder="Message Body..." class="form-control" style="height: 300px"
+                                                name="content">
                                     </textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <div class="float-right">
-                                        <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i>
-                                            Send</button>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        <div class="float-right">
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="far fa-envelope"></i>
+                                                Send</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- /.card-footer -->
+                                    <!-- /.card-footer -->
+                                </form>
                             </div>
                             <!-- /.card -->
                         </div>
@@ -77,5 +72,30 @@
 
 </div>
 <!-- /.content-wrapper -->
+
+
+
+<!-- Centered loading spinner styling -->
+<style>
+    #loadingIndicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        /* Ensure it's above other elements */
+    }
+</style>
+
+<!-- Loading spinner -->
+<div id="loadingIndicator">
+    <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
+</div>
+
+<!-- Page specfic script -->
+
+<!-- Include SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 {% endblock %}

@@ -10,7 +10,7 @@ from User_App.views import HomeView, FamiliesListPage, AboutUsPage
 from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, CreateAccountView
 
 # import Sponsor_App views
-from Sponsor_App.views import SponsorHomePage, MySponsorshipPage
+from Sponsor_App.views import SponsorHomePage, MySponsorshipPage, ReceivedMessages
 
 # import Super_Admin_App urls
 from Super_Admin_App.views import (
@@ -23,7 +23,8 @@ from Super_Admin_App.views import (
     DeleteFamilyImageView,
     ExportFamilyDataView,
     MonthlySponsorshipAmount,
-    SponsorManagementPage
+    SponsorManagementPage,
+    PermissionDenied
 )
 
 # import Messaging views
@@ -46,10 +47,13 @@ urlpatterns = [
     # url pattern for Sponsor_App
     path(
         "home/", SponsorHomePage.as_view(), name="sponsor-home-page"
-    ),  # Changed to CBV
+    ), 
     path(
         "my-sponsorship/", MySponsorshipPage.as_view(), name="my-sponsorship"
-    ),  # Changed to CBV
+    ),  
+    path(
+        "received-messages/", ReceivedMessages.as_view(), name="received-messages"
+    ), 
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
     path("family-sponsors/", SponsorManagementPage.as_view(), name="sponsors-management"),
@@ -73,6 +77,7 @@ urlpatterns = [
     ),
     path("export-data/", ExportFamilyDataView.as_view(), name="export-family-data"),
     path("sponsor-settings/", MonthlySponsorshipAmount.as_view(), name = "monthly-sponsorship-settings"),
+    path("permission-denied/", PermissionDenied.as_view(), name = "permission-denied"),
     # url pattern for Messaging App
     path("mail-page/", MailPageView.as_view(), name="mail-page"),
     path("send-message/", ComposePageView.as_view(), name="compose-page"),

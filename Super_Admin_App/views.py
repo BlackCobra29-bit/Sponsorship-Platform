@@ -7,13 +7,23 @@ from Sponsor_App.models import SponosrAccount
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 
+
+# Helper to restrict view access to superadmins
+from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class SuperAdminRequiredMixin(LoginRequiredMixin):
+    """Ensure that only superadmins can access the view."""
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect("permission-denied")
+        return super().dispatch(request, *args, **kwargs)
 
 # Dashboard View (CBV)
-class DashboardView(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class DashboardView(SuperAdminRequiredMixin, TemplateView):
     template_name = "dashboard.html"
 
     def get_context_data(self, **kwargs):
@@ -22,10 +32,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['unsponsored_family_count'] = FamilyList.objects.filter(is_sponsored=False).count()
         return context
     
+
 # Sponsored management Page View (CBV)
-class SponsorManagementPage(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class SponsorManagementPage(SuperAdminRequiredMixin, TemplateView):
     template_name = 'sponsors_management.html'
 
     def get_context_data(self, **kwargs):
@@ -33,10 +42,9 @@ class SponsorManagementPage(LoginRequiredMixin, TemplateView):
         context["SponsorsAccount"] = SponosrAccount.objects.all()
         return context
 
+
 # Add Family View (CBV)
-class AddFamilyView(LoginRequiredMixin, CreateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class AddFamilyView(SuperAdminRequiredMixin, CreateView):
     template_name = "add_family.html"
     model = FamilyList
     fields = ['family_name', 'location', 'contact_address', 'no_of_family_members', 'family_bio']
@@ -58,16 +66,14 @@ class AddFamilyView(LoginRequiredMixin, CreateView):
 
 
 # Family Management View (CBV)
-class FamilyManagementView(LoginRequiredMixin, ListView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class FamilyManagementView(SuperAdminRequiredMixin, ListView):
     template_name = "family_management.html"
     model = FamilyList
     context_object_name = 'total_families'
 
 
-# Family Update View (already CBV)
-class FamilyListUpdateView(LoginRequiredMixin, UpdateView):
+# Family Update View (CBV)
+class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
     model = FamilyList
     form_class = FamilyListForm
     template_name = "family_update.html"
@@ -88,10 +94,7 @@ class FamilyListUpdateView(LoginRequiredMixin, UpdateView):
 
 
 # Update Family Image View (CBV)
-class UpdateFamilyImageView(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
-
+class UpdateFamilyImageView(SuperAdminRequiredMixin, TemplateView):
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
         new_image = request.FILES.get('new_image')
@@ -103,10 +106,7 @@ class UpdateFamilyImageView(LoginRequiredMixin, TemplateView):
 
 
 # Delete Family Image View (CBV)
-class DeleteFamilyImageView(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
-
+class DeleteFamilyImageView(SuperAdminRequiredMixin, TemplateView):
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
         family_id = image.family.id
@@ -115,16 +115,14 @@ class DeleteFamilyImageView(LoginRequiredMixin, TemplateView):
         return redirect('family-update', pk=family_id)
 
 
-# Family Delete View (already CBV)
-class FamilyDeleteView(LoginRequiredMixin, DeleteView):
+# Family Delete View (CBV)
+class FamilyDeleteView(SuperAdminRequiredMixin, DeleteView):
     model = FamilyList
     success_url = reverse_lazy("family-management")
 
 
 # Export Family Data View (CBV)
-class ExportFamilyDataView(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class ExportFamilyDataView(SuperAdminRequiredMixin, TemplateView):
     template_name = "export-family-data.html"
 
     def get_context_data(self, **kwargs):
@@ -134,9 +132,7 @@ class ExportFamilyDataView(LoginRequiredMixin, TemplateView):
     
 
 # Monthly sponsorship amount View (CBV)
-class MonthlySponsorshipAmount(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TemplateView):
     template_name = "settings.html"
 
     def get_context_data(self, **kwargs):
@@ -153,3 +149,6 @@ class MonthlySponsorshipAmount(LoginRequiredMixin, TemplateView):
             monthly_amount.save()
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
+    
+class PermissionDenied(TemplateView):
+    template_name = "403.html"

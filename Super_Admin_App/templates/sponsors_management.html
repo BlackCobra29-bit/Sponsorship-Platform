@@ -60,8 +60,8 @@
                                         <td>{{ sponsor.user.email }}</td>
                                         <td>{{ sponsor.phone_number }}</td>
                                         <td>
-                                            <a href="{% url 'compose-page' %}?sponsor_account={{ sponsor.user.username }}&{{ sponsor.user.email }}" target="_blank">
-                                                <i class="fab fa-facebook-messenger"></i>
+                                            <a href="{% url 'compose-page' %}?sponsor_account={{ sponsor.user.username }}&{{ sponsor.user.email }}">
+                                                <i class="fab fa-facebook-messenger"></i> Send Message
                                             </a>
                                         </td>
                                     </tr>
