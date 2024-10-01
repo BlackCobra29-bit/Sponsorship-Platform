@@ -33,6 +33,7 @@
                                     <table id="example" class="table table-striped" style="width: 100%">
                                         <thead>
                                             <tr>
+                                                <th>Index</th>
                                                 <th>Message Sender</th>
                                                 <th>Message Subject</th>
                                                 <th>Timestamp</th>
@@ -42,13 +43,13 @@
                                         <tbody>
                                             {% for message in messages_list %}
                                             <tr>
+                                                <td>{{ forloop.counter }}</td>
                                                 <td><a href="read-mail.html">
                                                         {{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
                                                 <td>{{ message.subject|slice:":67" }}...</td>
-                                                <td>{{ message.timestamp|date:"d M Y" }}
-                                                </td>
+                                                <td>{{ message.timestamp|date:"d M Y" }}</td>
                                                 <td>
-                                                    {% if is_read == True %}
+                                                    {% if message.is_read == True %}
                                                     <span class="badge rounded-pill bg-success">Seen</span>
                                                     {% else %}
                                                     <span class="badge rounded-pill bg-danger">Not Seen</span>

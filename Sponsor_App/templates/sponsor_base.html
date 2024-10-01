@@ -57,12 +57,6 @@
                                 class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}"><i
                                     class="fa fa-hand-holding-heart"></i> My Sponsorship</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{% url 'received-messages' %}"
-                                class="nav-link {% if request.resolver_match.url_name == 'received-messages' %}active{% endif %}">
-                                <i class="nav-icon far fa-envelope"></i> Mailbox
-                            </a>
-                        </li>
                     </ul>
 
                 </div>
@@ -72,7 +66,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fab fa-facebook-messenger"></i>
-                            <span class="badge badge-danger navbar-badge">{{ unread_messages.count }}</span>
+                            {% if unread_messages.count > 0 %}
+                            <span class="badge badge-danger navbar-badge">
+                                {{ unread_messages.count }}
+                            </span>
+                            {% endif %}
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <span class="dropdown-item dropdown-header">{{ unread_messages.count }} Unread
@@ -84,7 +82,7 @@
                             </a>
                             {% endfor %}
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                            <a href="{% url 'received-messages' %}" class="dropdown-item dropdown-footer">See All Messages</a>
                         </div>
                     </li>
                     <!-- Notifications Dropdown Menu -->
@@ -138,7 +136,7 @@
     <script src="{% static 'admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'admin/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
-    
+
     <!-- DataTable Initialization -->
     <script>
         $(document).ready(function () {
@@ -151,4 +149,5 @@
     </script>
 
 </body>
+
 </html>

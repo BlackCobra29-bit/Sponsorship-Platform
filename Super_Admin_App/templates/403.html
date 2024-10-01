@@ -1,16 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permission Denied</title>
+    <link href="{% static 'img/logo-removebg-preview.png' %}" rel="icon">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #fff;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -21,12 +24,12 @@
             text-align: center;
             background-color: #fff;
             padding: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
         .error-icon {
             font-size: 80px;
-            color: #dc3545;
+            color: #ffc107;
+            border-color: #ffc107;
         }
         .error-title {
             font-size: 36px;
@@ -51,7 +54,7 @@
         </div>
         <h1 class="error-title">Permission Denied</h1>
         <p class="error-message">Sorry, you do not have the required permissions to access this page. Please contact the administrator if you believe this is a mistake.</p>
-        <a href="javascript:void(0);" class="btn btn-danger home-btn" onclick="window.history.back();">
+        <a href="javascript:void(0);" class="btn btn-warning home-btn" onclick="window.history.back();">
             <i class="fas fa-arrow-left"></i> Return Back
         </a>        
     </div>

@@ -39,5 +39,5 @@ class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['messages_list'] = Message.objects.filter(receiver = self.request.user)
+        context['messages_list'] = Message.objects.filter(receiver = self.request.user).order_by("-timestamp")
         return context
