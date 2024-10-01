@@ -44,9 +44,17 @@
                                             {% for message in messages_list %}
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
-                                                <td><a href="read-mail.html">
-                                                        {{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
-                                                <td>{{ message.subject|slice:":67" }}...</td>
+                                                <td>
+                                                    <img src="{{ message.sender.administrator.admin_photo.url }}"
+                                                        class="img-circle" style="width: 30px; height: 30px;"
+                                                        alt="User Image">
+                                                    {{ message.sender.first_name }} {{ message.sender.last_name }}
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'view-message' %}?message_id={{ message.pk }}&{{ message.sender.first_name }} {{ message.sender.last_name }}">
+                                                    {{ message.subject|slice:":37" }}...
+                                                    </a>
+                                                </td>
                                                 <td>{{ message.timestamp|date:"d M Y" }}</td>
                                                 <td>
                                                     {% if message.is_read == True %}

@@ -10,7 +10,7 @@ from User_App.views import HomeView, FamiliesListPage, AboutUsPage
 from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, CreateAccountView
 
 # import Sponsor_App views
-from Sponsor_App.views import SponsorHomePage, MySponsorshipPage, ReceivedMessages
+from Sponsor_App.views import SponsorHomePage, MySponsorshipPage, ReceivedMessages, ViewMessage
 
 # import Super_Admin_App urls
 from Super_Admin_App.views import (
@@ -53,6 +53,9 @@ urlpatterns = [
     ),  
     path(
         "received-messages/", ReceivedMessages.as_view(), name="received-messages"
+    ),  
+    path(
+        "view-message/", ViewMessage.as_view(), name="view-message"
     ), 
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),

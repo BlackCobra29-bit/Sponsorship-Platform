@@ -77,7 +77,7 @@
                                 Messages</span>
                             {% for message in unread_messages|slice:":3" %}
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
+                            <a href="{% url 'view-message' %}?message_id={{ message.pk }}&{{ message.sender.first_name }} {{ message.sender.last_name }}" class="dropdown-item">
                                 <i class="fa fa-user-circle"></i> {{ message.subject|slice:":25" }}...
                             </a>
                             {% endfor %}
