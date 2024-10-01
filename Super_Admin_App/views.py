@@ -9,17 +9,14 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 
-
 # Helper to restrict view access to superadmins
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class SuperAdminRequiredMixin(LoginRequiredMixin):
-    """Ensure that only superadmins can access the view."""
-    
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
-            return redirect("permission-denied")
+            return redirect("admin-login")
         return super().dispatch(request, *args, **kwargs)
 
 # Dashboard View (CBV)
@@ -31,7 +28,6 @@ class DashboardView(SuperAdminRequiredMixin, TemplateView):
         context['total_family_count'] = FamilyList.objects.all().count()
         context['unsponsored_family_count'] = FamilyList.objects.filter(is_sponsored=False).count()
         return context
-    
 
 # Sponsored management Page View (CBV)
 class SponsorManagementPage(SuperAdminRequiredMixin, TemplateView):
@@ -95,6 +91,7 @@ class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
 
 # Update Family Image View (CBV)
 class UpdateFamilyImageView(SuperAdminRequiredMixin, TemplateView):
+
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
         new_image = request.FILES.get('new_image')
@@ -107,6 +104,7 @@ class UpdateFamilyImageView(SuperAdminRequiredMixin, TemplateView):
 
 # Delete Family Image View (CBV)
 class DeleteFamilyImageView(SuperAdminRequiredMixin, TemplateView):
+
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
         family_id = image.family.id
@@ -149,6 +147,3 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TemplateView):
             monthly_amount.save()
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
-    
-class PermissionDenied(TemplateView):
-    template_name = "403.html"

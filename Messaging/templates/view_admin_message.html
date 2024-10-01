@@ -1,0 +1,64 @@
+{% extends 'super_admin_base.html' %}
+{% load static %}
+
+{% block main-body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><i class="nav-icon fab fa-facebook-messenger"></i> View Message</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="post">
+                                <div class="user-block">
+                                    <!-- <img class="img-circle img-bordered-sm" src="{{ message.sender.administrator.admin_photo.url }}"
+                                        alt="user image"> -->
+                                    <span class="username">
+                                        <a href="#">{{ message.receiver.first_name }} {{ message.receiver.last_name }}</a>
+                                    </span>
+                                    <span class="description">Sent - {{ message.timestamp|date:"d M Y" }}</span>
+                                </div>
+                                <!-- /.user-block -->
+                                <p>
+                                    <br><br>
+                                    <h5 class="text-center"><b>Subject: </b>{{ message.subject }}</h5>
+                                    <br>
+                                    {{ message.message|safe }}
+                                </p>
+                            </div>
+                            <!-- /.post -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- End of new row -->
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}

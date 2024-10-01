@@ -11,7 +11,7 @@ from .mixins import MessageContextMixin
 class SuperAdminRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_superuser:
-            return redirect("permission-denied")
+            return redirect("admin-login")
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -54,7 +54,6 @@ class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
         message_id = self.request.GET.get("message_id")
         message = get_object_or_404(Message, pk=message_id)
         
-        # Update the 'is_read' field and save the instance
         if not message.is_read:
             message.is_read = True
             message.save()

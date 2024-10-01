@@ -24,11 +24,10 @@ from Super_Admin_App.views import (
     ExportFamilyDataView,
     MonthlySponsorshipAmount,
     SponsorManagementPage,
-    PermissionDenied
 )
 
 # import Messaging views
-from Messaging.views import MailPageView, ComposePageView
+from Messaging.views import MailPageView, ComposePageView, ViewMessageAdmin
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -80,8 +79,8 @@ urlpatterns = [
     ),
     path("export-data/", ExportFamilyDataView.as_view(), name="export-family-data"),
     path("sponsor-settings/", MonthlySponsorshipAmount.as_view(), name = "monthly-sponsorship-settings"),
-    path("permission-denied/", PermissionDenied.as_view(), name = "permission-denied"),
     # url pattern for Messaging App
     path("mail-page/", MailPageView.as_view(), name="mail-page"),
     path("send-message/", ComposePageView.as_view(), name="compose-page"),
+    path("view-message-admin/", ViewMessageAdmin.as_view(), name = "view-message-admin")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

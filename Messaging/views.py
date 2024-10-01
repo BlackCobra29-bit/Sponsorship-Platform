@@ -6,11 +6,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from Messaging.models import Message
 from django.http import JsonResponse
 
+class SuperAdminRequiredMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return redirect("admin-login")
+        return super().dispatch(request, *args, **kwargs)
 
 # Mail Page View (CBV)
-class MailPageView(LoginRequiredMixin, TemplateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class MailPageView(SuperAdminRequiredMixin, TemplateView):
     template_name = "mail.html"
 
     def get_context_data(self, **kwargs):
@@ -19,9 +22,7 @@ class MailPageView(LoginRequiredMixin, TemplateView):
         return context
 
 # Compose Page View (CBV)
-class ComposePageView(LoginRequiredMixin, CreateView):
-    login_url = "/login-page"
-    redirect_field_name = "authentication_required"
+class ComposePageView(SuperAdminRequiredMixin, CreateView):
     template_name = "compose.html"
     model = Message
     fields = ["sender", "receiver", "subject", "message"]
@@ -48,3 +49,19 @@ class ComposePageView(LoginRequiredMixin, CreateView):
         return JsonResponse(
             {"success": True, f"message": "Message sent successfully!!"}
         )
+    
+class ViewMessageAdmin(SuperAdminRequiredMixin, TemplateView):
+    template_name = "view_admin_message.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        message_id = self.request.GET.get("message_id")
+        message = get_object_or_404(Message, pk=message_id)
+        
+        # Update the 'is_read' field and save the instance
+        if not message.is_read:
+            message.is_read = True
+            message.save()
+        
+        context["message"] = message
+        return context
