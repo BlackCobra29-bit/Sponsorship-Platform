@@ -73,40 +73,67 @@
                             </span>
                             {% endif %}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                            style="overflow-y: scroll; height: 300px;">
                             <span class="dropdown-item dropdown-header">{{ unread_messages.count }} Unread
                                 Messages</span>
-                            {% for message in unread_messages|slice:":3" %}
 
-                            <a href="{% url 'view-message' %}?message_id={{ message.pk }}&{{ message.sender.first_name }} {{ message.sender.last_name }}" class="dropdown-item">
+                            {% for message in all_messages %}
+
+                            <a href="{% url 'view-message' %}?message_id={{ message.pk }}&{{ message.sender.first_name }} {{ message.sender.last_name }}"
+                                class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                  <img src="{{ message.sender.administrator.admin_photo.url }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                  <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                      {{ message.sender.first_name }} {{ message.sender.last_name }}
-                                    </h3>
-                                    <p class="text-sm">{{ message.subject|slice:":25" }}...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>{{ message.timestamp|date:"d M Y" }}</p>
-                                  </div>
+                                    <img src="{{ message.sender.administrator.admin_photo.url }}" alt="User Avatar"
+                                        class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            {% if message.is_read == True %}
+                                            {{ message.sender.first_name }} {{ message.sender.last_name }}
+                                            {% else %}
+                                            <b> {{ message.sender.first_name }} {{ message.sender.last_name }}</b>
+                                            {% endif %}
+                                        </h3>
+                                        <p class="text-sm">
+                                            {% if message.is_read == True %}
+                                            {{ message.subject|slice:":25" }}...
+                                            {% else %}
+                                            <b>{{ message.subject|slice:":25" }}...</b>
+                                            {% endif %}
+                                        </p>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                            {% if message.is_read == True %}
+                                            {{ message.timestamp|date:"d M Y" }}
+                                            {% else %}
+                                            <b>{{ message.timestamp|date:"d M Y" }}</b>
+                                            {% endif %}
+                                        </p>
+                                    </div>
                                 </div>
                                 <!-- Message End -->
-                              </a>
-                              <div class="dropdown-divider"></div>
-                              {% endfor %}
-                            <a href="{% url 'received-messages' %}" class="dropdown-item dropdown-footer">See All Messages</a>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            {% endfor %}
+                            <a href="{% url 'received-messages' %}"
+                                style="position: sticky; bottom: 0px; background-color: #fff;"
+                                class="dropdown-item dropdown-footer">See All Messages</a>
                     </li>
                     <!-- End message Dropdown Menu -->
 
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <img src="{{ request.user.sponosraccount.sponsor_photo.url }}" class="img-circle" style="width: 30px; height: 30px;" alt="User Image">
-                             {{ request.user.first_name }}
+                            <img src="{{ request.user.sponosraccount.sponsor_photo.url }}" class="img-circle"
+                                style="width: 30px; height: 30px;" alt="User Image">
+                            {{ request.user.first_name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
+                            <a href="{% url 'update-account' request.user.pk %}" class="dropdown-item">
                                 <i class="fa fa-cog mr-2"></i> Account Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'password_change' %}" class="dropdown-item">
+                                <i class="fa fa-lock mr-2"></i> Change Password
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{% url 'admin-logout' %}" class="dropdown-item">

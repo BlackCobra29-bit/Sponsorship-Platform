@@ -8,9 +8,12 @@ from .forms import FamilyListForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.views import PasswordChangeView
+from .forms import UserModelForm, CustomPasswordChangeForm
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 # Helper to restrict view access to superadmins
-from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class SuperAdminRequiredMixin(LoginRequiredMixin):
@@ -85,7 +88,7 @@ class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'There was an error updating the family details. Please correct the errors below.')
+        messages.error(self.request, 'There was an error updating the family details.')
         return super().form_invalid(form)
 
 
@@ -147,3 +150,35 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TemplateView):
             monthly_amount.save()
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
+
+class UserAdminUpdateView(SuperAdminRequiredMixin, UpdateView):
+    model = User
+    form_class = UserModelForm
+    template_name = "admin_account_update.html"
+    success_url = reverse_lazy("admin-dashboard")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.object
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Account information updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error updating the account details.')
+        return super().form_invalid(form)
+    
+class PasswordAdminUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'admin_password_change.html'
+    success_url = reverse_lazy('admin-dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Password updated successfully!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'There was an error updating the Password.')
+        return super().form_invalid(form)

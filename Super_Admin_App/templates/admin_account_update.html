@@ -1,0 +1,70 @@
+{% extends 'super_admin_base.html' %}
+
+{% load static %}
+
+{% block main-body %}
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"><span class="fa fa-cog mr-2"></span> Account Settings</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Account information Form -->
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputFullName">First Name: <code>*</code></label>
+                                            <input type="text" class="form-control" name="first_name"
+                                                placeholder="Enter First Name" value="{{ user.first_name }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputAddress">Last Name: <code>*</code></label>
+                                            <input type="text" class="form-control" name="last_name"
+                                                placeholder="Enter Last Name" value="{{ user.last_name }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputFullName">Email: <code>*</code></label>
+                                            <input type="email" class="form-control" name="email"
+                                                placeholder="Enter Email" value="{{ user.email }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="float-right">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- ./card -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

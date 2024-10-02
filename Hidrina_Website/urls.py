@@ -10,7 +10,14 @@ from User_App.views import HomeView, FamiliesListPage, AboutUsPage
 from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, CreateAccountView
 
 # import Sponsor_App views
-from Sponsor_App.views import SponsorHomePage, MySponsorshipPage, ReceivedMessages, ViewMessage
+from Sponsor_App.views import (
+    SponsorHomePage,
+    MySponsorshipPage,
+    ReceivedMessages,
+    ViewMessage,
+    UserUpdateView,
+    PasswordUpdateView,
+)
 
 # import Super_Admin_App urls
 from Super_Admin_App.views import (
@@ -24,6 +31,8 @@ from Super_Admin_App.views import (
     ExportFamilyDataView,
     MonthlySponsorshipAmount,
     SponsorManagementPage,
+    PasswordAdminUpdateView,
+    UserAdminUpdateView
 )
 
 # import Messaging views
@@ -44,21 +53,18 @@ urlpatterns = [
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
     path("create-account/", CreateAccountView.as_view(), name="create-account"),
     # url pattern for Sponsor_App
-    path(
-        "home/", SponsorHomePage.as_view(), name="sponsor-home-page"
-    ), 
-    path(
-        "my-sponsorship/", MySponsorshipPage.as_view(), name="my-sponsorship"
-    ),  
-    path(
-        "received-messages/", ReceivedMessages.as_view(), name="received-messages"
-    ),  
-    path(
-        "view-message/", ViewMessage.as_view(), name="view-message"
-    ), 
+    path("home/", SponsorHomePage.as_view(), name="sponsor-home-page"),
+    path("my-sponsorship/", MySponsorshipPage.as_view(), name="my-sponsorship"),
+    path("received-messages/", ReceivedMessages.as_view(), name="received-messages"),
+    path("view-message/", ViewMessage.as_view(), name="view-message"),
+    path("account/<int:pk>/update/", UserUpdateView.as_view(), name="update-account"),
+    path("password/change/", PasswordUpdateView.as_view(), name="password_change"),
+
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
-    path("family-sponsors/", SponsorManagementPage.as_view(), name="sponsors-management"),
+    path(
+        "family-sponsors/", SponsorManagementPage.as_view(), name="sponsors-management"
+    ),
     path("add-family/", AddFamilyView.as_view(), name="add-family"),
     path(
         "family-management/", FamilyManagementView.as_view(), name="family-management"
@@ -78,9 +84,16 @@ urlpatterns = [
         name="delete_family_image",
     ),
     path("export-data/", ExportFamilyDataView.as_view(), name="export-family-data"),
-    path("sponsor-settings/", MonthlySponsorshipAmount.as_view(), name = "monthly-sponsorship-settings"),
+    path(
+        "sponsor-settings/",
+        MonthlySponsorshipAmount.as_view(),
+        name="monthly-sponsorship-settings",
+    ),
+    path("admin-account/<int:pk>/update/", UserAdminUpdateView.as_view(), name="admin-account-update"),
+    path("admin-password/change/", PasswordAdminUpdateView.as_view(), name="password_admin_change"),
+
     # url pattern for Messaging App
     path("mail-page/", MailPageView.as_view(), name="mail-page"),
     path("send-message/", ComposePageView.as_view(), name="compose-page"),
-    path("view-message-admin/", ViewMessageAdmin.as_view(), name = "view-message-admin")
+    path("view-message-admin/", ViewMessageAdmin.as_view(), name="view-message-admin"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -111,8 +111,12 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
+                            <a href="{% url 'admin-account-update' request.user.pk %}" class="dropdown-item">
                                 <i class="fa fa-cog mr-2"></i> Account Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'password_admin_change' %}" class="dropdown-item">
+                                <i class="fa fa-lock mr-2"></i> Change Password
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="{% url 'admin-logout' %}" class="dropdown-item">
