@@ -1,7 +1,11 @@
 import stripe
 import logging
+from django.views import View
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from Messaging.models import Message
@@ -117,54 +121,97 @@ class PasswordUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
         return super().form_invalid(form)
 
 
-@login_required
-def stripe_checkout(request, family_id):
-    try:
-        monthly_amount = MonthlyAmount.objects.first().amount
-        amount_in_cents = int(monthly_amount * 100)
-        selected_family = get_object_or_404(FamilyList, pk=family_id)
+class StripeCheckoutView(SuperAdminRequiredMixin, View):
+    
+    login_url = "/login-page"
 
-        stripe_session = stripe.checkout.Session.create(
-            payment_method_types=[
-                "card",
-                "au_becs_debit",
-            ],
-            line_items=[
-                {
-                    "price_data": {
-                        "currency": "aud",
-                        "unit_amount": amount_in_cents,
-                        "product_data": {
-                            "name": selected_family.family_name,
-                            # this will be uncommented in the production timekii
-                            # "images": [selected_family.images.first().photo.url] if selected_family.images.exists() else []
-                            "images": [
-                                "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
-                            ],
+    def get(self, request, family_id, *args, **kwargs):
+        try:
+            # Retrieve the monthly amount and convert it to cents
+            monthly_amount = MonthlyAmount.objects.first().amount
+            amount_in_cents = int(monthly_amount * 100)
+            selected_family = get_object_or_404(FamilyList, pk=family_id)
+
+            # Create the Stripe session
+            stripe_session = stripe.checkout.Session.create(
+                payment_method_types=[
+                    "card",
+                    "au_becs_debit",
+                ],
+                line_items=[
+                    {
+                        "price_data": {
+                            "currency": "aud",
+                            "unit_amount": amount_in_cents,
+                            "product_data": {
+                                "name": selected_family.family_name,
+                                # Uncomment the line below for production to use real images
+                                # "images": [selected_family.images.first().photo.url] if selected_family.images.exists() else []
+                                "images": [
+                                    "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
+                                ],
+                            },
                         },
-                    },
-                    "quantity": 1,
-                }
-            ],
-            mode="payment",
-            customer_email=request.user.email,
-            success_url=request.build_absolute_uri(reverse("payment-success")),
-            cancel_url=request.build_absolute_uri(reverse("payment-cancel")),
-            metadata={
-                "family_id": selected_family.id,
-                "sponsor_id": request.user.id,
-            },
-        )
+                        "quantity": 1,
+                    }
+                ],
+                mode="payment",
+                customer_email=request.user.email,
+                success_url=request.build_absolute_uri(reverse("payment-success")),
+                cancel_url=request.build_absolute_uri(reverse("payment-cancel")),
+                metadata={
+                    "family_id": selected_family.id,
+                    "sponsor_id": request.user.id,
+                },
+            )
 
-        return redirect(stripe_session.url)
+            return redirect(stripe_session.url)
 
-    except stripe.error.StripeError as e:
-        logger.error(f"Stripe error: {str(e)}")
-        return redirect("family-list-page")
-    except Exception as e:
-        logger.error(f"Error during checkout: {str(e)}")
-        return redirect("family-list-page")
+        except stripe.error.StripeError as e:
+            logger.error(f"Stripe error: {str(e)}")
+            return redirect("family-list-page")
+        except Exception as e:
+            logger.error(f"Error during checkout: {str(e)}")
+            return redirect("family-list-page")
 
+@method_decorator(csrf_exempt, name='dispatch')
+class WebhookManagerView(View):
+
+    def post(self, request, *args, **kwargs):
+        stripe_payload = request.body.decode('utf-8')
+        signature_header = request.META.get("HTTP_STRIPE_SIGNATURE", None)
+        if not signature_header:
+            return JsonResponse({"error": "Missing signature"}, status=400)
+
+        try:
+            stripe_event = stripe.Webhook.construct_event(
+                stripe_payload, signature_header, settings.STRIPE_WEBHOOK_SECRET
+            )
+        except ValueError:
+            return JsonResponse({"error": "Invalid payload"}, status=400)
+        except stripe.error.SignatureVerificationError:
+            return JsonResponse({"error": "Invalid signature"}, status=400)
+
+        if stripe_event["type"] == "checkout.session.completed":
+            stripe_session = stripe_event["data"]["object"]
+            logger.info("Checkout Session Completed!")
+            # self.manage_checkout_session(stripe_session)
+
+        return JsonResponse({"status": "success"})
+
+    # def manage_checkout_session(self, stripe_session):
+    #     tutorial_id = stripe_session["metadata"]["tutorial_id"]
+    #     user_id = stripe_session["metadata"]["buyer_id"]
+
+    #     try:
+    #         user = User.objects.get(id=user_id)
+    #     except User.DoesNotExist:
+    #         logger.error(f"User with ID {user_id} not found.")
+    #         return
+
+    #     tutorial = get_object_or_404(tutorials, pk=tutorial_id)
+    #     purchaser = Purchaser.objects.create(user=user)
+    #     purchaser.purchased_courses.set([tutorial])
 
 class PaymentSuccessView(SuperAdminRequiredMixin, TemplateView):
     login_url = "/login-page"
