@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic import TemplateView, View
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from Sponsor_App.models import SponosrAccount
 from django.http import JsonResponse
@@ -17,7 +18,10 @@ class LoginView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
+            if self.request.GET.get("family-id"):
+                return redirect(reverse("stripe-checkout", args=[self.request.GET.get("family-id")]))
+            else:
+                return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
         
         # Generate CAPTCHA for GET requests
         captcha_key = CaptchaStore.generate_key()
@@ -48,7 +52,10 @@ class LoginView(TemplateView):
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
             login(request, user_auth)
-            return redirect("admin-dashboard" if user_auth.is_superuser else "sponsor-home-page")
+            if self.request.GET.get("family-id"):
+                return redirect(reverse("stripe-checkout", args=[self.request.GET.get("family-id")]))
+            else:
+                return redirect("admin-dashboard" if user_auth.is_superuser else "sponsor-home-page")
         else:
             messages.error(request, "Invalid username or password.")
             return redirect("admin-login")
