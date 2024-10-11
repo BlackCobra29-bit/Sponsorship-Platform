@@ -1,0 +1,32 @@
+{% extends 'sponsor_base.html' %}
+
+{% load static %}
+
+{% block main-body %}
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="error-page">
+        <h2 class="headline text-danger"><i class="fas fa-exclamation-triangle text-danger"></i></h2>
+
+        <div class="error-content">
+          <h3>Payment Canceled</h3>
+
+          <p>
+            Your payment has been canceled. If this was a mistake, you may try again or <a href="../../index.html">return to the dashboard</a> for further actions.
+          </p>
+        </div>
+      </div>
+      <!-- /.error-page -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock %}

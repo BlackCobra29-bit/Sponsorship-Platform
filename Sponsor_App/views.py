@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+import stripe
+import logging
+from django.shortcuts import render, redirect, reverse
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from Messaging.models import Message
@@ -8,10 +11,15 @@ from django.views.generic import UpdateView
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-# custom mixins
+from django.contrib.auth.decorators import login_required
+from Sponsor_App.models import SponosrAccount
+from Super_Admin_App.models import FamilyList, MonthlyAmount
 from .mixins import MessageContextMixin
-# import UserModelForm from Super_Admin_App
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
+
+
+logger = logging.getLogger(__name__)
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 # Custom mixin to restrict access for superusers
@@ -48,9 +56,12 @@ class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['messages_list'] = Message.objects.filter(receiver = self.request.user).order_by("-timestamp")
+        context["messages_list"] = Message.objects.filter(
+            receiver=self.request.user
+        ).order_by("-timestamp")
         return context
-    
+
+
 class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
     template_name = "view_message.html"
     login_url = "/login-page"
@@ -60,14 +71,15 @@ class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         message_id = self.request.GET.get("message_id")
         message = get_object_or_404(Message, pk=message_id)
-        
+
         if not message.is_read:
             message.is_read = True
             message.save()
-        
+
         context["message"] = message
         return context
-    
+
+
 # User Update View (CBV)
 class UserUpdateView(SuperAdminRequiredMixin, UpdateView):
     model = User
@@ -82,23 +94,83 @@ class UserUpdateView(SuperAdminRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        messages.success(self.request, 'Account information updated successfully!')
+        messages.success(self.request, "Account information updated successfully!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'There was an error updating the account details.')
+        messages.error(self.request, "There was an error updating the account details.")
         return super().form_invalid(form)
-    
+
+
 class PasswordUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     login_url = "/login-page"
-    template_name = 'password_change_form.html'
-    success_url = reverse_lazy('sponsor-home-page')
+    template_name = "password_change_form.html"
+    success_url = reverse_lazy("sponsor-home-page")
 
     def form_valid(self, form):
-        messages.success(self.request, 'Password updated successfully!')
+        messages.success(self.request, "Password updated successfully!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'There was an error updating the Password.')
+        messages.error(self.request, "There was an error updating the Password.")
         return super().form_invalid(form)
+
+
+@login_required
+def stripe_checkout(request, family_id):
+    try:
+        monthly_amount = MonthlyAmount.objects.first().amount
+        amount_in_cents = int(monthly_amount * 100)
+        selected_family = get_object_or_404(FamilyList, pk=family_id)
+
+        stripe_session = stripe.checkout.Session.create(
+            payment_method_types=[
+                "card",
+                "au_becs_debit",
+            ],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "aud",
+                        "unit_amount": amount_in_cents,
+                        "product_data": {
+                            "name": selected_family.family_name,
+                            # this will be uncommented in the production timekii
+                            # "images": [selected_family.images.first().photo.url] if selected_family.images.exists() else []
+                            "images": [
+                                "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
+                            ],
+                        },
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            customer_email=request.user.email,
+            success_url=request.build_absolute_uri(reverse("payment-success")),
+            cancel_url=request.build_absolute_uri(reverse("payment-cancel")),
+            metadata={
+                "family_id": selected_family.id,
+                "sponsor_id": request.user.id,
+            },
+        )
+
+        return redirect(stripe_session.url)
+
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {str(e)}")
+        return redirect("family-list-page")
+    except Exception as e:
+        logger.error(f"Error during checkout: {str(e)}")
+        return redirect("family-list-page")
+
+
+class PaymentSuccessView(SuperAdminRequiredMixin, TemplateView):
+    login_url = "/login-page"
+    template_name = "payment_success.html"
+
+
+class PaymentCancelView(SuperAdminRequiredMixin, TemplateView):
+    login_url = "/login-page"
+    template_name = "payment_cancel.html"

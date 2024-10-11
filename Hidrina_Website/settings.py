@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'Super_Admin_App',
     'Messaging',
     'captcha',
+    'stripe',
+    'django_countries',
 ]
 
 CAPTCHA_FONT_SIZE = 40
@@ -134,3 +136,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STRIPE_PUBLISHABLE_KEY = "pk_test_51OIB3vDukDI7g1h0sDzi3Mx2oRzARIoiDmuBoYcxh5bpPuiSWM9FmzWvkW3q8CWOoEhtpjxTzUEuCpoEN6H23Qef00pv6Iqe1b"
+STRIPE_SECRET_KEY = "sk_test_51OIB3vDukDI7g1h0VREjlwcJc3ZHniPtQESOjgm4MSTVOyjX6Vo9KzRJzfZNDkDAlsmzFVG84IkjlJ7CdXLktpLP001kF8LGZC"
+STRIPE_WEBHOOK_SECRET = "YOUR_STRIPE_SECRET_KEY"

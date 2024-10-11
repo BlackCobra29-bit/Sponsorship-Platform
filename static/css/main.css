@@ -2426,7 +2426,8 @@ section,
 
 .blog-details .meta-top {
   margin-top: 20px;
-  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  color: black;
+  font-weight: bolder;
 }
 
 .blog-details .meta-top ul {
@@ -2627,7 +2628,7 @@ section,
 
 .comment-form form h4 {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 17px;
 }
 
 .comment-form form p {

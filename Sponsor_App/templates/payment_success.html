@@ -1,0 +1,33 @@
+{% extends 'sponsor_base.html' %}
+
+{% load static %}
+
+{% block main-body %}
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="error-page">
+        <h2 class="headline text-success"><i class="fa fa-check-circle"></i></h2>
+
+        <div class="error-content">
+          <h3> Payment Success</h3>
+
+          <p>
+            Thank you! Your payment has been processed successfully.
+            You may <a href="../../index.html">return to the dashboard</a> or continue browsing our site.
+          </p>
+        </div>
+      </div>
+      <!-- /.error-page -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock %}

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # import User_App view urls
-from User_App.views import HomeView, FamiliesListPage, AboutUsPage
+from User_App.views import HomeView, FamiliesListPage, FamilyDetailView, AboutUsPage
 
 # import Auth_App urls
 from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, CreateAccountView
@@ -17,6 +17,9 @@ from Sponsor_App.views import (
     ViewMessage,
     UserUpdateView,
     PasswordUpdateView,
+    PaymentSuccessView,
+    PaymentCancelView,
+    stripe_checkout
 )
 
 # import Super_Admin_App urls
@@ -41,17 +44,21 @@ from Messaging.views import MailPageView, ComposePageView, ViewMessageAdmin
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("captcha/", include("captcha.urls")),
+
     # url pattern for User_App
-    path("", HomeView.as_view(), name="home-page"),  # Changed to CBV
+    path("", HomeView.as_view(), name="home-page"),
+    path("family-detail/", FamilyDetailView.as_view(), name = "family-detail"),
     path(
         "families-list/", FamiliesListPage.as_view(), name="family-list-page"
-    ),  # Changed to CBV
-    path("about-us/", AboutUsPage.as_view(), name="about-us-page"),  # Changed to CBV
+    ),
+    path("about-us/", AboutUsPage.as_view(), name="about-us-page"),
+
     # url pattern for Auth_App
     path("login-page/", LoginView.as_view(), name="admin-login"),
     path("logout-page/", LogoutView.as_view(), name="admin-logout"),
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
     path("create-account/", CreateAccountView.as_view(), name="create-account"),
+
     # url pattern for Sponsor_App
     path("home/", SponsorHomePage.as_view(), name="sponsor-home-page"),
     path("my-sponsorship/", MySponsorshipPage.as_view(), name="my-sponsorship"),
@@ -59,6 +66,9 @@ urlpatterns = [
     path("view-message/", ViewMessage.as_view(), name="view-message"),
     path("account/<int:pk>/update/", UserUpdateView.as_view(), name="update-account"),
     path("password/change/", PasswordUpdateView.as_view(), name="password_change"),
+    path("stripe-checkout/<int:family_id>", stripe_checkout, name="stripe-checkout"),
+    path("payment-success/", PaymentSuccessView.as_view(), name = "payment-success"),
+    path("payment-cancel/", PaymentCancelView.as_view(), name = "payment-cancel"),
 
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
