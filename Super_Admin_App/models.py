@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image as PilImage
 from django.core.exceptions import ValidationError
-from Sponsor_App.models import SponosrAccount
 
 class FamilyList(models.Model):
     family_name = models.CharField(max_length=100)

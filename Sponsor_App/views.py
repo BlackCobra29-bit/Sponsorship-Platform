@@ -1,6 +1,8 @@
 import stripe
 import logging
+from django.db.models import Sum
 from django.views import View
+from .models import SponsorFamilyRelation
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from django.http import JsonResponse
@@ -16,7 +18,7 @@ from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from Sponsor_App.models import SponosrAccount
+from Sponsor_App.models import SponsorFamilyRelation
 from Super_Admin_App.models import FamilyList, MonthlyAmount, Payment
 from .mixins import MessageContextMixin
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
@@ -44,6 +46,15 @@ class SponsorHomePage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView
         context["unread_messages"] = Message.objects.filter(
             receiver=self.request.user, is_read=False
         )
+
+        # Retrieve families sponsored by the current user
+        sponsored_relations = SponsorFamilyRelation.objects.filter(sponsor=self.request.user)
+        context["count_family_sponsored"] = sponsored_relations.count() if sponsored_relations.exists() else 0
+
+        # Retrieve the total amount paid by the current user, regardless of is_active status
+        total_amount_paid = Payment.objects.filter(sponsor=self.request.user).aggregate(total=Sum('amount'))['total'] or 0
+        context["total_amount_paid"] = total_amount_paid
+
         return context
 
 
@@ -51,6 +62,18 @@ class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateVi
     template_name = "my_sponsorship.html"
     login_url = "/login-page"
     redirect_field_name = "authentication_required"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["unread_messages"] = Message.objects.filter(
+            receiver=self.request.user, is_read=False
+        )
+
+        # Retrieve list of families sponsored by the current user
+        sponsored_relations = SponsorFamilyRelation.objects.filter(sponsor=self.request.user)
+        context["count_family_sponsored"] = sponsored_relations.count() if sponsored_relations.exists() else 0
+
+        return context
 
 
 class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
@@ -212,16 +235,27 @@ class WebhookManagerView(View):
 
         Family_Sponsored = get_object_or_404(FamilyList, pk=family_id)
         try:
+
             # Save the transaction
             save_payment = Payment.objects.create(
                 sponsor=user,
                 family=Family_Sponsored,
                 amount=stripe_session["metadata"]["amount_paid"]
             )
+            
+            # Check if the SponsorFamilyRelation already exists
+            exists = SponsorFamilyRelation.objects.filter(sponsor=user, family=Family_Sponsored).exists()
+            if not exists:
+                SponsorFamilyRelation.objects.create(
+                    sponsor=user, 
+                    family=Family_Sponsored
+                    )
+                
             # update family is_sposnored to True
             if Family_Sponsored.is_sponsored is False:
                 Family_Sponsored.is_sponsored = True
                 Family_Sponsored.save()
+                
             print(f"Payment successfully created for user {user.id} and family {family_id}")
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
