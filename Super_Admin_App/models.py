@@ -75,4 +75,4 @@ class Payment(models.Model):
         verbose_name_plural = 'Payments'
 
     def __str__(self):
-        return f'{self.sponsor.email} - {self.family.family_name} - ${self.amount}'
+        return f'{self.sponsor.email} - {self.family.family_name} - {self.family.location} - ${self.amount}'

@@ -212,11 +212,16 @@ class WebhookManagerView(View):
 
         Family_Sponsored = get_object_or_404(FamilyList, pk=family_id)
         try:
+            # Save the transaction
             save_payment = Payment.objects.create(
                 sponsor=user,
                 family=Family_Sponsored,
                 amount=stripe_session["metadata"]["amount_paid"]
             )
+            # update family is_sposnored to True
+            if Family_Sponsored.is_sponsored is False:
+                Family_Sponsored.is_sponsored = True
+                Family_Sponsored.save()
             print(f"Payment successfully created for user {user.id} and family {family_id}")
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
