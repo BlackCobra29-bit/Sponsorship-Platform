@@ -71,7 +71,7 @@ class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateVi
 
         # Retrieve list of families sponsored by the current user
         sponsored_relations = SponsorFamilyRelation.objects.filter(sponsor=self.request.user)
-        context["count_family_sponsored"] = sponsored_relations.count() if sponsored_relations.exists() else 0
+        context["sponsored_families"] = [relation.family for relation in sponsored_relations]
 
         return context
 
