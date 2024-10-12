@@ -1,0 +1,87 @@
+{% extends 'sponsor_base.html' %}
+{% load static %}
+
+{% block main-body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><i class="fas fa-receipt"></i> Transaction History</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <!-- New row to properly nest col-md-3 and col-md-9 -->
+                    <div class="row">
+
+                        <!-- Main mailbox content -->
+                        <div class="col-md-12">
+                            <div class="card card-default">
+                                <div class="card-body">
+                                    <table id="example" class="table table-striped" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                              <th>Index</th>
+                                              <th>Family Name</th>
+                                              <th>Address</th>
+                                              <th>Contact Information</th>
+                                              <th>Number of Families</th>
+                                              <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction in transaction_history %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    {{ transaction.family.family_name }}
+                                                </td>
+                                                <td>
+                                                    {{ transaction.family.location }}
+                                                </td>
+                                                <td>
+                                                    {{ transaction.family.contact_address }}
+                                                </td>
+                                                <td>
+                                                    {{ transaction.family.no_of_family_members }}
+                                                </td>
+                                                <td class="text-success">
+                                                    <strong>${{ transaction.amount }}</strong>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- End of new row -->
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}

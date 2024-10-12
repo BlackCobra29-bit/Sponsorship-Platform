@@ -13,7 +13,7 @@ from django.views.generic import TemplateView
 from Messaging.models import Message
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
@@ -74,7 +74,20 @@ class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateVi
         context["sponsored_families"] = [relation.family for relation in sponsored_relations]
 
         return context
-
+    
+class PaymentTransactionHistory(LoginRequiredMixin, ListView):
+    model = Payment
+    template_name = "transaction_history.html"
+    context_object_name = "payments"
+    login_url = "/login-page"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add the filtered queryset to the context
+        context["transaction_history"] = Payment.objects.filter(
+            sponsor=self.request.user
+        ).order_by('-payment_date')
+        return context
 
 class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
     template_name = "received_messages.html"

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Sum
+from .models import Payment
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
@@ -28,8 +30,19 @@ class DashboardView(SuperAdminRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_family_count'] = FamilyList.objects.all().count()
-        context['unsponsored_family_count'] = FamilyList.objects.filter(is_sponsored=False).count()
+
+        # Retrieve the total number of families
+        context["total_families"] = FamilyList.objects.count()
+        
+        # Retrieve the number of sponsored families
+        context["sponsored_families"] = FamilyList.objects.filter(is_sponsored=True).count()
+        
+        # Retrieve the number of unique sponsors
+        context["unique_sponsors"] = User.objects.filter(sponsored_families__isnull=False).distinct().count()
+        
+        # Retrieve the total amount paid by all users
+        context["total_amount_paid"] = Payment.objects.aggregate(total=Sum('amount'))['total'] or 0
+
         return context
 
 # Sponsored management Page View (CBV)

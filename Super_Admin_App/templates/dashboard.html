@@ -40,9 +40,9 @@
           <!-- small card -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{ total_family_count }}</h3>
+              <h3>{{ total_families }}</h3>
 
-              <p>Total Families</p>
+              <strong>Total Families</strong>
             </div>
             <div class="icon">
               <i class="fas fa-users"></i>
@@ -57,14 +57,14 @@
           <!-- small card -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{ unsponsored_family_count }}</h3>
+              <h3>{{ sponsored_families }}</h3>
 
-              <p>Sponsored Families</p>
+              <strong>Sponsored Families</strong>
             </div>
             <div class="icon">
               <i class="fa fa-hands-helping"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="{% url 'family-management' %}" class="small-box-footer">
               More info <i class="fas fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -74,9 +74,9 @@
           <!-- small card -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{ unsponsored_family_count }}</h3>
+              <h3>{{ unique_sponsors }}</h3>
 
-              <p>Sponsors</p>
+              <strong>Unique Sponsors</strong>
             </div>
             <div class="icon">
               <i class="fas fa-user-tie"></i>
@@ -91,9 +91,9 @@
           <!-- small card -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>65,000$</h3>
+              <h3>${{ total_amount_paid }}</h3>
 
-              <p>Sponsored Amount</p>
+              <strong>Total Sponsored Amount</strong>
             </div>
             <div class="icon">
               <i class="fas fa-dollar-sign"></i>

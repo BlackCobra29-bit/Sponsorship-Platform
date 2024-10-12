@@ -57,6 +57,11 @@
                                 class="nav-link {% if request.resolver_match.url_name == 'my-sponsorship' %}active{% endif %}"><i
                                     class="fa fa-hand-holding-heart"></i> My Sponsorship</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{% url 'transaction-history' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'transaction-history' %}active{% endif %}">
+                                <i class="fas fa-receipt"></i> Transaction History</a>
+                        </li>
                     </ul>
 
                 </div>

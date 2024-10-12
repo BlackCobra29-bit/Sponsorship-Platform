@@ -20,7 +20,8 @@ from Sponsor_App.views import (
     PaymentSuccessView,
     PaymentCancelView,
     StripeCheckoutView,
-    WebhookManagerView
+    WebhookManagerView,
+    PaymentTransactionHistory
 )
 
 # import Super_Admin_App urls
@@ -71,6 +72,7 @@ urlpatterns = [
     path("stripe-checkout-webhook", WebhookManagerView.as_view(), name = "stripe-webhook-manager"),
     path("payment-success/", PaymentSuccessView.as_view(), name = "payment-success"),
     path("payment-cancel/", PaymentCancelView.as_view(), name = "payment-cancel"),
+    path("transaction-history/", PaymentTransactionHistory.as_view(), name = "transaction-history"),
 
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
