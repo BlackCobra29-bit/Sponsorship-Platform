@@ -17,7 +17,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from Sponsor_App.models import SponosrAccount
-from Super_Admin_App.models import FamilyList, MonthlyAmount
+from Super_Admin_App.models import FamilyList, MonthlyAmount, Payment
 from .mixins import MessageContextMixin
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
 
@@ -162,6 +162,7 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                 metadata={
                     "family_id": selected_family.id,
                     "sponsor_id": request.user.id,
+                    "amount_paid": monthly_amount,
                 },
             )
 
@@ -194,24 +195,31 @@ class WebhookManagerView(View):
 
         if stripe_event["type"] == "checkout.session.completed":
             stripe_session = stripe_event["data"]["object"]
-            logger.info("Checkout Session Completed!")
-            # self.manage_checkout_session(stripe_session)
+            print("Checkout Session Completed!")
+            self.manage_checkout_session(stripe_session)
 
         return JsonResponse({"status": "success"})
 
-    # def manage_checkout_session(self, stripe_session):
-    #     tutorial_id = stripe_session["metadata"]["tutorial_id"]
-    #     user_id = stripe_session["metadata"]["buyer_id"]
+    def manage_checkout_session(self, stripe_session):
+        family_id = stripe_session["metadata"]["family_id"]
+        sponsor_id = stripe_session["metadata"]["sponsor_id"]
 
-    #     try:
-    #         user = User.objects.get(id=user_id)
-    #     except User.DoesNotExist:
-    #         logger.error(f"User with ID {user_id} not found.")
-    #         return
+        try:
+            user = User.objects.get(id=sponsor_id)
+        except User.DoesNotExist:
+            print(f"User with ID {sponsor_id} not found.")
+            return
 
-    #     tutorial = get_object_or_404(tutorials, pk=tutorial_id)
-    #     purchaser = Purchaser.objects.create(user=user)
-    #     purchaser.purchased_courses.set([tutorial])
+        Family_Sponsored = get_object_or_404(FamilyList, pk=family_id)
+        try:
+            save_payment = Payment.objects.create(
+                sponsor=user,
+                family=Family_Sponsored,
+                amount=stripe_session["metadata"]["amount_paid"]
+            )
+            print(f"Payment successfully created for user {user.id} and family {family_id}")
+        except Exception as e:
+            print(f"Error saving payment: {str(e)}")
 
 class PaymentSuccessView(SuperAdminRequiredMixin, TemplateView):
     login_url = "/login-page"

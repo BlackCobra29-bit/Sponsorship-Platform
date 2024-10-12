@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image as PilImage
 from django.core.exceptions import ValidationError
+from Sponsor_App.models import SponosrAccount
 
 class FamilyList(models.Model):
     family_name = models.CharField(max_length=100)
@@ -61,3 +62,17 @@ class MonthlyAmount(models.Model):
 
     def __str__(self):
         return f"{self.amount} (Created: {self.created_at.strftime('%Y-%m-%d')})"
+    
+class Payment(models.Model):
+    sponsor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
+    family = models.ForeignKey(FamilyList, on_delete=models.CASCADE, related_name='payments')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-payment_date']
+        verbose_name_plural = 'Payments'
+
+    def __str__(self):
+        return f'{self.sponsor.email} - {self.family.family_name} - ${self.amount}'
