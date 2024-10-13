@@ -49,19 +49,21 @@
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Phone Number</th>
+                                        <th>Amount Paid</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for sponsor in SponsorsAccount %}
+                                    {% for sponsor in sponsors_with_payments %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ sponsor.user.first_name }} {{ sponsor.user.last_name }}</td>
-                                        <td>{{ sponsor.user.email }}</td>
-                                        <td>{{ sponsor.phone_number }}</td>
+                                        <td>{{ sponsor.sponsor_account.user.first_name }} {{ sponsor.sponsor_account.user.last_name }}</td>
+                                        <td>{{ sponsor.sponsor_account.user.email }}</td>
+                                        <td>{{ sponsor.sponsor_account.phone_number }}</td>
+                                        <td class="text-success"><strong>${{ sponsor.total_paid }}</strong></td>
                                         <td>
                                             <a
-                                                href="{% url 'compose-page' %}?sponsor_account={{ sponsor.user.username }}&{{ sponsor.user.email }}">
+                                                href="{% url 'compose-page' %}?sponsor_account={{ sponsor.sponsor_account.user.username }}&{{ sponsor.sponsor_account.user.email }}">
                                                 <i class="fab fa-facebook-messenger"></i> Send Message
                                             </a>
                                         </td>

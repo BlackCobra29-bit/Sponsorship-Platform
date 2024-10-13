@@ -51,7 +51,18 @@ class SponsorManagementPage(SuperAdminRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["SponsorsAccount"] = SponosrAccount.objects.all()
+        sponsors = SponosrAccount.objects.all()
+        
+        # Adding the total amount paid by each sponsor
+        sponsors_with_payments = []
+        for sponsor_account in sponsors:
+            total_paid = Payment.objects.filter(sponsor=sponsor_account.user).aggregate(total=Sum('amount'))['total'] or 0
+            sponsors_with_payments.append({
+                'sponsor_account': sponsor_account,
+                'total_paid': total_paid
+            })
+        
+        context["sponsors_with_payments"] = sponsors_with_payments
         return context
 
 

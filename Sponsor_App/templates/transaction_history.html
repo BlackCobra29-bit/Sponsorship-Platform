@@ -39,6 +39,7 @@
                                               <th>Contact Information</th>
                                               <th>Number of Families</th>
                                               <th>Amount</th>
+                                              <th>Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,6 +60,9 @@
                                                 </td>
                                                 <td class="text-success">
                                                     <strong>${{ transaction.amount }}</strong>
+                                                </td>
+                                                <td>
+                                                    {{ transaction.payment_date|date:"d M Y" }}
                                                 </td>
                                             </tr>
                                             {% endfor %}
