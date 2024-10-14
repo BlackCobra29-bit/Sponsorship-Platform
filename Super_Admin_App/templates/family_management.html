@@ -1,4 +1,6 @@
-{% extends 'super_admin_base.html' %} {% load static %} {% block main-body %}
+{% extends 'super_admin_base.html' %}
+{% load static %}
+{% block main-body %}
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -10,29 +12,22 @@
             <span class="fas fa-users"></span> Family Management
           </h1>
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
   </div>
-  <!-- /.content-header -->
 
   <!-- Main content -->
   <div class="content">
     <div class="container">
       <div class="row">
-        <!-- center column -->
         <div class="col-lg-12">
-          <!-- general form elements -->
-
           {% if messages %}
           {% for message in messages %}
           <div class="alert alert-{{ message.tags }} alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5>
-              {% if message.tags == 'success' %}
-              {% elif message.tags == 'error' %}
+              {% if message.tags == 'success' %} 
+              {% elif message.tags == 'error' %} 
               {% endif %}
             </h5>
             {{ message }}
@@ -49,35 +44,32 @@
                     <th>Family Name</th>
                     <th>Address</th>
                     <th>Contact Information</th>
-                    <th>Number of Families</th>
-                    <th>Family Bio</th>
+                    <th>Number of Members</th>
                     <th>Sponsored?</th>
+                    <th>Total Unpaid Amount</th>
+                    <th>Total Paid Amount</th>
                     <th>Manage</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for family in total_families %}
+                  {% for item in families_with_payments %}
                   <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ family.family_name }}</td>
-                    <td>{{ family.location }}</td>
-                    <td>{{ family.contact_address }}</td>
-                    <td>{{ family.no_of_family_members }}</td>
+                    <td>{{ item.family.family_name }}</td>
+                    <td>{{ item.family.location }}</td>
+                    <td>{{ item.family.contact_address }}</td>
+                    <td>{{ item.family.no_of_family_members }}</td>
                     <td>
-                      <button class="btn btn-link btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#bioModal-{{ forloop.counter }}">
-                        View Bio
-                      </button>
-                    </td>
-                    <td>
-                      {% if not family.is_sponsored %}
+                      {% if not item.family.is_sponsored %}
                       <span class="badge rounded-pill bg-danger">Unsponsored</span>
                       {% else %}
                       <span class="badge rounded-pill bg-success">Sponsored</span>
                       {% endif %}
                     </td>
+                    <td><strong class="text-success">${{ item.total_unpaid_amount }}</strong></td>
+                    <td><strong class="text-success">${{ item.total_paid_amount }}</strong></td>
                     <td>
-                      <a href="{% url 'family-update' family.pk %}">
+                      <a href="{% url 'family-update' item.family.pk %}">
                         <i class="fas fa-pen text-warning icon-spacing" title="Edit"></i>
                       </a>
                       <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ forloop.counter }}">
@@ -85,7 +77,7 @@
                       </a>
                     </td>
                   </tr>
-                  
+
                   <!-- Delete Confirmation Modal -->
                   <div class="modal fade" id="deleteModal-{{ forloop.counter }}" tabindex="-1"
                     aria-labelledby="deleteModalLabel-{{ forloop.counter }}" aria-hidden="true">
@@ -93,16 +85,16 @@
                       <div class="modal-content">
                         <div class="modal-header bg-danger text-white">
                           <h5 class="modal-title" id="deleteModalLabel-{{ forloop.counter }}">
-                            Delete Family - {{ family.family_name }}
+                            Delete Family - {{ item.family.family_name }}
                           </h5>
                         </div>
                         <div class="modal-body">
-                          Are you sure you want to delete <strong>{{ family.family_name }}</strong>? This action
+                          Are you sure you want to delete <strong>{{ item.family.family_name }}</strong>? This action
                           cannot be undone.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <form method="POST" action="{% url 'family-delete' family.pk %}">
+                          <form method="POST" action="{% url 'family-delete' item.family.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Delete</button>
                           </form>
@@ -111,17 +103,34 @@
                     </div>
                   </div>
 
-                  <!-- Bootstrap Modal for each family's bio -->
-                  <div class="modal fade" id="bioModal-{{ forloop.counter }}" tabindex="-1"
-                    aria-labelledby="bioModalLabel-{{ forloop.counter }}" aria-hidden="true">
+                  <!-- Bootstrap Modal for each family's payments -->
+                  <div class="modal fade" id="paymentModal-{{ forloop.counter }}" tabindex="-1"
+                    aria-labelledby="paymentModalLabel-{{ forloop.counter }}" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header bg-info">
-                          <h5 class="modal-title" id="bioModalLabel-{{ forloop.counter }}">
-                            Family Bio - {{ family.family_name }}
+                          <h5 class="modal-title" id="paymentModalLabel-{{ forloop.counter }}">
+                            Payments for {{ item.family.family_name }}
                           </h5>
                         </div>
-                        <div class="modal-body">{{ family.family_bio }}</div>
+                        <div class="modal-body">
+                          <ul class="list-group">
+                            {% for payment in item.payments %}
+                            <li class="list-group-item">
+                              <strong>Amount:</strong> ${{ payment.amount }} <br>
+                              <strong>Date:</strong> {{ payment.payment_date }} <br>
+                              <strong>Status:</strong> 
+                              {% if payment.is_active %}
+                              <span class="badge bg-success">Active</span>
+                              {% else %}
+                              <span class="badge bg-secondary">Inactive</span>
+                              {% endif %}
+                            </li>
+                            {% empty %}
+                            <p>No payments found for this family.</p>
+                            {% endfor %}
+                          </ul>
+                        </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
@@ -133,20 +142,11 @@
                   {% endfor %}
                 </tbody>
               </table>
-              <!-- Bootstrap CSS and JS -->
             </div>
-            <!-- card body  -->
           </div>
-          <!-- /.card -->
         </div>
-        <!-- ./col -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container-fluid -->
   </div>
-  <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
 {% endblock %}

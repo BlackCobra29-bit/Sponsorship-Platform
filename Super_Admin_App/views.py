@@ -94,6 +94,36 @@ class FamilyManagementView(SuperAdminRequiredMixin, ListView):
     model = FamilyList
     context_object_name = 'total_families'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve all families
+        families = FamilyList.objects.all()
+
+        # Prepare a list of families with their associated payments (active and inactive)
+        families_with_payments = []
+        for family in families:
+            payments = Payment.objects.filter(family=family)
+
+            # Filter payments based on their active status
+            unpaid_payments = payments.filter(is_active=True)
+            paid_payments = payments.filter(is_active=False)
+
+            # Calculate total amounts for both unpaid and paid payments
+            total_unpaid_amount = unpaid_payments.aggregate(total=Sum('amount'))['total'] or 0
+            total_paid_amount = paid_payments.aggregate(total=Sum('amount'))['total'] or 0
+
+            families_with_payments.append({
+                'family': family,
+                'unpaid_payments': unpaid_payments,
+                'paid_payments': paid_payments,
+                'total_unpaid_amount': total_unpaid_amount,
+                'total_paid_amount': total_paid_amount
+            })
+
+        context['families_with_payments'] = families_with_payments
+        
+        return context
 
 # Family Update View (CBV)
 class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
@@ -150,9 +180,37 @@ class FamilyDeleteView(SuperAdminRequiredMixin, DeleteView):
 class ExportFamilyDataView(SuperAdminRequiredMixin, TemplateView):
     template_name = "export-family-data.html"
 
+    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_families'] = FamilyList.objects.all()
+
+        # Retrieve all families
+        families = FamilyList.objects.all()
+
+        # Prepare a list of families with their associated payments (active and inactive)
+        families_with_payments = []
+        for family in families:
+            payments = Payment.objects.filter(family=family)
+
+            # Filter payments based on their active status
+            unpaid_payments = payments.filter(is_active=True)
+            paid_payments = payments.filter(is_active=False)
+
+            # Calculate total amounts for both unpaid and paid payments
+            total_unpaid_amount = unpaid_payments.aggregate(total=Sum('amount'))['total'] or 0
+            total_paid_amount = paid_payments.aggregate(total=Sum('amount'))['total'] or 0
+
+            families_with_payments.append({
+                'family': family,
+                'unpaid_payments': unpaid_payments,
+                'paid_payments': paid_payments,
+                'total_unpaid_amount': total_unpaid_amount,
+                'total_paid_amount': total_paid_amount
+            })
+
+        context['families_with_payments'] = families_with_payments
+        
         return context
     
 

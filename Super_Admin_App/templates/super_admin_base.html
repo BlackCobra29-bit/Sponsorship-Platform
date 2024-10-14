@@ -212,7 +212,7 @@
                     "excel",
                     {
                         extend: "pdf",
-                        messageTop: "Registry of Martyrs' Families",
+                        messageTop: "Registry of Sponsored Martyrs' Families List",
                         customize: function (doc) {
 
                             var rowIndex = 1;
@@ -230,15 +230,14 @@
                             doc.watermark = {
                                 text: '\u00A9 Hidrina Org',
                                 color: '#ccc',
-                                opacity: 0.3,
+                                opacity: 0.4,
                                 italics: true,
                                 bold: true,
                                 angle: 325
                             };
                         }
                     },
-                    "print",
-                    "colvis"
+                    "print"
                 ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });

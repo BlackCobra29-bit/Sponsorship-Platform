@@ -39,23 +39,27 @@
                     <th>Contact Information</th>
                     <th>Number of Families</th>
                     <th>Sponsored?</th>
+                    <th>Total Unpaid Amount</th>
+                    <th>Total Paid Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for family in total_families %}
+                  {% for item in families_with_payments %}
                   <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ family.family_name }}</td>
-                    <td>{{ family.location }}</td>
-                    <td>{{ family.contact_address }}</td>
-                    <td>{{ family.no_of_family_members }}</td>
+                    <td>{{ item.family.family_name }}</td>
+                    <td>{{ item.family.location }}</td>
+                    <td>{{ item.family.contact_address }}</td>
+                    <td>{{ item.family.no_of_family_members }}</td>
                     <td>
-                      {% if not family.is_sponsored %}
+                      {% if not item.family.is_sponsored %}
                       <span class="badge rounded-pill bg-danger">Unsponsored</span>
                       {% else %}
                       <span class="badge rounded-pill bg-success">Sponsored</span>
                       {% endif %}
                     </td>
+                    <td><strong class="text-success">${{ item.total_unpaid_amount }}</strong></td>
+                    <td><strong class="text-success">${{ item.total_paid_amount }}</strong></td>
                   </tr>
                   {% endfor %}
                 </tbody>
