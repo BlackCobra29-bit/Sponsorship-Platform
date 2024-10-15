@@ -26,8 +26,8 @@
           <div class="alert alert-{{ message.tags }} alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h5>
-              {% if message.tags == 'success' %} 
-              {% elif message.tags == 'error' %} 
+              {% if message.tags == 'success' %}
+              {% elif message.tags == 'error' %}
               {% endif %}
             </h5>
             {{ message }}
@@ -66,7 +66,14 @@
                       <span class="badge rounded-pill bg-success">Sponsored</span>
                       {% endif %}
                     </td>
-                    <td><strong class="text-success">${{ item.total_unpaid_amount }}</strong></td>
+                    <td>
+                      <strong class="text-success">${{ item.total_unpaid_amount }}</strong>
+                      {% if item.total_unpaid_amount > 0 %}
+                      <a href="{% url 'unpaid-payments' item.family.id %}" class="badge bg-warning">
+                        Pay
+                      </a>
+                      {% endif %}
+                    </td>
                     <td><strong class="text-success">${{ item.total_paid_amount }}</strong></td>
                     <td>
                       <a href="{% url 'family-update' item.family.pk %}">
@@ -119,7 +126,7 @@
                             <li class="list-group-item">
                               <strong>Amount:</strong> ${{ payment.amount }} <br>
                               <strong>Date:</strong> {{ payment.payment_date }} <br>
-                              <strong>Status:</strong> 
+                              <strong>Status:</strong>
                               {% if payment.is_active %}
                               <span class="badge bg-success">Active</span>
                               {% else %}

@@ -37,7 +37,9 @@ from Super_Admin_App.views import (
     MonthlySponsorshipAmount,
     SponsorManagementPage,
     PasswordAdminUpdateView,
-    UserAdminUpdateView
+    UserAdminUpdateView,
+    UnpaidPaymentsView,
+    MarkPaymentsPaidView,
 )
 
 # import Messaging views
@@ -83,6 +85,8 @@ urlpatterns = [
     path(
         "family-management/", FamilyManagementView.as_view(), name="family-management"
     ),
+    path('unpaid-payments/<int:family_id>/', UnpaidPaymentsView.as_view(), name='unpaid-payments'),
+    path('mark-payments-paid/<int:family_id>/', MarkPaymentsPaidView.as_view(), name='mark-payments-paid'),
     path(
         "family/<int:pk>/update/", FamilyListUpdateView.as_view(), name="family-update"
     ),

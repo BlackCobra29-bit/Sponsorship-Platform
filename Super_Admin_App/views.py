@@ -3,7 +3,7 @@ from django.db.models import Sum
 from .models import Payment
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .models import FamilyList, FamilyImage, MonthlyAmount
 from Sponsor_App.models import SponosrAccount
 from .forms import FamilyListForm
@@ -124,6 +124,35 @@ class FamilyManagementView(SuperAdminRequiredMixin, ListView):
         context['families_with_payments'] = families_with_payments
         
         return context
+    
+class UnpaidPaymentsView(TemplateView):
+    template_name = 'unpaid_payments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        family_id = self.kwargs['family_id']
+        
+        # Retrieve the family by ID
+        family = get_object_or_404(FamilyList, pk=family_id)
+        unpaid_payments = Payment.objects.filter(family=family, is_active=True)
+
+        context['family'] = family
+        context['unpaid_payments'] = unpaid_payments
+        return context
+    
+class MarkPaymentsPaidView(View):
+    def post(self, request, family_id):
+        # Retrieve the family based on the given family_id
+        family = get_object_or_404(FamilyList, id=family_id)
+        
+        # Get the selected payment IDs from the form
+        payment_ids = request.POST.getlist('payment_ids')
+        
+        # Update the payments to set them as inactive (paid)
+        Payment.objects.filter(id__in=payment_ids, family=family).update(is_active=False)
+        
+        # Redirect back to the unpaid payments page for this family
+        return redirect('unpaid-payments', family_id=family_id)
 
 # Family Update View (CBV)
 class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):

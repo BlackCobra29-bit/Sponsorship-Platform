@@ -25,6 +25,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
+<style>
+    .navbar-dark {
+        background-color: #212529;
+        border-color: #4b545c;
+    }
+</style>
+
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
 
@@ -86,7 +93,8 @@
                             <a href="#" class="nav-link"><i class="fa fa-user-shield"></i> Admins</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'monthly-sponsorship-settings' %}" class="nav-link"><i class="fa fa-cog"></i> Settings</a>
+                            <a href="{% url 'monthly-sponsorship-settings' %}" class="nav-link"><i
+                                    class="fa fa-cog"></i> Amount Settings</a>
                         </li>
                     </ul>
                 </div>
@@ -106,7 +114,8 @@
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                                <img src="{{ request.user.administrator.admin_photo.url }}" class="img-circle" style="width: 30px; height: 30px;" alt="User Image">
+                            <img src="{{ request.user.administrator.admin_photo.url }}" class="img-circle"
+                                style="width: 30px; height: 30px;" alt="User Image">
                             {{ request.user.first_name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -337,11 +346,11 @@
         });
     </script>
 
-    
+
     <!-- Asyncio script responsible for settings.html -->
     <script>
         $(document).ready(function () {
-    
+
             // Validate the form
             $('#update_monthly_amount').validate({
                 rules: {
@@ -361,7 +370,7 @@
                 unhighlight: function (element) {
                     $(element).removeClass('is-invalid');
                 },
-    
+
                 // This function runs when the form is valid
                 submitHandler: function (form) {
                     var formData = new FormData(form); // Collect the form data, including files
@@ -378,7 +387,7 @@
                         success: function (response) {
                             // Hide loading spinner
                             $('#loadingIndicator').hide();
-    
+
                             if (response.success) {
                                 // Success SweetAlert
                                 Swal.fire({
@@ -406,7 +415,7 @@
                         error: function (xhr, status, error) {
                             // Hide loading spinner
                             $('#loadingIndicator').hide();
-    
+
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
@@ -418,13 +427,13 @@
                 }
             });
         });
-    </script>    
+    </script>
 
-    
+
     <!-- Asyncio script responsible for asyncio messaging -->
     <script>
         $(document).ready(function () {
-    
+
             // Validate the form
             $('#send_message').validate({
                 rules: {
@@ -446,7 +455,7 @@
                 unhighlight: function (element) {
                     $(element).removeClass('is-invalid');
                 },
-    
+
                 // This function runs when the form is valid
                 submitHandler: function (form) {
                     var formData = new FormData(form); // Collect the form data, including files
@@ -463,7 +472,7 @@
                         success: function (response) {
                             // Hide loading spinner
                             $('#loadingIndicator').hide();
-    
+
                             if (response.success) {
                                 // Success SweetAlert
                                 Swal.fire({
@@ -491,7 +500,7 @@
                         error: function (xhr, status, error) {
                             // Hide loading spinner
                             $('#loadingIndicator').hide();
-    
+
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
@@ -503,7 +512,7 @@
                 }
             });
         });
-    </script>    
+    </script>
 
 </body>
 
