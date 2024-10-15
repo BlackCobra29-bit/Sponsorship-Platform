@@ -43,10 +43,10 @@ class LoginView(TemplateView):
             captcha_obj = CaptchaStore.objects.get(hashkey=captcha_key)
             if captcha_obj.response.lower() != captcha_value.lower():
                 messages.error(request, "Invalid CAPTCHA.")
-                return redirect("admin-login")
+                return self.redirect_with_query_params(request)
         except CaptchaStore.DoesNotExist:
             messages.error(request, "Invalid CAPTCHA.")
-            return redirect("admin-login")
+            return self.redirect_with_query_params(request)
 
         # Authenticate user
         user_auth = authenticate(request, username=username, password=password)
@@ -58,7 +58,11 @@ class LoginView(TemplateView):
                 return redirect("admin-dashboard" if user_auth.is_superuser else "sponsor-home-page")
         else:
             messages.error(request, "Invalid username or password.")
-            return redirect("admin-login")
+            return self.redirect_with_query_params(request)
+
+    def redirect_with_query_params(self, request):
+        """Redirect to login page with original query parameters."""
+        return redirect(f"{reverse('admin-login')}?{request.GET.urlencode()}")
 
 
 # Logout View (CBV)
