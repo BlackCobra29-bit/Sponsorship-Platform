@@ -40,6 +40,7 @@ from Super_Admin_App.views import (
     UserAdminUpdateView,
     UnpaidPaymentsView,
     MarkPaymentsPaidView,
+    CreateAdminAccount
 )
 
 # import Messaging views
@@ -109,6 +110,7 @@ urlpatterns = [
     ),
     path("admin-account/<int:pk>/update/", UserAdminUpdateView.as_view(), name="admin-account-update"),
     path("admin-password/change/", PasswordAdminUpdateView.as_view(), name="password_admin_change"),
+    path("create-admin-account/", CreateAdminAccount.as_view(), name = "admin-account"),
 
     # url pattern for Messaging App
     path("mail-page/", MailPageView.as_view(), name="mail-page"),

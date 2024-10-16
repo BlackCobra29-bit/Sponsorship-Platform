@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
-from .models import Payment
+from .models import Payment, Administrator
+from django.utils.crypto import get_random_string
+from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView
@@ -293,3 +295,70 @@ class PasswordAdminUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
     def form_invalid(self, form):
         messages.error(self.request, 'There was an error updating the Password.')
         return super().form_invalid(form)
+    
+class CreateAdminAccount(View):
+    template_name = 'create_super_admin.html'
+
+    def get(self, request):
+        # Render the template on GET request
+        return render(request, self.template_name)
+
+    def post(self, request):
+        # Retrieve values from the POST data
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('admin_email')
+        admin_photo = request.FILES.get('admin_photo')
+
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Email already exists."
+                },
+                status=400
+            )
+
+        # Generate a 6-digit random password
+        password = get_random_string(length=6, allowed_chars='0123456789')
+
+        try:
+            # Create the superuser
+            user = User.objects.create(
+                username=username,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                is_staff=True,
+                is_superuser=True
+            )
+            user.set_password(password)
+            user.save()
+
+            # Create an Administrator instance and save the admin photo
+            Administrator.objects.create(
+                user=user,
+                admin_photo=admin_photo
+            )
+
+            # Return a success response with a message
+            return JsonResponse(
+                {
+                    "success": True,
+                    "message": "Account created successfully.",
+                }
+            )
+
+        except Exception as e:
+            # Print the error to the console for debugging
+            print(f"An error occurred: {str(e)}")  # This will display the error in the console
+            
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": f"An error occurred: {str(e)}"
+                },
+                status=500
+            )
