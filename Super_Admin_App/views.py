@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 from .models import Payment, Administrator
 from django.utils.crypto import get_random_string
 from django.db import transaction
@@ -296,12 +299,8 @@ class PasswordAdminUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
         messages.error(self.request, 'There was an error updating the Password.')
         return super().form_invalid(form)
     
-class CreateAdminAccount(View):
+class CreateAdminAccount(SuperAdminRequiredMixin, TemplateView):
     template_name = 'create_super_admin.html'
-
-    def get(self, request):
-        # Render the template on GET request
-        return render(request, self.template_name)
 
     def post(self, request):
         # Retrieve values from the POST data
@@ -316,13 +315,23 @@ class CreateAdminAccount(View):
             return JsonResponse(
                 {
                     "success": False,
-                    "message": "Email already exists."
-                },
-                status=400
+                    "message": "Email already taken. Please use another.",
+                }
+            )
+        
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Username already taken. Please use another.",
+                }
             )
 
         # Generate a 6-digit random password
         password = get_random_string(length=6, allowed_chars='0123456789')
+
+        print(f"Password is: {password}")
 
         try:
             # Create the superuser
@@ -343,11 +352,30 @@ class CreateAdminAccount(View):
                 admin_photo=admin_photo
             )
 
+            # Prepare the email content
+            subject = 'New Admin Account Created'
+            message = render_to_string('email_template.html', {
+                'first_name': first_name,
+                'last_name': last_name,
+                'username': username,
+                'password': password,
+            })
+
+            # Send the email
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [email],  # Send to the new admin's email
+                fail_silently=False,
+                html_message=message  # This allows for HTML content
+            )
+
             # Return a success response with a message
             return JsonResponse(
                 {
                     "success": True,
-                    "message": "Account created successfully.",
+                    "message": "Account created successfully and email sent.",
                 }
             )
 
@@ -359,6 +387,5 @@ class CreateAdminAccount(View):
                 {
                     "success": False,
                     "message": f"An error occurred: {str(e)}"
-                },
-                status=500
+                }
             )

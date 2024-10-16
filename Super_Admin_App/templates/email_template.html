@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>New Admin Account Created</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="alert alert-success">
+            <h4 class="alert-heading">Account Created Successfully!</h4>
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            <p>Your <strong>Hidrina Org</strong> admin account has been created successfully.</p>
+            <hr>
+            <p><strong>Username:</strong> {{ username }}</p>
+            <p><strong>Password:</strong> {{ password }}</p>
+            <p>Please log in and change your password immediately for security reasons.</p>
+            <p>Thank you!</p>
+        </div>
+    </div>
+</body>
+</html>
