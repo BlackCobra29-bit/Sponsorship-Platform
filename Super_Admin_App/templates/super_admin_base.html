@@ -117,7 +117,7 @@
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <img src="{{ request.user.administrator.admin_photo.url }}" class="img-circle"
                                 style="width: 30px; height: 30px;" alt="User Image">
-                            {{ request.user.first_name }}
+                            {{ request.user.first_name }} {{ request.user.last_name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="dropdown-divider"></div>

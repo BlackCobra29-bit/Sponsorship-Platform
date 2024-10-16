@@ -119,6 +119,55 @@
   </div>
 
   <main class="main">
+
+    <section id="services" class="services section">
+    
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Our Sponsorship Steps</h2>
+        <p>Join us in supporting families in need by following these simple steps.</p>
+      </div><!-- End Section Title -->
+    
+      <div class="container">
+    
+        <div class="row gy-4">
+    
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-person-plus"></i> <!-- Updated icon -->
+              </div>
+              <h3><i class="bi bi-1-circle-fill"></i> Select a Family</h3>
+              <p>User will select a family in need and create an account to begin their sponsorship journey.</p>
+            </div>
+          </div><!-- End Service Item -->
+    
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-cash-coin"></i> <!-- Updated icon -->
+              </div>
+              <h3><i class="bi bi-2-circle-fill"></i> Monthly Donation</h3>
+              <p>User will donate a defined monthly amount to support the selected family and their needs.</p>
+            </div>
+          </div><!-- End Service Item -->
+    
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-envelope-open"></i> <!-- Updated icon -->
+              </div>
+              <h3><i class="bi bi-3-circle-fill"></i> Monthly Updates</h3>
+              <p>User will receive monthly updates about the family they sponsored, fostering a meaningful connection.</p>
+            </div>
+          </div><!-- End Service Item -->
+    
+        </div>
+    
+      </div>
+    
+    </section><!-- /Services Section -->
+
     <!-- Sponsor Section -->
     <section id="sponsor" class="team section">
 
@@ -173,58 +222,7 @@
     <div class="container text-center mt-3" style="padding-bottom: 100px;">
       <a href="{% url 'family-list-page' %}" class="btn btn-dark rounded"><i class="bi bi-chevron-down"></i>
         See more</a>
-    </div>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2><i class="bi bi-telephone-outbound-fill"></i> Contact Us</h2>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gx-lg-0 gy-4 justify-content-center">
-
-          <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade" data-aos-delay="100">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="8" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Contact Section -->
-
+    </div><!-- Services Section -->
 
   </main>
 

@@ -71,47 +71,6 @@ class LogoutView(LoginRequiredMixin, View):
         logout(request)
         return redirect("admin-login")
 
-
-# Create Account View (CBV)
-class CreateAccountView(TemplateView):
-    template_name = "create_account.html"
-
-    def post(self, request, *args, **kwargs):
-        # Get the form inputs
-        username = request.POST.get("username")
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        phone = request.POST.get("phone")
-        sponsor_photo = request.FILES.get("profile_pic")
-
-        # Check if username already exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse(
-                {
-                    "success": False,
-                    "message": "Username already taken. Please choose another.",
-                }
-            )
-
-        # Create the user
-        user = User.objects.create(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            username=username,
-            password=make_password(password),  # Password is hashed for security
-        )
-
-        # Create associated SponsorAccount
-        SponosrAccount.objects.create(user=user, phone_number=phone, sponsor_photo = sponsor_photo)
-
-        # Return JSON response
-        return JsonResponse(
-            {"success": True, "message": "Account created successfully!"}
-        )
-
 # Forgot Password View (CBV)
 class ForgotPasswordView(TemplateView):
     template_name = "forgot_password.html"

@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 # import User_App view urls
 from User_App.views import HomeView, FamiliesListPage, FamilyDetailView, AboutUsPage
 
 # import Auth_App urls
-from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, CreateAccountView
+from Auth_App.views import LoginView, LogoutView, ForgotPasswordView
 
 # import Sponsor_App views
 from Sponsor_App.views import (
@@ -62,7 +63,6 @@ urlpatterns = [
     path("login-page/", LoginView.as_view(), name="admin-login"),
     path("logout-page/", LogoutView.as_view(), name="admin-logout"),
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
-    path("create-account/", CreateAccountView.as_view(), name="create-account"),
 
     # url pattern for Sponsor_App
     path("home/", SponsorHomePage.as_view(), name="sponsor-home-page"),
@@ -116,4 +116,10 @@ urlpatterns = [
     path("mail-page/", MailPageView.as_view(), name="mail-page"),
     path("send-message/", ComposePageView.as_view(), name="compose-page"),
     path("view-message-admin/", ViewMessageAdmin.as_view(), name="view-message-admin"),
+
+    # url pattern for password reset
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),
+    path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

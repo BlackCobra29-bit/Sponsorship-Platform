@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +10,14 @@
 </head>
 <body>
     <div class="container mt-5">
-        <div class="alert alert-success">
-            <h4 class="alert-heading">Account Created Successfully!</h4>
+        <div class="alert">
+            <h4 class="alert-heading text-center">Account Created Successfully!</h4>
             <p>Dear {{ first_name }} {{ last_name }},</p>
             <p>Your <strong>Hidrina Org</strong> admin account has been created successfully.</p>
             <hr>
             <p><strong>Username:</strong> {{ username }}</p>
             <p><strong>Password:</strong> {{ password }}</p>
-            <p>Please log in and change your password immediately for security reasons.</p>
+            <p>Please log in and change your password immediately for security reasons. <a href="{% url 'admin-login' %}">click here to log in</a></p>
             <p>Thank you!</p>
         </div>
     </div>
