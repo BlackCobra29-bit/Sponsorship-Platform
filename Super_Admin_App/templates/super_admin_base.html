@@ -129,6 +129,10 @@
                                 <i class="fa fa-lock mr-2"></i> Change Password
                             </a>
                             <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <i class="fa fa-trash mr-2"></i> Remove Account
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a href="{% url 'admin-logout' %}" class="dropdown-item">
                                 <i class="fa fa-sign-out-alt"></i> Logout
                             </a>
@@ -138,6 +142,31 @@
             </div>
         </nav>
         <!-- /.navbar -->
+
+        <!-- Delete Account Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1"
+            aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">
+                           <span class="fa fa-ex"></span> Delete Your Account
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete? This action
+                        cannot be undone.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {% block main-body %}
 

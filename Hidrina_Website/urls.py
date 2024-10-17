@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 from User_App.views import HomeView, FamiliesListPage, FamilyDetailView, AboutUsPage
 
 # import Auth_App urls
-from Auth_App.views import LoginView, LogoutView, ForgotPasswordView
+from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, DeleteAccountView
 
 # import Sponsor_App views
 from Sponsor_App.views import (
@@ -63,6 +63,7 @@ urlpatterns = [
     path("login-page/", LoginView.as_view(), name="admin-login"),
     path("logout-page/", LogoutView.as_view(), name="admin-logout"),
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
+    path('delete-account/', DeleteAccountView.as_view(), name='delete_account'),
 
     # url pattern for Sponsor_App
     path("home/", SponsorHomePage.as_view(), name="sponsor-home-page"),

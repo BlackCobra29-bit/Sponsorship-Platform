@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
 # Login View (CBV)
@@ -74,3 +75,12 @@ class LogoutView(LoginRequiredMixin, View):
 # Forgot Password View (CBV)
 class ForgotPasswordView(TemplateView):
     template_name = "forgot_password.html"
+
+class DeleteAccountView(View):
+    success_url = reverse_lazy('admin-login')  # Redirect to a login page or success page
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        user.delete()
+        messages.success(request, 'Your account has been deleted successfully.')
+        return JsonResponse({'redirect_url': str(self.success_url)})
