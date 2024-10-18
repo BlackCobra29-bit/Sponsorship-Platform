@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, DeleteView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -76,11 +76,18 @@ class LogoutView(LoginRequiredMixin, View):
 class ForgotPasswordView(TemplateView):
     template_name = "forgot_password.html"
 
-class DeleteAccountView(View):
-    success_url = reverse_lazy('admin-login')  # Redirect to a login page or success page
+class DeleteAccountView(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy("admin-login")
 
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        user.delete()
-        messages.success(request, 'Your account has been deleted successfully.')
-        return JsonResponse({'redirect_url': str(self.success_url)})
+    def get_object(self):
+
+        # Return the current logged-in user
+        return self.request.user
+
+    def delete(self, request, *args, **kwargs):
+
+        # Add a success message before deleting the user
+        messages.success(self.request, 'Your account has been deleted successfully.')
+
+        return super().delete(request, *args, **kwargs)

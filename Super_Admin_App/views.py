@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
+from .mixins import TransactionContextMixin
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -8,9 +9,9 @@ from django.utils.crypto import get_random_string
 from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
 from .models import FamilyList, FamilyImage, MonthlyAmount
-from Sponsor_App.models import SponosrAccount
+from Sponsor_App.models import SponosrAccount, SponsorFamilyRelation
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -30,7 +31,7 @@ class SuperAdminRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 # Dashboard View (CBV)
-class DashboardView(SuperAdminRequiredMixin, TemplateView):
+class DashboardView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = "dashboard.html"
 
     def get_context_data(self, **kwargs):
@@ -51,7 +52,7 @@ class DashboardView(SuperAdminRequiredMixin, TemplateView):
         return context
 
 # Sponsored management Page View (CBV)
-class SponsorManagementPage(SuperAdminRequiredMixin, TemplateView):
+class SponsorManagementPage(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = 'sponsors_management.html'
 
     def get_context_data(self, **kwargs):
@@ -72,7 +73,7 @@ class SponsorManagementPage(SuperAdminRequiredMixin, TemplateView):
 
 
 # Add Family View (CBV)
-class AddFamilyView(SuperAdminRequiredMixin, CreateView):
+class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, CreateView):
     template_name = "add_family.html"
     model = FamilyList
     fields = ['family_name', 'location', 'contact_address', 'no_of_family_members', 'family_bio']
@@ -94,7 +95,7 @@ class AddFamilyView(SuperAdminRequiredMixin, CreateView):
 
 
 # Family Management View (CBV)
-class FamilyManagementView(SuperAdminRequiredMixin, ListView):
+class FamilyManagementView(SuperAdminRequiredMixin, TransactionContextMixin, ListView):
     template_name = "family_management.html"
     model = FamilyList
     context_object_name = 'total_families'
@@ -130,7 +131,7 @@ class FamilyManagementView(SuperAdminRequiredMixin, ListView):
         
         return context
     
-class UnpaidPaymentsView(TemplateView):
+class UnpaidPaymentsView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = 'unpaid_payments.html'
 
     def get_context_data(self, **kwargs):
@@ -145,7 +146,7 @@ class UnpaidPaymentsView(TemplateView):
         context['unpaid_payments'] = unpaid_payments
         return context
     
-class MarkPaymentsPaidView(View):
+class MarkPaymentsPaidView(SuperAdminRequiredMixin, TransactionContextMixin, View):
     def post(self, request, family_id):
         # Retrieve the family based on the given family_id
         family = get_object_or_404(FamilyList, id=family_id)
@@ -160,7 +161,7 @@ class MarkPaymentsPaidView(View):
         return redirect('unpaid-payments', family_id=family_id)
 
 # Family Update View (CBV)
-class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
+class FamilyListUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, UpdateView):
     model = FamilyList
     form_class = FamilyListForm
     template_name = "family_update.html"
@@ -181,7 +182,7 @@ class FamilyListUpdateView(SuperAdminRequiredMixin, UpdateView):
 
 
 # Update Family Image View (CBV)
-class UpdateFamilyImageView(SuperAdminRequiredMixin, TemplateView):
+class UpdateFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
 
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
@@ -194,7 +195,7 @@ class UpdateFamilyImageView(SuperAdminRequiredMixin, TemplateView):
 
 
 # Delete Family Image View (CBV)
-class DeleteFamilyImageView(SuperAdminRequiredMixin, TemplateView):
+class DeleteFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
 
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
@@ -205,13 +206,25 @@ class DeleteFamilyImageView(SuperAdminRequiredMixin, TemplateView):
 
 
 # Family Delete View (CBV)
-class FamilyDeleteView(SuperAdminRequiredMixin, DeleteView):
+class FamilyUnsponsorView(SuperAdminRequiredMixin, TransactionContextMixin, View):
     model = FamilyList
     success_url = reverse_lazy("family-management")
 
+    def post(self, request, *args, **kwargs):
+        family = get_object_or_404(FamilyList, pk=kwargs['pk'])
+        
+        # Unsponsoring the family
+        family.is_sponsored = False
+        family.save()
+        
+        # Remove the SponsorFamilyRelation
+        SponsorFamilyRelation.objects.filter(family=family).delete()  # Delete all relations for the family
+
+        messages.success(request, f"{family.family_name} has been unsponsored and is now in the unsponsored category.")
+        return redirect(self.success_url)
 
 # Export Family Data View (CBV)
-class ExportFamilyDataView(SuperAdminRequiredMixin, TemplateView):
+class ExportFamilyDataView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = "export-family-data.html"
 
     
@@ -249,7 +262,7 @@ class ExportFamilyDataView(SuperAdminRequiredMixin, TemplateView):
     
 
 # Monthly sponsorship amount View (CBV)
-class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TemplateView):
+class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = "settings.html"
 
     def get_context_data(self, **kwargs):
@@ -267,7 +280,7 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TemplateView):
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
 
-class UserAdminUpdateView(SuperAdminRequiredMixin, UpdateView):
+class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, UpdateView):
     model = User
     form_class = UserModelForm
     template_name = "admin_account_update.html"
@@ -286,7 +299,7 @@ class UserAdminUpdateView(SuperAdminRequiredMixin, UpdateView):
         messages.error(self.request, 'There was an error updating the account details.')
         return super().form_invalid(form)
     
-class PasswordAdminUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
+class PasswordAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     template_name = 'admin_password_change.html'
     success_url = reverse_lazy('admin-dashboard')
@@ -299,7 +312,7 @@ class PasswordAdminUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
         messages.error(self.request, 'There was an error updating the Password.')
         return super().form_invalid(form)
     
-class CreateAdminAccount(SuperAdminRequiredMixin, TemplateView):
+class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
     template_name = 'create_super_admin.html'
 
     def post(self, request):
@@ -388,4 +401,31 @@ class CreateAdminAccount(SuperAdminRequiredMixin, TemplateView):
                     "success": False,
                     "message": f"An error occurred: {str(e)}"
                 }
-            )
+            )   
+
+class PaymentHistoryView(SuperAdminRequiredMixin, TransactionContextMixin, ListView):
+    model = Payment
+    template_name = 'payment_history.html'
+    context_object_name = 'payments'
+
+    def get_queryset(self):
+        # Get all payments
+        payments = Payment.objects.all()
+
+        return payments
+    
+class PaymentDetailView(TransactionContextMixin, DetailView):
+    model = Payment
+    template_name = 'payment_detail.html'
+    context_object_name = 'payment'
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        payment = get_object_or_404(Payment, pk=pk)
+
+        # Update the is_seen attribute and save
+        if not payment.is_seen:
+            payment.is_seen = True
+            payment.save()
+        
+        return payment

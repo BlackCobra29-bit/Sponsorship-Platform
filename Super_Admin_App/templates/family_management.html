@@ -44,10 +44,12 @@
                     <th>Family Name</th>
                     <th>Address</th>
                     <th>Contact Information</th>
-                    <th>Number of Members</th>
+                    <th>Family Members</th>
                     <th>Sponsored?</th>
-                    <th>Total Unpaid Amount</th>
-                    <th>Total Paid Amount</th>
+                    <th>Sponsored On</th>
+                    <th>Sponsored By</th>
+                    <th>Unpaid Amount</th>
+                    <th>Paid Amount</th>
                     <th>Manage</th>
                   </tr>
                 </thead>
@@ -67,6 +69,22 @@
                       {% endif %}
                     </td>
                     <td>
+                      {% if item.family.is_sponsored %}
+                      {{ item.family.sponsor.first.sponsored_at|date:"d M Y" }}
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if item.family.is_sponsored %}
+                      {% with sponsor_relation=item.family.sponsor.first %}
+                      <span>{{ sponsor_relation.sponsor.first_name }} {{ sponsor_relation.sponsor.last_name }}</span>
+                      {% endwith %}
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
+                    <td>
                       <strong class="text-success">${{ item.total_unpaid_amount }}</strong>
                       {% if item.total_unpaid_amount > 0 %}
                       <a href="{% url 'unpaid-payments' item.family.id %}" class="badge bg-warning">
@@ -79,31 +97,33 @@
                       <a href="{% url 'family-update' item.family.pk %}">
                         <i class="fas fa-pen text-warning icon-spacing" title="Edit"></i>
                       </a>
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ forloop.counter }}">
-                        <i class="fas fa-trash text-danger" title="Delete"></i>
+                      {% if item.family.is_sponsored %}
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#unsponsorModal-{{ forloop.counter }}">
+                        <i class="fa fa-minus-circle icon-spacing  text-danger" title="Delete"></i>
                       </a>
+                      {% endif %}
                     </td>
                   </tr>
 
-                  <!-- Delete Confirmation Modal -->
-                  <div class="modal fade" id="deleteModal-{{ forloop.counter }}" tabindex="-1"
-                    aria-labelledby="deleteModalLabel-{{ forloop.counter }}" aria-hidden="true">
+                  <!-- Unsponsor Confirmation Modal -->
+                  <div class="modal fade" id="unsponsorModal-{{ forloop.counter }}" tabindex="-1"
+                    aria-labelledby="unsponsorModalLabel-{{ forloop.counter }}" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
-                        <div class="modal-header bg-danger text-white">
-                          <h5 class="modal-title" id="deleteModalLabel-{{ forloop.counter }}">
-                            Delete Family - {{ item.family.family_name }}
+                        <div class="modal-header bg-warning text-dark">
+                          <h5 class="modal-title" id="unsponsorModalLabel-{{ forloop.counter }}">
+                            Unsponsor Family - {{ item.family.family_name }}
                           </h5>
                         </div>
                         <div class="modal-body">
-                          Are you sure you want to delete <strong>{{ item.family.family_name }}</strong>? This action
-                          cannot be undone.
+                          Are you sure you want to unsponsor <strong>{{ item.family.family_name }}</strong>? This action
+                          will remove the sponsorship and cannot be undone.
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <form method="POST" action="{% url 'family-delete' item.family.pk %}">
+                          <form method="POST" action="{% url 'family-unsponsor' item.family.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-warning">Unsponsor</button>
                           </form>
                         </div>
                       </div>

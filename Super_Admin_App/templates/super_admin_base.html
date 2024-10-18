@@ -59,11 +59,20 @@
                                 <span class="fa fa-home"></span> Home
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{% url 'sponsors-management' %}"
-                                class="nav-link {% if request.resolver_match.url_name == 'sponsors-management' %}active{% endif %}">
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"
+                                class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'sponsors-management' or request.resolver_match.url_name == 'mail-page' %}active{% endif %}">
                                 <i class="fa fa-hands-helping"></i> Sponsors
                             </a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                <li><a href="{% url 'sponsors-management' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'sponsors-management' %}active{% endif %}">
+                                        <span class="fa fa-eye"></span> View Sponsors</a></li>
+                                <li><a href="{% url 'mail-page' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'mail-page' %}active{% endif %}">
+                                        <i class="far fa-envelope"></i> Mailbox</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
@@ -84,9 +93,9 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'mail-page' %}"
-                                class="nav-link {% if request.resolver_match.url_name == 'mail-page' %}active{% endif %}">
-                                <i class="nav-icon far fa-envelope"></i> Mailbox
+                            <a href="{% url 'payment-history' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'payment-history' %}active{% endif %}">
+                                <i class="nav-icon fas fa-dollar-sign"></i> History
                             </a>
                         </li>
                         <li class="nav-item">
@@ -95,24 +104,71 @@
                         </li>
                         <li class="nav-item">
                             <a href="{% url 'monthly-sponsorship-settings' %}" class="nav-link"><i
-                                    class="fa fa-cog"></i> Amount Settings</a>
+                                    class="fa fa-cog"></i> Settings</a>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Right navbar links -->
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                    <!-- Messages Dropdown Menu -->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">                    
+
+                    <!-- Notification Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="fas fa-bell"></i>
-                            <span class="badge badge-danger navbar-badge">3</span>
+                            {% if unseen_payments.count > 0 %}
+                            <span class="badge badge-danger navbar-badge">
+                                {{ unseen_payments.count }}
+                            </span>
+                            {% endif %}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <!-- Messages here... -->
-                        </div>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                            style="overflow-y: scroll; height: 300px;">
+                            <span class="dropdown-item dropdown-header">{{ unseen_payments.count }} Unseen
+                                Notifications</span>
+
+                            {% for payment in all_payments %}
+
+                            <a href="{% url 'payment-detail' payment.id %}"
+                                class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="{{ payment.sponsor.sponosraccount.sponsor_photo.url }}" alt="User Avatar"
+                                        class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            {% if payment.is_seen == True %}
+                                            {{ payment.sponsor.first_name }} {{ payment.sponsor.last_name }}
+                                            {% else %}
+                                            <b> {{ payment.sponsor.first_name }} {{ payment.sponsor.last_name }}</b>
+                                            {% endif %}
+                                        </h3>
+                                        <p class="text-sm">
+                                            {% if payment.is_seen == True %}
+                                            Donated ${{ payment.amount }}...
+                                            {% else %}
+                                            <b>Donated ${{ payment.amount }}...</b>
+                                            {% endif %}
+                                        </p>
+                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>
+                                            {% if payment.is_seen == True %}
+                                            {{ payment.payment_date|date:"d M Y" }}
+                                            {% else %}
+                                            <b>{{ payment.payment_date|date:"d M Y" }}</b>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            {% endfor %}
+                            <a href="{% url 'payment-history' %}"
+                                style="position: sticky; bottom: 0px; background-color: #fff;"
+                                class="dropdown-item dropdown-footer">See All Messages</a>
                     </li>
-                    <!-- Notifications Dropdown Menu -->
+                    <!-- End notification Dropdown Menu -->
+                     
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <img src="{{ request.user.administrator.admin_photo.url }}" class="img-circle"
@@ -144,29 +200,30 @@
         <!-- /.navbar -->
 
         <!-- Delete Account Confirmation Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1"
-            aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
                         <h5 class="modal-title" id="deleteModalLabel">
-                           <span class="fa fa-ex"></span> Delete Your Account
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Account Deletion Confirmation
                         </h5>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete? This action
-                        cannot be undone.
+                        Are you certain you wish to proceed with the deletion of your account? Please note that this
+                        action is permanent and cannot be reversed.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <form method="POST" action="">
+                        <form method="POST" action="{% url 'delete-account' request.user.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Confirm Deletion</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- end of modal box -->
+
 
         {% block main-body %}
 

@@ -18,7 +18,6 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-
     <div class="content">
         <div class="container">
             <div class="row">
@@ -28,6 +27,7 @@
                     <div class="card card-solid">
                         <div class="card-body pb-0">
                             <div class="row">
+                                {% if sponsored_families %}
                                 {% for family in sponsored_families %}
                                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
                                     <div class="card bg-light d-flex flex-fill">
@@ -42,9 +42,10 @@
                                                         <li class="small"><span class="fa-li"><i
                                                                     class="fas fa-lg fa-building"></i></span> Address:
                                                             {{ family.location }}</li>
-                                                            <br>
+                                                        <br>
                                                         <li class="small"><span class="fa-li"><i
-                                                                    class="fas fa-lg fa-phone"></i></span> Phone #: {{ family.contact_address }}</li>
+                                                                    class="fas fa-lg fa-phone"></i></span> Phone #: {{
+                                                            family.contact_address }}</li>
                                                     </ul>
                                                 </div>
                                                 <div class="col-5 text-center">
@@ -63,6 +64,10 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                                {% else %}
+                                <h4 class="text-danger text-center"><span class="fa fa-info-circle"></span> <strong>No Sponosred
+                                    Family Found!!</strong></h4>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- /.card-body -->

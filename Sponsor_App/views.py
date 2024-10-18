@@ -75,7 +75,7 @@ class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateVi
 
         return context
     
-class PaymentTransactionHistory(LoginRequiredMixin, ListView):
+class PaymentTransactionHistory(SuperAdminRequiredMixin, MessageContextMixin, ListView):
     model = Payment
     template_name = "transaction_history.html"
     context_object_name = "payments"
@@ -121,7 +121,7 @@ class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
 
 
 # User Update View (CBV)
-class UserUpdateView(SuperAdminRequiredMixin, UpdateView):
+class UserUpdateView(SuperAdminRequiredMixin, MessageContextMixin, UpdateView):
     model = User
     login_url = "/login-page"
     form_class = UserModelForm
@@ -142,7 +142,7 @@ class UserUpdateView(SuperAdminRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class PasswordUpdateView(SuperAdminRequiredMixin, PasswordChangeView):
+class PasswordUpdateView(SuperAdminRequiredMixin, MessageContextMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     login_url = "/login-page"
     template_name = "password_change_form.html"
@@ -273,11 +273,11 @@ class WebhookManagerView(View):
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
 
-class PaymentSuccessView(SuperAdminRequiredMixin, TemplateView):
+class PaymentSuccessView(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
     template_name = "payment_success.html"
 
 
-class PaymentCancelView(SuperAdminRequiredMixin, TemplateView):
+class PaymentCancelView(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
     template_name = "payment_cancel.html"

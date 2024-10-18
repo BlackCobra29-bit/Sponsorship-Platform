@@ -1,4 +1,3 @@
-# in your_app/mixins.py
 from Messaging.models import Message
 
 class MessageContextMixin:

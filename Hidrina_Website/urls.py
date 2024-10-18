@@ -31,7 +31,7 @@ from Super_Admin_App.views import (
     AddFamilyView,
     FamilyManagementView,
     FamilyListUpdateView,
-    FamilyDeleteView,
+    FamilyUnsponsorView,
     UpdateFamilyImageView,
     DeleteFamilyImageView,
     ExportFamilyDataView,
@@ -41,7 +41,9 @@ from Super_Admin_App.views import (
     UserAdminUpdateView,
     UnpaidPaymentsView,
     MarkPaymentsPaidView,
-    CreateAdminAccount
+    CreateAdminAccount,
+    PaymentHistoryView,
+    PaymentDetailView
 )
 
 # import Messaging views
@@ -63,7 +65,7 @@ urlpatterns = [
     path("login-page/", LoginView.as_view(), name="admin-login"),
     path("logout-page/", LogoutView.as_view(), name="admin-logout"),
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
-    path('delete-account/', DeleteAccountView.as_view(), name='delete_account'),
+    path('delete-account/<int:pk>/', DeleteAccountView.as_view(), name='delete-account'),
 
     # url pattern for Sponsor_App
     path("home/", SponsorHomePage.as_view(), name="sponsor-home-page"),
@@ -92,7 +94,7 @@ urlpatterns = [
     path(
         "family/<int:pk>/update/", FamilyListUpdateView.as_view(), name="family-update"
     ),
-    path("family/<int:pk>/delete/", FamilyDeleteView.as_view(), name="family-delete"),
+    path("family/<int:pk>/delete/", FamilyUnsponsorView.as_view(), name="family-unsponsor"),
     path(
         "family/image/<int:image_id>/update/",
         UpdateFamilyImageView.as_view(),
@@ -112,6 +114,8 @@ urlpatterns = [
     path("admin-account/<int:pk>/update/", UserAdminUpdateView.as_view(), name="admin-account-update"),
     path("admin-password/change/", PasswordAdminUpdateView.as_view(), name="password_admin_change"),
     path("create-admin-account/", CreateAdminAccount.as_view(), name = "admin-account"),
+    path("payment-history/", PaymentHistoryView.as_view(), name = "payment-history"),
+    path('payment/<int:pk>/', PaymentDetailView.as_view(), name='payment-detail'),
 
     # url pattern for Messaging App
     path("mail-page/", MailPageView.as_view(), name="mail-page"),
