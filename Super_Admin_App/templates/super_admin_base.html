@@ -110,7 +110,45 @@
                 </div>
 
                 <!-- Right navbar links -->
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">                    
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
+                    <!-- Message Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fab fa-facebook-messenger"></i>
+                            {% if overdue_payments|length > 0 %}
+                            <span class="badge badge-danger navbar-badge">
+                                {{ overdue_payments|length }}
+                            </span>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="overflow-y: scroll; height: 300px;">
+                            <span class="dropdown-item dropdown-header">{{ overdue_payments|length }} Unseen Notifications</span>
+                    
+                            {% for notification in overdue_payments %}
+                            <a href="" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="{{ notification.sponsor.sponosraccount.sponsor_photo.url }}" alt="User Avatar"
+                                        class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            <b class="text-danger">{{ notification.sponsor.first_name }} {{ notification.sponsor.last_name }}</b>
+                                        </h3>
+                                        <p class="text-sm">
+                                            Overdue Payment for <b>{{ notification.family.family_name }}</b> by <strong>{{ notification.days_overdue }}</strong> days
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            {% endfor %}
+                            <a href="{% url 'payment-history' %}" style="position: sticky; bottom: 0px; background-color: #fff;" 
+                               class="dropdown-item dropdown-footer">See All Messages</a>
+                        </div>
+                    </li>
+                    <!-- End message Dropdown Menu -->
 
                     <!-- Notification Dropdown Menu -->
                     <li class="nav-item dropdown">
@@ -129,8 +167,7 @@
 
                             {% for payment in all_payments %}
 
-                            <a href="{% url 'payment-detail' payment.id %}"
-                                class="dropdown-item">
+                            <a href="{% url 'payment-detail' payment.id %}" class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
                                     <img src="{{ payment.sponsor.sponosraccount.sponsor_photo.url }}" alt="User Avatar"
@@ -168,7 +205,7 @@
                                 class="dropdown-item dropdown-footer">See All Messages</a>
                     </li>
                     <!-- End notification Dropdown Menu -->
-                     
+
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <img src="{{ request.user.administrator.admin_photo.url }}" class="img-circle"
@@ -308,7 +345,10 @@
                     "excel",
                     {
                         extend: "pdf",
-                        messageTop: "Registry of Sponsored Martyrs' Families List",
+                        pageSize: 'TABLOID',
+                        orientation: 'landscape',
+                        title: 'Registry of Martyrs Families List',
+                        titleFontSize: 40,
                         customize: function (doc) {
 
                             var rowIndex = 1;
@@ -333,7 +373,10 @@
                             };
                         }
                     },
-                    "print"
+                    {
+                        extend: 'print',
+                        messageTop: '"One Martyr’s Family to One Diaspora," List of Families Report'
+                    }
                 ]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
@@ -357,7 +400,7 @@
                     family_name: { required: true },
                     location: { required: true },
                     no_of_family_members: { required: true, number: true },
-                    family_bio: { required: true }
+                    family_bio: { required: true },
                 },
                 messages: {
                     family_name: "Please enter a family name",

@@ -25,9 +25,9 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>Select</th>
-                                    <th>Index</th>
+                                    <th>Sponsored By</th>
                                     <th>Amount</th>
-                                    <th>Sponsor Payment Date</th>
+                                    <th>Payment Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,7 +36,7 @@
                                     <td>
                                         <input type="checkbox" name="payment_ids" value="{{ payment.id }}">
                                     </td>
-                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ payment.sponsor.first_name }} {{ payment.sponsor.last_name }}</td>
                                     <td><strong class="text-success">${{ payment.amount }}</strong></td>
                                     <td>{{ payment.payment_date|date:"d M Y" }}</td>
                                 </tr>

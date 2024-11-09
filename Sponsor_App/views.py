@@ -20,7 +20,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from Sponsor_App.models import SponsorFamilyRelation
 from Super_Admin_App.models import FamilyList, MonthlyAmount, Payment
-from .mixins import MessageContextMixin
+from .mixins import MessageContextMixin, SponsorPaymentNotificationMixin
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
 
 
@@ -36,7 +36,7 @@ class SuperAdminRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class SponsorHomePage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class SponsorHomePage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "sponsor_home.html"
     login_url = "/login-page"
     redirect_field_name = "authentication_required"
@@ -58,7 +58,7 @@ class SponsorHomePage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView
         return context
 
 
-class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class MySponsorshipPage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "my_sponsorship.html"
     login_url = "/login-page"
     redirect_field_name = "authentication_required"
@@ -75,7 +75,7 @@ class MySponsorshipPage(SuperAdminRequiredMixin, MessageContextMixin, TemplateVi
 
         return context
     
-class PaymentTransactionHistory(SuperAdminRequiredMixin, MessageContextMixin, ListView):
+class PaymentTransactionHistory(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, ListView):
     model = Payment
     template_name = "transaction_history.html"
     context_object_name = "payments"
@@ -89,7 +89,7 @@ class PaymentTransactionHistory(SuperAdminRequiredMixin, MessageContextMixin, Li
         ).order_by('-payment_date')
         return context
 
-class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class ReceivedMessages(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "received_messages.html"
     login_url = "/login-page"
     redirect_field_name = "authentication_required"
@@ -102,7 +102,7 @@ class ReceivedMessages(SuperAdminRequiredMixin, MessageContextMixin, TemplateVie
         return context
 
 
-class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class ViewMessage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "view_message.html"
     login_url = "/login-page"
     redirect_field_name = "authentication_required"
@@ -121,7 +121,7 @@ class ViewMessage(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
 
 
 # User Update View (CBV)
-class UserUpdateView(SuperAdminRequiredMixin, MessageContextMixin, UpdateView):
+class UserUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, UpdateView):
     model = User
     login_url = "/login-page"
     form_class = UserModelForm
@@ -142,7 +142,7 @@ class UserUpdateView(SuperAdminRequiredMixin, MessageContextMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class PasswordUpdateView(SuperAdminRequiredMixin, MessageContextMixin, PasswordChangeView):
+class PasswordUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     login_url = "/login-page"
     template_name = "password_change_form.html"
@@ -273,11 +273,11 @@ class WebhookManagerView(View):
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
 
-class PaymentSuccessView(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class PaymentSuccessView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
     template_name = "payment_success.html"
 
 
-class PaymentCancelView(SuperAdminRequiredMixin, MessageContextMixin, TemplateView):
+class PaymentCancelView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
     template_name = "payment_cancel.html"

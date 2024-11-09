@@ -29,4 +29,4 @@ class SponsorFamilyRelation(models.Model):
         ordering = ['-sponsored_at']
 
     def __str__(self):
-        return f"{self.sponsor.username} sponsors {self.family.family_name}"
+        return f"{self.sponsor.first_name} {self.sponsor.last_name} sponsors {self.family.family_name}"

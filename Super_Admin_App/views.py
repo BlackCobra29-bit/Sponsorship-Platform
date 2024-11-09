@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
-from .mixins import TransactionContextMixin
+from .mixins import TransactionContextMixin, SponsorPaymentNotificationMixin
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -31,28 +31,27 @@ class SuperAdminRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 # Dashboard View (CBV)
-class DashboardView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class DashboardView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = "dashboard.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Retrieve the total number of families
+        # Remove users who are not superadmins and are not sponsors in any SponsorFamilyRelation
+        active_sponsor_ids = SponsorFamilyRelation.objects.values_list('sponsor', flat=True)
+        inactive_sponsors = User.objects.exclude(id__in=active_sponsor_ids).filter(is_superuser=False)
+        count_deleted, _ = inactive_sponsors.delete()
+
+        # Retrieve statistics
         context["total_families"] = FamilyList.objects.count()
-        
-        # Retrieve the number of sponsored families
         context["sponsored_families"] = FamilyList.objects.filter(is_sponsored=True).count()
-        
-        # Retrieve the number of unique sponsors
         context["unique_sponsors"] = User.objects.filter(sponsored_families__isnull=False).distinct().count()
-        
-        # Retrieve the total amount paid by all users
         context["total_amount_paid"] = Payment.objects.aggregate(total=Sum('amount'))['total'] or 0
 
         return context
 
 # Sponsored management Page View (CBV)
-class SponsorManagementPage(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class SponsorManagementPage(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = 'sponsors_management.html'
 
     def get_context_data(self, **kwargs):
@@ -73,7 +72,7 @@ class SponsorManagementPage(SuperAdminRequiredMixin, TransactionContextMixin, Te
 
 
 # Add Family View (CBV)
-class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, CreateView):
+class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, CreateView):
     template_name = "add_family.html"
     model = FamilyList
     fields = ['family_name', 'location', 'contact_address', 'no_of_family_members', 'family_bio']
@@ -83,6 +82,7 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, CreateView
             family_name=request.POST.get('family_name'),
             location=request.POST.get('location'),
             contact_address=request.POST.get('contact_address'),
+            bank_account = request.POST.get('bank_account'),
             no_of_family_members=request.POST.get('no_of_family_members'),
             family_bio=request.POST.get('family_bio'),
         )
@@ -95,7 +95,7 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, CreateView
 
 
 # Family Management View (CBV)
-class FamilyManagementView(SuperAdminRequiredMixin, TransactionContextMixin, ListView):
+class FamilyManagementView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, ListView):
     template_name = "family_management.html"
     model = FamilyList
     context_object_name = 'total_families'
@@ -131,7 +131,7 @@ class FamilyManagementView(SuperAdminRequiredMixin, TransactionContextMixin, Lis
         
         return context
     
-class UnpaidPaymentsView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class UnpaidPaymentsView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = 'unpaid_payments.html'
 
     def get_context_data(self, **kwargs):
@@ -146,7 +146,7 @@ class UnpaidPaymentsView(SuperAdminRequiredMixin, TransactionContextMixin, Templ
         context['unpaid_payments'] = unpaid_payments
         return context
     
-class MarkPaymentsPaidView(SuperAdminRequiredMixin, TransactionContextMixin, View):
+class MarkPaymentsPaidView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, View):
     def post(self, request, family_id):
         # Retrieve the family based on the given family_id
         family = get_object_or_404(FamilyList, id=family_id)
@@ -161,7 +161,7 @@ class MarkPaymentsPaidView(SuperAdminRequiredMixin, TransactionContextMixin, Vie
         return redirect('unpaid-payments', family_id=family_id)
 
 # Family Update View (CBV)
-class FamilyListUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, UpdateView):
+class FamilyListUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, UpdateView):
     model = FamilyList
     form_class = FamilyListForm
     template_name = "family_update.html"
@@ -182,7 +182,7 @@ class FamilyListUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, Upd
 
 
 # Update Family Image View (CBV)
-class UpdateFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class UpdateFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
 
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
@@ -195,7 +195,7 @@ class UpdateFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, Te
 
 
 # Delete Family Image View (CBV)
-class DeleteFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class DeleteFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
 
     def post(self, request, image_id):
         image = get_object_or_404(FamilyImage, id=image_id)
@@ -206,7 +206,7 @@ class DeleteFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, Te
 
 
 # Family Delete View (CBV)
-class FamilyUnsponsorView(SuperAdminRequiredMixin, TransactionContextMixin, View):
+class FamilyUnsponsorView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, View):
     model = FamilyList
     success_url = reverse_lazy("family-management")
 
@@ -224,7 +224,7 @@ class FamilyUnsponsorView(SuperAdminRequiredMixin, TransactionContextMixin, View
         return redirect(self.success_url)
 
 # Export Family Data View (CBV)
-class ExportFamilyDataView(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class ExportFamilyDataView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = "export-family-data.html"
 
     
@@ -262,7 +262,7 @@ class ExportFamilyDataView(SuperAdminRequiredMixin, TransactionContextMixin, Tem
     
 
 # Monthly sponsorship amount View (CBV)
-class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = "settings.html"
 
     def get_context_data(self, **kwargs):
@@ -280,7 +280,7 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin,
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
 
-class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, UpdateView):
+class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, UpdateView):
     model = User
     form_class = UserModelForm
     template_name = "admin_account_update.html"
@@ -299,7 +299,7 @@ class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, Upda
         messages.error(self.request, 'There was an error updating the account details.')
         return super().form_invalid(form)
     
-class PasswordAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, PasswordChangeView):
+class PasswordAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     template_name = 'admin_password_change.html'
     success_url = reverse_lazy('admin-dashboard')
@@ -312,7 +312,7 @@ class PasswordAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, 
         messages.error(self.request, 'There was an error updating the Password.')
         return super().form_invalid(form)
     
-class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, TemplateView):
+class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
     template_name = 'create_super_admin.html'
 
     def post(self, request):
@@ -403,7 +403,7 @@ class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, Templ
                 }
             )   
 
-class PaymentHistoryView(SuperAdminRequiredMixin, TransactionContextMixin, ListView):
+class PaymentHistoryView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, ListView):
     model = Payment
     template_name = 'payment_history.html'
     context_object_name = 'payments'
@@ -414,7 +414,7 @@ class PaymentHistoryView(SuperAdminRequiredMixin, TransactionContextMixin, ListV
 
         return payments
     
-class PaymentDetailView(TransactionContextMixin, DetailView):
+class PaymentDetailView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, DetailView):
     model = Payment
     template_name = 'payment_detail.html'
     context_object_name = 'payment'

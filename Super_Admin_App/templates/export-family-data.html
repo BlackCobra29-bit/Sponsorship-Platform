@@ -37,19 +37,29 @@
                     <th>Family Name</th>
                     <th>Address</th>
                     <th>Contact Information</th>
-                    <th>Number of Families</th>
+                    <th>Family Members</th>
                     <th>Sponsored?</th>
-                    <th>Total Unpaid Amount</th>
-                    <th>Total Paid Amount</th>
+                    <th>Sponsored On</th>
+                    <th>Sponsored By</th>
+                    <th>Unpaid Amount</th>
+                    <th>Paid Amount</th>
+                    <th>Bank Account</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in families_with_payments %}
                   <tr>
+                    
                     <td>{{ forloop.counter }}</td>
                     <td>{{ item.family.family_name }}</td>
                     <td>{{ item.family.location }}</td>
-                    <td>{{ item.family.contact_address }}</td>
+                    <td>
+                      {% if item.family.contact_address %}
+                      <span>{{ item.family.contact_address }}</span>
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
                     <td>{{ item.family.no_of_family_members }}</td>
                     <td>
                       {% if not item.family.is_sponsored %}
@@ -58,8 +68,35 @@
                       <span class="badge rounded-pill bg-success">Sponsored</span>
                       {% endif %}
                     </td>
-                    <td><strong class="text-success">${{ item.total_unpaid_amount }}</strong></td>
+                    <td>
+                      {% if item.family.is_sponsored %}
+                      {{ item.family.sponsor.first.sponsored_at|date:"d M Y" }}
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if item.family.is_sponsored %}
+                      {% with sponsor_relation=item.family.sponsor.first %}
+                      <span>{{ sponsor_relation.sponsor.first_name }} {{ sponsor_relation.sponsor.last_name }}</span>
+                      {% endwith %}
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <strong class="text-success">${{ item.total_unpaid_amount }}</strong>
+                      {% if item.total_unpaid_amount > 0 %}
+                      {% endif %}
+                    </td>
                     <td><strong class="text-success">${{ item.total_paid_amount }}</strong></td>
+                    <td>
+                      {% if item.family.bank_account %}
+                      <span>{{ item.family.bank_account }}</span>
+                      {% else %}
+                      <span class="text-sm">N/A</span>
+                      {% endif %}
+                    </td>
                   </tr>
                   {% endfor %}
                 </tbody>

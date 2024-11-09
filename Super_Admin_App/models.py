@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image as PilImage
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 class FamilyList(models.Model):
@@ -8,6 +9,7 @@ class FamilyList(models.Model):
     location = models.CharField(max_length=100)
     contact_address = models.CharField(max_length=100, null=True, blank=True)
     no_of_family_members = models.PositiveIntegerField()
+    bank_account = models.CharField(max_length=255, null=True, blank=True)
     family_bio = models.TextField()
     is_sponsored = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -75,4 +77,7 @@ class Payment(models.Model):
         verbose_name_plural = 'Payments'
 
     def __str__(self):
-        return f'{self.sponsor.email} - {self.family.family_name} - {self.family.location} - ${self.amount}'
+        return f'{self.sponsor.first_name} {self.sponsor.last_name}\'s Payment for {self.family.family_name} - {self.family.location} - ${self.amount}'
+
+    def days_since_payment(self):
+        return (timezone.now().date() - self.payment_date.date()).days
