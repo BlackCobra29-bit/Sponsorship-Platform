@@ -51,6 +51,12 @@ class FamilyDetailView(DetailView):
                     "message": "Username already taken. Please choose another.",
                 }
             )
+            
+        if User.objects.filter(email = email).exists():
+            return JsonResponse({
+                "success": False,
+                "message": "Email already taken. Please use another."
+            })
 
         user = User.objects.create(
             first_name=first_name,
