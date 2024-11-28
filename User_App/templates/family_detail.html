@@ -30,19 +30,17 @@
                                     </div>
                                     <ul>
                                         <li class="d-flex align-items-center"><i class="bi bi-person"></i>
-                                            {{ family.family_name }}</li>
+                                            <small>{{ family.family_name }}</small></li>
                                         <li class="d-flex align-items-center"><i class="bi bi-geo-alt"></i>
-                                            {{ family.location }}</li>
+                                            <small>{{ family.location }}</small></li>
                                         <li class="d-flex align-items-center"><i class="bi bi-people ms-2 me-1"></i>
-                                            {{ family.no_of_family_members }} Family Members</li>
+                                            <small>{{ family.no_of_family_members }} Family Members</small></li>
                                     </ul>
                                 </div><!-- End meta top -->
 
                                 <div class="content">
                                     <p>
-                                    <blockquote>
-                                        {{ family.family_bio }}
-                                    </blockquote>
+                                       <small>{{ family.family_bio }}</small>
                                     </p>
                                 </div><!-- End post content -->
                             </article>
