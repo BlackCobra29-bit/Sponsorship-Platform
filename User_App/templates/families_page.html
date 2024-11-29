@@ -62,11 +62,218 @@
           Found</span></h4>
       {% endif %}
 
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
+      {% if page_obj %}
+      {% for family in page_obj %}
+
+      <!-- Family Item -->
+      <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+        <div class="member card">
+          {% if family.images.all %}
+          <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+            style="height: 130px;">
+          {% else %}
+          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+            style="height: 130px;">
+          {% endif %}
+          <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+          <span><b>Address: </b>{{ family.location }}</span>
+          <!-- Sponsor Button -->
+          <div class="d-flex justify-content-center mt-3">
+            <!-- Trigger Button for Modal -->
+            <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+              <i class="bi bi-chat-heart"></i> Sponsor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+          Found</span></h4>
+      {% endif %}
+
     </div>
 
   </div>
 
 </section><!-- /Team Section -->
+
+<!-- Pagination -->
+<div class="container p-4">
+  <div class="pagination justify-content-center">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1"><button class="btn btn-dark btn-sm rounded">&laquo; first</button></a>
+        <a href="?page={{ page_obj.previous_page_number }}"><button class="btn btn-dark btn-sm rounded"><span class="bi bi-arrow-left"></span> previous</button></a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"><button class="btn btn-dark btn-sm rounded"><span class="bi bi-arrow-right"></span> next</button></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}"><button class="btn btn-dark btn-sm rounded">last &raquo;</button></a>
+      {% endif %}
+    </span>
+  </div>
+</div>
 
 <!-- Page specfic style -->
 <style>

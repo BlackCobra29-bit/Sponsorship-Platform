@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.core.paginator import Paginator
 from django.views.generic import ListView, TemplateView, DetailView
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
@@ -12,7 +13,6 @@ class HomeView(ListView):
     model = FamilyList
     template_name = "home.html"
     context_object_name = "unsponsored_families"
-    paginate_by = 30
 
     def get_queryset(self):
         return FamilyList.objects.filter(is_sponsored=False).prefetch_related("images")[
@@ -84,14 +84,18 @@ class FamilyDetailView(DetailView):
         )
 
 
-class FamiliesListPage(ListView):
-    model = FamilyList
+class FamiliesListPage(TemplateView):
     template_name = "families_page.html"
-    context_object_name = "page_obj"
-    paginate_by = 6
 
-    def get_queryset(self):
-        return FamilyList.objects.filter(is_sponsored=False).prefetch_related("images")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_families = FamilyList.objects.filter(is_sponsored=False).prefetch_related("images")
+        paginator = Paginator(all_families, 30)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context["page_obj"] = page_obj
+        
+        return context
 
 
 class AboutUsPage(TemplateView):

@@ -13,7 +13,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 
-# Login View (CBV)
 class LoginView(TemplateView):
     template_name = "login.html"
 
@@ -24,7 +23,6 @@ class LoginView(TemplateView):
             else:
                 return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
         
-        # Generate CAPTCHA for GET requests
         captcha_key = CaptchaStore.generate_key()
         captcha_image = captcha_image_url(captcha_key)
 
@@ -36,10 +34,9 @@ class LoginView(TemplateView):
     def post(self, request, *args, **kwargs):
         username = request.POST.get("login_username")
         password = request.POST.get("login_password")
-        captcha_key = request.POST.get("captcha_0")  # Captcha key
-        captcha_value = request.POST.get("captcha_1")  # User-entered captcha text
+        captcha_key = request.POST.get("captcha_0")
+        captcha_value = request.POST.get("captcha_1")
 
-        # Validate CAPTCHA
         try:
             captcha_obj = CaptchaStore.objects.get(hashkey=captcha_key)
             if captcha_obj.response.lower() != captcha_value.lower():
@@ -49,7 +46,6 @@ class LoginView(TemplateView):
             messages.error(request, "Invalid CAPTCHA.")
             return self.redirect_with_query_params(request)
 
-        # Authenticate user
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
             login(request, user_auth)
@@ -62,32 +58,26 @@ class LoginView(TemplateView):
             return self.redirect_with_query_params(request)
 
     def redirect_with_query_params(self, request):
-        """Redirect to login page with original query parameters."""
         return redirect(f"{reverse('admin-login')}?{request.GET.urlencode()}")
 
 
-# Logout View (CBV)
 class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         return redirect("admin-login")
 
-# Forgot Password View (CBV)
+
 class ForgotPasswordView(TemplateView):
     template_name = "forgot_password.html"
+
 
 class DeleteAccountView(LoginRequiredMixin, DeleteView):
     model = User
     success_url = reverse_lazy("admin-login")
 
     def get_object(self):
-
-        # Return the current logged-in user
         return self.request.user
 
     def delete(self, request, *args, **kwargs):
-
-        # Add a success message before deleting the user
         messages.success(self.request, 'Your account has been deleted successfully.')
-
         return super().delete(request, *args, **kwargs)

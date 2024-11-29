@@ -1,313 +1,372 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block main-block %}
+{% extends 'base.html' %} {% load static %} {% block main-block %}
 
 <main class="main">
-    <section id="sponsor" class="team section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <!-- Blog Details Section -->
-                    <section id="blog-details" class="blog-details section">
-                        <div class="container">
-                            <article class="article">
-                                <div class="meta-top">
-                                    <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px;">
-                                        {% for image in family.images.all %}
-                                        <div class="m-2">
-                                            <img src="{{ image.photo.url }}" class="img-fluid rounded"
-                                                alt="{{ family.family_name }}" style="height: 200px; width: auto;">
-                                        </div>
-                                        {% empty %}
-                                        <div class="m-2">
-                                            <img src="{% static 'img/default_family/default.png' %}"
-                                                class="img-fluid rounded" alt="No Image Available"
-                                                style="height: 200px; width: auto;">
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                    <ul>
-                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i>
-                                            <small>{{ family.family_name }}</small></li>
-                                        <li class="d-flex align-items-center"><i class="bi bi-geo-alt"></i>
-                                            <small>{{ family.location }}</small></li>
-                                        <li class="d-flex align-items-center"><i class="bi bi-people ms-2 me-1"></i>
-                                            <small>{{ family.no_of_family_members }} Family Members</small></li>
-                                    </ul>
-                                </div><!-- End meta top -->
+  <section id="sponsor" class="team section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <!-- Blog Details Section -->
+          <section id="blog-details" class="blog-details section">
+            <div class="container">
+              <article class="article">
+                <div class="meta-top">
+                  <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px">
+                    {% for image in family.images.all %}
+                    <div class="m-2">
+                      <img src="{{ image.photo.url }}" class="img-fluid rounded" alt="{{ family.family_name }}"
+                        style="height: 200px; width: auto" />
+                    </div>
+                    {% empty %}
+                    <div class="m-2">
+                      <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
+                        alt="No Image Available" style="height: 200px; width: auto" />
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <ul>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-person"></i>
+                      <small>{{ family.family_name }}</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-geo-alt"></i>
+                      <small>{{ family.location }}</small>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-people ms-2 me-1"></i>
+                      <small>{{ family.no_of_family_members }} Family Members</small>
+                    </li>
+                  </ul>
+                </div>
+                <!-- End meta top -->
 
-                                <div class="content">
-                                    <p>
-                                       <small>{{ family.family_bio }}</small>
-                                    </p>
-                                </div><!-- End post content -->
-                            </article>
-                        </div>
-                    </section>
+                <div class="content">
+                  <p>
+                    <small>{{ family.family_bio }}</small>
+                  </p>
+                </div>
+                <!-- End post content -->
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-lg-6">
+          <section id="comment-form" class="comment-form section">
+            <div class="container">
+              <form method="post" id="create_account_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h4 style="color: #134a9b" class="text-center">
+                  <small>Already have an account?</small>
+                </h4>
+                <hr />
+                <p class="text-center">Log in to your account to save time.</p>
+                <div class="text-center">
+                  <a href="{% url 'admin-login' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
+                    class="btn btn-warning" style="
+                      border-radius: 36px;
+                      padding-left: 70px;
+                      padding-right: 70px;
+                    ">
+                    Log In</a>
+                </div>
+                <br />
+                <hr />
+                <h4 style="color: #134a9b">
+                  <i class="bi bi-person"></i> <small>Personal details</small>
+                </h4>
+                <br />
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <input name="first_name" type="text" class="form-control" placeholder="Your First Name*" required />
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <input name="last_name" type="text" class="form-control" placeholder="Your Last Name*" required />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col form-group">
+                    <select id="country-select" name="country_location" class="form-control" required>
+                      <option value="" disabled selected>
+                        Select a country
+                      </option>
+                      {% for code, name in countries %}
+                      <option value="{{ code }}" data-flag="https://flagcdn.com/w20/{{ code|lower }}.png">
+                        {{ name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <input name="phone_number" type="text" class="form-control" placeholder="Your Phone Number"
+                      required />
+                    <span class="invalid-feedback">Please enter a valid phone number.</span>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <input name="email" type="email" class="form-control" placeholder="Email *" required />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col form-group">
+                    <span style="font-size: 14px">Upload Photo *</span>
+                    <input id="photo-upload" name="photo" type="file" class="form-control" accept="image/*" required />
+                  </div>
+                </div>
+                <br />
+                <h4 style="color: #134a9b">
+                  <i class="bi bi-gear"></i> <small>Payment Method</small>
+                </h4>
+                <hr />
+                <div class="row">
+                  <div class="col form-group">
+                    <input name="username" type="text" class="form-control" placeholder="Your Username" required />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <input name="password" type="password" id="password" class="form-control"
+                      placeholder="Your Password" required />
+                  </div>
+
+                  <div class="col-md-6 form-group">
+                    <input name="confirm_password" type="password" class="form-control"
+                      placeholder="Confirm Your Password" required />
+                  </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <section id="comment-form" class="comment-form section">
-                        <div class="container">
-                            <form method="post" id="create_account_form" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <h4 style="color: #134a9b;" class="text-center">Already have an account?</h4>
-                                <hr>
-                                <p class="text-center">Log in to your account to save time.
-                                </p>
-                                <div class="text-center">
-                                    <a href="{% url 'admin-login' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
-                                        class="btn btn-warning" style="border-radius: 36px; padding-left: 70px; padding-right: 70px;">
-                                        Log In</a>
-                                </div>
-                                <br>
-                                <hr>
-                                <h4 style="color: #134a9b;"><i class="bi bi-person"></i> Personal details</h4>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <input name="first_name" type="text" class="form-control"
-                                            placeholder="Your First Name*" required>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <input name="last_name" type="text" class="form-control"
-                                            placeholder="Your Last Name*" required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col form-group">
-                                        <select id="country-select" name="country_location" class="form-control"
-                                            required>
-                                            <option value="" disabled selected>Select a country</option>
-                                            {% for code, name in countries %}
-                                            <option value="{{ code }}"
-                                                data-flag="https://flagcdn.com/w20/{{ code|lower }}.png">{{ name }}
-                                            </option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <input name="phone_number" type="text" class="form-control"
-                                            placeholder="Your Phone Number" required>
-                                        <span class="invalid-feedback">Please enter a valid phone number.</span>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <input name="email" type="email" class="form-control" placeholder="Email *"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col form-group">
-                                        <span style="font-size: 14px;">Upload Photo *</span>
-                                        <input id="photo-upload" name="photo" type="file" class="form-control"
-                                            accept="image/*" required>
-                                    </div>
-                                </div>
-                                <br>
-                                <h4 style="color: #134a9b;"><i class="bi bi-gear"></i> Account details</h4>
-                                <hr>
-                                <div class="row">
-                                    <div class="col form-group">
-                                        <input name="username" type="text" class="form-control"
-                                            placeholder="Your Username" required>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 form-group">
-                                        <input name="password" type="password" id="password" class="form-control"
-                                            placeholder="Your Password" required>
-                                    </div>
+                <div class="container mt-4">
+                  <h4 style="color: #134a9b">
+                    <i class="bi bi-credit-card"></i> <small>Payment Method</small>
+                  </h4>
+                  <div class="row">
+                    <!-- PayPal Option -->
+                    <div class="col-md-12 mb-3">
+                      <div class="form-check p-3" style="
+                          border: 1px solid #f4e5d7;
+                          background-color: #fff8f2;
+                          border-radius: 10px;
+                        ">
+                        <input class="form-check-input" type="radio" name="payment_method" id="paypalPayment"
+                          value="paypal" required style="margin-left: 10px" />
+                        <label class="form-check-label d-flex align-items-center justify-content-between"
+                          for="paypalPayment" style="cursor: pointer; display: flex; align-items: center;">
+                          <span style="margin-left: 8px;">PayPal</span>
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo"
+                            style="height: 24px" class="ms-auto" />
+                        </label>
+                      </div>
+                    </div>
 
-                                    <div class="col-md-6 form-group">
-                                        <input name="confirm_password" type="password" class="form-control"
-                                            placeholder="Confirm Your Password" required>
-                                    </div>
-                                </div>
+                  </div>
 
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-warning" style="border-radius: 36px;">Create
-                                        Account & Proceed</button>
-                                </div>
-                            </form>
+                  <!-- Card Payment Option -->
+                  <div class="col-md-12">
+                    <div class="form-check p-3" style="
+                          border: 1px solid #d6e9f9;
+                          background-color: #fff8f2;
+                          border-radius: 10px;
+                        ">
+                      <input class="form-check-input" type="radio" name="payment_method" id="cardPayment" value="card"
+                        required style="margin-left: 10px" />
+                      <label class="form-check-label d-flex align-items-center justify-content-between"
+                        for="paypalPayment" style="cursor: pointer; display: flex; align-items: center;">
+                        <span style="margin-left: 8px;">Cards</span>
+                        <div class="d-flex gap-2 ms-auto">
+                          {% include 'cards_svg.html' %}
                         </div>
-                    </section><!-- /Comment Form Section -->
+                      </label>
+                    </div>
+                  </div>
                 </div>
             </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-warning" style="border-radius: 36px">
+                Create Account & Proceed
+              </button>
+            </div>
+            </form>
         </div>
-    </section><!-- /Team Section -->
+  </section>
+  <!-- /Comment Form Section -->
+  </div>
+  </div>
+  </div>
+  </section>
+  <!-- /Team Section -->
 
-    <!-- Add this in your <head> section -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <!-- jquery validation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.10.0/libphonenumber-js.min.js"></script>
+  <!-- Add this in your <head> section -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <!-- jquery validation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/additional-methods.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.10.0/libphonenumber-js.min.js"></script>
 
-    <!-- Loading spinner -->
-    <div id="loadingIndicator">
-        <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
-    </div>
+  <!-- Loading spinner -->
+  <div id="loadingIndicator">
+    <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading..." />
+  </div>
 
-    <!-- Include SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Include SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Centered loading spinner styling -->
-    <style>
-        #loadingIndicator {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            /* Ensure it's above other elements */
+  <!-- Centered loading spinner styling -->
+  <style>
+    #loadingIndicator {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      /* Ensure it's above other elements */
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      // Initialize Select2
+      $("#country-select").select2({
+        templateResult: formatState,
+        templateSelection: formatState,
+      });
+
+      // Format the option with flag
+      function formatState(state) {
+        if (!state.id) {
+          return state.text; // Return the text if no state is selected
         }
-    </style>
+        var flagUrl = $(state.element).data("flag"); // Get the flag URL from data attribute
+        var $state = $(
+          '<span><img src="' +
+          flagUrl +
+          '" class="country-flag" style="width: 20px; margin-right: 5px;" /> ' +
+          state.text +
+          "</span>"
+        );
+        return $state;
+      }
+    });
+  </script>
 
-    <script>
-        $(document).ready(function () {
-            // Initialize Select2
-            $('#country-select').select2({
-                templateResult: formatState,
-                templateSelection: formatState
-            });
+  <script>
+    $(document).ready(function () {
+      // Validate the form
+      $("#create_account_form").validate({
+        rules: {
+          first_name: {
+            required: true,
+          },
+          last_name: {
+            required: true,
+          },
+          email: {
+            required: true,
+            email: true,
+          },
+          username: {
+            required: true,
+          },
+          password: {
+            required: true,
+            minlength: 6,
+          },
+          confirm_password: {
+            required: true,
+            equalTo: "#password",
+          },
+          phone_number: {
+            required: true,
+          },
+          country_location: {
+            required: true,
+          },
+          photo: {
+            required: true,
+          },
+        },
+        messages: {
+          first_name: "Please enter a first name",
+          last_name: "Please enter a last name",
+          email: {
+            required: "Please enter an email address",
+            email: "Please enter a valid email address",
+          },
+          username: "Please enter a username",
+          password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 6 characters long",
+          },
+          confirm_password: {
+            required: "Please confirm your password",
+            equalTo: "Passwords do not match",
+          },
+          country_location: "Please select your location",
+          phone_number: "Please enter a phone number",
+          photo: "Please upload your picture",
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+          error.addClass("invalid-feedback");
+          if (element.closest(".input-group").length) {
+            error.insertAfter(element.closest(".input-group"));
+          } else {
+            error.insertAfter(element);
+          }
+        },
+        highlight: function (element) {
+          $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element) {
+          $(element).removeClass("is-invalid");
+        },
 
-            // Format the option with flag
-            function formatState(state) {
-                if (!state.id) {
-                    return state.text; // Return the text if no state is selected
-                }
-                var flagUrl = $(state.element).data('flag'); // Get the flag URL from data attribute
-                var $state = $(
-                    '<span><img src="' + flagUrl + '" class="country-flag" style="width: 20px; margin-right: 5px;" /> ' + state.text + '</span>'
-                );
-                return $state;
+        // This function runs when form is valid
+        submitHandler: function (form) {
+          var formData = new FormData(form);
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", '{% url "family-detail" %}');
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+          // Show the spinner when the form is submitted
+          document.getElementById("loadingIndicator").style.display = "block";
+
+          xhr.onload = function () {
+            // Hide the spinner when the response is received
+            document.getElementById("loadingIndicator").style.display = "none";
+
+            var response = JSON.parse(xhr.responseText);
+
+            if (response.success) {
+              // Success SweetAlert
+              Swal.fire({
+                icon: "success",
+                title: "Account Created",
+                text: response.message,
+                confirmButtonText: "OK",
+                timer: 1200,
+              }).then(function () {
+                window.location.href = '{% url "stripe-checkout" family.id %}';
+              });
+            } else {
+              // Error SweetAlert
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: response.message,
+                confirmButtonText: "Try Again",
+              });
             }
-        });
-    </script>
+          };
 
-    <script>
-        $(document).ready(function () {
-
-            // Validate the form
-            $('#create_account_form').validate({
-                rules: {
-                    first_name: {
-                        required: true
-                    },
-                    last_name: {
-                        required: true
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    username: {
-                        required: true
-                    },
-                    password: {
-                        required: true,
-                        minlength: 6
-                    },
-                    confirm_password: {
-                        required: true,
-                        equalTo: "#password"
-                    },
-                    phone_number: {
-                        required: true
-                    },
-                    country_location: {
-                        required: true
-                    },
-                    photo: {
-                        required: true
-                    }
-                },
-                messages: {
-                    first_name: "Please enter a first name",
-                    last_name: "Please enter a last name",
-                    email: {
-                        required: "Please enter an email address",
-                        email: "Please enter a valid email address"
-                    },
-                    username: "Please enter a username",
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 6 characters long"
-                    },
-                    confirm_password: {
-                        required: "Please confirm your password",
-                        equalTo: "Passwords do not match"
-                    },
-                    country_location: "Please select your location",
-                    phone_number: "Please enter a phone number",
-                    photo: "Please upload your picture"
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    if (element.closest('.input-group').length) {
-                        error.insertAfter(element.closest('.input-group'));
-                    } else {
-                        error.insertAfter(element);
-                    }
-                },
-                highlight: function (element) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass('is-invalid');
-                },
-
-                // This function runs when form is valid
-                submitHandler: function (form) {
-                    var formData = new FormData(form);
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '{% url "family-detail" %}');
-                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-                    // Show the spinner when the form is submitted
-                    document.getElementById('loadingIndicator').style.display = 'block';
-
-                    xhr.onload = function () {
-                        // Hide the spinner when the response is received
-                        document.getElementById('loadingIndicator').style.display = 'none';
-
-                        var response = JSON.parse(xhr.responseText);
-
-                        if (response.success) {
-                            // Success SweetAlert
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Account Created',
-                                text: response.message,
-                                confirmButtonText: 'OK',
-                                timer: 1200
-                            }).then(function () {
-                                window.location.href = '{% url "stripe-checkout" family.id %}';
-                            });
-                        } else {
-                            // Error SweetAlert
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.message,
-                                confirmButtonText: 'Try Again',
-                            });
-                        }
-                    };
-
-                    xhr.send(formData);
-                }
-            });
-        });
-    </script>
-
+          xhr.send(formData);
+        },
+      });
+    });
+  </script>
 </main>
 {% endblock %}

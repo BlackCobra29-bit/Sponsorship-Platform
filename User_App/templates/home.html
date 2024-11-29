@@ -109,7 +109,10 @@
               and social support services to improve the
               wellbeing of our martyrs' families.</p>
             <div class="d-flex justify-content-center">
-              <a href="#sponsor" class="btn-get-started animate__animated animate__rollIn">Get Started</a>
+              <a href="#sponsor" class="btn-get-started animate__animated animate__rollIn">
+                <span class="bi bi-arrow-down"></span>
+                Get Started
+              </a>
             </div>
           </div>
         </div>
@@ -212,6 +215,254 @@
               Found</span></h4>
           {% endif %}
 
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
+          {% if unsponsored_families %}
+          {% for family in unsponsored_families %}
+
+          <!-- Family Item -->
+          <div class="col-xl-2 col-md-6 d-flex mobile-style" data-aos="fade-up" data-aos-delay="100">
+            <div class="member card">
+              {% if family.images.all %}
+              <img src="{{ family.images.all.0.photo.url }}" class="img-circle" alt="{{ family.family_name }}"
+                style="height: 130px;">
+              {% else %}
+              <img src="{% static 'img/default_family/default.png' %}" class="img-fluid" alt="No Image Available"
+                style="height: 130px;">
+              {% endif %}
+              <h4>{{ family.family_name|slice:":17" }}{% if family.family_name|length > 17 %}...{% endif %}</h4>
+              <span><b>Address: </b>{{ family.location }}</span>
+              <!-- Sponsor Button -->
+              <div class="d-flex justify-content-center mt-3">
+                <!-- Trigger Button for Modal -->
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-chat-heart"></i> Sponsor
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+          {% else %}
+          <h4 class="text-center"><span class="bi bi-exclamation-circle text-danger"> No Records of Unsponsored Families
+              Found</span></h4>
+          {% endif %}
+
         </div>
 
       </div>
@@ -220,7 +471,7 @@
 
     <!-- See More Button -->
     <div class="container text-center mt-3" style="padding-bottom: 100px;">
-      <a href="{% url 'family-list-page' %}" class="btn btn-dark rounded"><i class="bi bi-chevron-down"></i>
+      <a href="{% url 'family-list-page' %}" class="btn btn-dark rounded"><i class="bi bi-arrow-right"></i>
         See more</a>
     </div><!-- Services Section -->
 
