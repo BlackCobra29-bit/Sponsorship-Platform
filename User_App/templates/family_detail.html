@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block main-block %}
 
+<link rel="stylesheet" href="{% static 'intl/intl.css' %}">
+
 <main class="main">
   <section id="sponsor" class="team section">
     <div class="container">
@@ -100,9 +102,10 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6 form-group">
-                    <input name="phone_number" type="text" class="form-control" placeholder="Your Phone Number"
+                    <input name="phone_number" type="tel" class="form-control" id="phone"  placeholder="Your Phone Number"
                       required />
-                    <span class="invalid-feedback">Please enter a valid phone number.</span>
+                    <span id="valid-msg" class="hide text-success"></span>
+                    <span id="error-msg" class="hide text-danger"></span>
                   </div>
                   <div class="col-md-6 form-group">
                     <input name="email" type="email" class="form-control" placeholder="Email *" required />
@@ -148,8 +151,14 @@
                           background-color: #fff8f2;
                           border-radius: 10px;
                         ">
-                        <input class="form-check-input" type="radio" name="payment_method" id="paypalPayment"
-                          value="paypal" required style="margin-left: 10px" />
+                        
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                          <label class="form-check-label" for="flexRadioDefault1">
+                            Default radio
+                          </label>
+                        </div>
+
                         <label class="form-check-label d-flex align-items-center justify-content-between"
                           for="paypalPayment" style="cursor: pointer; display: flex; align-items: center;">
                           <span style="margin-left: 8px;">PayPal</span>
@@ -368,5 +377,41 @@
       });
     });
   </script>
+
+  <script src="{% static 'intl/intl.js' %}"></script>
+  <script>
+    const iti = window.intlTelInput($("#phone")[0], { initialCountry: "us" });
+
+    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    const reset = () => {
+      $("#phone").removeClass("error");
+      $("#error-msg, #valid-msg").addClass("hide").text("");
+    };
+
+    const showError = (msg) => {
+      $("#phone").addClass("error");
+      $("#error-msg").removeClass("hide").text(msg);
+    };
+
+    const validatePhoneNumber = () => {
+      reset();
+      if (!$("#phone").val().trim()) {
+        showError("Required");
+      } else if (iti.isValidNumber()) {
+        $("#valid-msg").removeClass("hide").text("Valid number: " + iti.getNumber());
+      } else {
+        const errorCode = iti.getValidationError();
+        showError(errorMap[errorCode] || "Invalid number");
+      }
+    };
+
+    // Automatically validate on input change
+    $("#phone").on("input", validatePhoneNumber);
+
+    // Remove the button
+    $(".button").remove();
+  </script>
+
 </main>
 {% endblock %}
