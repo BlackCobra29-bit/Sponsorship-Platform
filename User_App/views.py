@@ -1,3 +1,4 @@
+from typing import Any
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login
@@ -5,19 +6,24 @@ from django.core.paginator import Paginator
 from django.views.generic import ListView, TemplateView, DetailView
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
-from Super_Admin_App.models import FamilyList
+from Super_Admin_App.models import FamilyList, MonthlyAmount
 from Sponsor_App.models import SponosrAccount
 from django_countries import countries
+
 
 class HomeView(ListView):
     model = FamilyList
     template_name = "home.html"
     context_object_name = "unsponsored_families"
 
-    def get_queryset(self):
-        return FamilyList.objects.filter(is_sponsored=False).prefetch_related("images")[
-            :30
-        ]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monthly_amount"] = MonthlyAmount.objects.get()
+        context["unsponsored_families"] = FamilyList.objects.filter(
+            is_sponsored=False
+        ).prefetch_related("images")[:30]
+
+        return context
 
 
 class FamilyDetailView(DetailView):
@@ -31,7 +37,7 @@ class FamilyDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['countries'] = countries  # Ensure you have this list available
+        context["countries"] = countries  # Ensure you have this list available
         return context
 
     def post(self, request, *args, **kwargs):
@@ -51,12 +57,14 @@ class FamilyDetailView(DetailView):
                     "message": "Username already taken. Please choose another.",
                 }
             )
-            
-        if User.objects.filter(email = email).exists():
-            return JsonResponse({
-                "success": False,
-                "message": "Email already taken. Please use another."
-            })
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Email already taken. Please use another.",
+                }
+            )
 
         user = User.objects.create(
             first_name=first_name,
@@ -70,7 +78,7 @@ class FamilyDetailView(DetailView):
             user=user,
             phone_number=phone,
             location=location,
-            sponsor_photo=sponsor_photo
+            sponsor_photo=sponsor_photo,
         )
 
         # Log the user in
@@ -89,12 +97,14 @@ class FamiliesListPage(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        all_families = FamilyList.objects.filter(is_sponsored=False).prefetch_related("images")
+        all_families = FamilyList.objects.filter(is_sponsored=False).prefetch_related(
+            "images"
+        )
         paginator = Paginator(all_families, 30)
-        page_number = self.request.GET.get('page')
+        page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         context["page_obj"] = page_obj
-        
+
         return context
 
 

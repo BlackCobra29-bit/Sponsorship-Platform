@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block main-block %}
+{% extends 'base.html' %}
+{% load static %}
+{% block main-block %}
 
 <link rel="stylesheet" href="{% static 'intl/intl.css' %}">
 
@@ -6,11 +8,10 @@
   <section id="sponsor" class="team section">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6">
-          <!-- Blog Details Section -->
-          <section id="blog-details" class="blog-details section">
+        <div class="col-lg-5">
+          <section id="blog-details" class="blog-details family-detail-card">
             <div class="container">
-              <article class="article">
+              <article>
                 <div class="meta-top">
                   <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px">
                     {% for image in family.images.all %}
@@ -40,58 +41,51 @@
                     </li>
                   </ul>
                 </div>
-                <!-- End meta top -->
-
                 <div class="content">
                   <p>
                     <small>{{ family.family_bio }}</small>
                   </p>
                 </div>
-                <!-- End post content -->
               </article>
             </div>
           </section>
         </div>
 
-        <div class="col-lg-6">
-          <section id="comment-form" class="comment-form section">
+        <div class="col-lg-7">
+          <section id="comment-form" class="section family-detail-card">
             <div class="container">
               <form method="post" id="create_account_form" enctype="multipart/form-data">
                 {% csrf_token %}
-                <h4 style="color: #134a9b" class="text-center">
-                  <small>Already have an account?</small>
+                <h4 class="text-center">
+                  <small class="fw-bold text-sm fs-5">Already have an account?</small>
                 </h4>
                 <hr />
-                <p class="text-center">Log in to your account to save time.</p>
+                <p class="text-center">Log in to your Hidrina Account to save time.</p>
                 <div class="text-center">
                   <a href="{% url 'admin-login' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
-                    class="btn btn-warning" style="
-                      border-radius: 36px;
-                      padding-left: 70px;
-                      padding-right: 70px;
-                    ">
+                    class="btn btn-warning" style="border-radius: 36px; padding-left: 70px; padding-right: 70px;">
                     Log In</a>
                 </div>
                 <br />
                 <hr />
-                <h4 style="color: #134a9b">
+                <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
                   <i class="bi bi-person"></i> <small>Personal details</small>
                 </h4>
                 <br />
-                <div class="row">
-                  <div class="col-md-6 form-group">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-md-10 form-group">
+                    <label for="">First name*</label>
                     <input name="first_name" type="text" class="form-control" placeholder="Your First Name*" required />
                   </div>
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-10 form-group">
+                    <label for="">Last name*</label>
                     <input name="last_name" type="text" class="form-control" placeholder="Your Last Name*" required />
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col form-group">
-                    <select id="country-select" name="country_location" class="form-control" required>
-                      <option value="" disabled selected>
-                        Select a country
-                      </option>
+                  <div class="col-md-10 form-group">
+                    <label for="country-select" class="form-label">Country*</label>
+                    <select id="country-select" name="country_location" class="form-control form-select"
+                      style="width: 100%;" required>
+                      <option value="" disabled selected>Select a country</option>
                       {% for code, name in countries %}
                       <option value="{{ code }}" data-flag="https://flagcdn.com/w20/{{ code|lower }}.png">
                         {{ name }}
@@ -99,112 +93,89 @@
                       {% endfor %}
                     </select>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 form-group">
-                    <input name="phone_number" type="tel" class="form-control" id="phone"  placeholder="Your Phone Number"
-                      required />
+                  <div class="col-md-10 form-group">
+                    <label for="">Phone number*</label><br>
+                    <input name="phone_number" type="tel" class="form-control" id="phone"
+                      placeholder="Your Phone Number" value="+" required />
                     <span id="valid-msg" class="hide text-success"></span>
                     <span id="error-msg" class="hide text-danger"></span>
                   </div>
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-10 form-group">
+                    <label for="">Email*</label>
                     <input name="email" type="email" class="form-control" placeholder="Email *" required />
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col form-group">
-                    <span style="font-size: 14px">Upload Photo *</span>
+                  <div class="col-md-10 form-group">
+                    <label for="">Upload photo*</label>
                     <input id="photo-upload" name="photo" type="file" class="form-control" accept="image/*" required />
                   </div>
                 </div>
                 <br />
-                <h4 style="color: #134a9b">
-                  <i class="bi bi-gear"></i> <small>Payment Method</small>
+                <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
+                  <i class="bi bi-gear"></i> <small>Account Detail</small>
                 </h4>
                 <hr />
-                <div class="row">
-                  <div class="col form-group">
+                <div class="row d-flex justify-content-center">
+                  <div class="col-md-10 form-group">
+                    <label for="">Username*</label>
                     <input name="username" type="text" class="form-control" placeholder="Your Username" required />
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-10 form-group">
+                    <label for="">Password*</label>
                     <input name="password" type="password" id="password" class="form-control"
                       placeholder="Your Password" required />
                   </div>
-
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-10 form-group">
+                    <label for="">Confirm password*</label>
                     <input name="confirm_password" type="password" class="form-control"
                       placeholder="Confirm Your Password" required />
                   </div>
                 </div>
 
                 <div class="container mt-4">
-                  <h4 style="color: #134a9b">
+                  <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
                     <i class="bi bi-credit-card"></i> <small>Payment Method</small>
                   </h4>
-                  <div class="row">
-                    <!-- PayPal Option -->
-                    <div class="col-md-12 mb-3">
-                      <div class="form-check p-3" style="
-                          border: 1px solid #f4e5d7;
-                          background-color: #fff8f2;
-                          border-radius: 10px;
-                        ">
-                        
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                          <label class="form-check-label" for="flexRadioDefault1">
-                            Default radio
-                          </label>
-                        </div>
-
-                        <label class="form-check-label d-flex align-items-center justify-content-between"
-                          for="paypalPayment" style="cursor: pointer; display: flex; align-items: center;">
-                          <span style="margin-left: 8px;">PayPal</span>
+                  <hr>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-md-10 mb-3">
+                      <label class="form-check p-3 d-flex align-items-center"
+                        style="border: 1px solid #f4e5d7; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                          style="margin-left: 10px; margin-right: 15px; position: static;">
+                        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                          <span>PayPal</span>
                           <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo"
-                            style="height: 24px" class="ms-auto" />
-                        </label>
-                      </div>
+                            style="height: 24px;" class="ms-auto" />
+                        </span>
+                      </label>
                     </div>
-
-                  </div>
-
-                  <!-- Card Payment Option -->
-                  <div class="col-md-12">
-                    <div class="form-check p-3" style="
-                          border: 1px solid #d6e9f9;
-                          background-color: #fff8f2;
-                          border-radius: 10px;
-                        ">
-                      <input class="form-check-input" type="radio" name="payment_method" id="cardPayment" value="card"
-                        required style="margin-left: 10px" />
-                      <label class="form-check-label d-flex align-items-center justify-content-between"
-                        for="paypalPayment" style="cursor: pointer; display: flex; align-items: center;">
-                        <span style="margin-left: 8px;">Cards</span>
-                        <div class="d-flex gap-2 ms-auto">
-                          {% include 'cards_svg.html' %}
-                        </div>
+                    <div class="col-md-10">
+                      <label class="form-check p-3 d-flex align-items-center"
+                        style="border: 1px solid #d6e9f9; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="cardPayment"
+                          value="card" required style="margin-left: 10px; margin-right: 15px; position: static;">
+                        <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                          <span>Cards</span>
+                          <div class="d-flex gap-2 ms-auto">
+                            {% include 'cards_svg.html' %}
+                          </div>
+                        </span>
                       </label>
                     </div>
                   </div>
                 </div>
+                <div class="text-center pt-2">
+                  <button type="submit" class="btn btn-warning" style="border-radius: 36px">
+                    Create Account & Proceed
+                  </button>
+                </div>
+              </form>
             </div>
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-warning" style="border-radius: 36px">
-                Create Account & Proceed
-              </button>
-            </div>
-            </form>
+          </section>
         </div>
+      </div>
+    </div>
   </section>
-  <!-- /Comment Form Section -->
-  </div>
-  </div>
-  </div>
-  </section>
-  <!-- /Team Section -->
 
   <!-- Add this in your <head> section -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
