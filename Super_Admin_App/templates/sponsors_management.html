@@ -49,7 +49,8 @@
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Phone Number</th>
-                                        <th>Donation Amount</th>
+                                        <th>Address</th>
+                                        <th>Total Donated Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -60,6 +61,10 @@
                                         <td>{{ sponsor.sponsor_account.user.first_name }} {{ sponsor.sponsor_account.user.last_name }}</td>
                                         <td>{{ sponsor.sponsor_account.user.email }}</td>
                                         <td>{{ sponsor.sponsor_account.phone_number }}</td>
+                                        <td> 
+                                            <img src="https://flagpedia.net/data/flags/h80/{{ sponsor.sponsor_account.location.code|lower }}.png" style="height: 12 px; width: 15px;" alt="{{ spnsor.sponsor_account.location.name }} Flag" />
+                                            {{ sponsor.sponsor_account.location.name }}
+                                        </td>
                                         <td class="text-success"><strong>${{ sponsor.total_paid }}</strong></td>
                                         <td>
                                             <a

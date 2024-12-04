@@ -172,7 +172,6 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
             stripe_session = stripe.checkout.Session.create(
                 payment_method_types=[
                     "card",
-                    "au_becs_debit",
                 ],
                 line_items=[
                     {
