@@ -9,7 +9,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-5">
-          <section id="blog-details" class="blog-details family-detail-card">
+          <section id="blog-details" class="blog-details family-detail-card" style="position: sticky;
+  top: 0;">
             <div class="container">
               <article>
                 <div class="meta-top">
@@ -22,7 +23,7 @@
                     {% empty %}
                     <div class="m-2">
                       <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
-                        alt="No Image Available" style="height: 200px; width: auto" />
+                        alt="No Image Available" style="height: 200`px; width: auto" />
                     </div>
                     {% endfor %}
                   </div>
@@ -57,34 +58,34 @@
               <form method="post" id="create_account_form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4 class="text-center">
-                  <small class="fw-bold text-sm fs-5">Already have an account?</small>
+                  <small class="fw-bold text-sm fs-6">Already have an account?</small>
                 </h4>
                 <hr />
-                <p class="text-center">Log in to your Hidrina Account to save time.</p>
+                <p class="text-center"><small>Log in to your Hidrina Account to save time.</small></p>
                 <div class="text-center">
                   <a href="{% url 'admin-login' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
                     class="btn btn-warning" style="border-radius: 36px; padding-left: 70px; padding-right: 70px;">
-                    Log In</a>
+                    <small>Log In</small></a>
                 </div>
                 <br />
                 <hr />
-                <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
-                  <i class="bi bi-person"></i> <small>Personal details</small>
+                <h4 class="fw-bold fs-6 pt-3" style="color: #134a9b">
+                  <i class="bi bi-person"></i><small> Personal details</small>
                 </h4>
                 <br />
                 <div class="row d-flex justify-content-center">
                   <div class="col-md-10 form-group">
-                    <label for="">First name*</label>
+                    <label for=""><small>First name*</small></label>
                     <input name="first_name" type="text" class="form-control" placeholder="Your First Name*" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Last name*</label>
+                    <label for=""><small>Last name*</small></label>
                     <input name="last_name" type="text" class="form-control" placeholder="Your Last Name*" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="country-select" class="form-label">Country*</label>
+                    <label for="country-select" class="form-label"><small>Country*</small></label>
                     <select id="country-select" name="country_location" class="form-control form-select"
-                      style="width: 100%;" required>
+                      style="width: 100%;" required style="background-color: red;">
                       <option value="" disabled selected>Select a country</option>
                       {% for code, name in countries %}
                       <option value="{{ code }}" data-flag="https://flagcdn.com/w20/{{ code|lower }}.png">
@@ -94,46 +95,47 @@
                     </select>
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Phone number*</label><br>
+                    <label for=""><small>Phone number* <span class="text-success" style="font-size: 11px;">Example: +1 (555)
+                          123-4567</span></small></label><br>
                     <input name="phone_number" type="tel" class="form-control" id="phone"
-                      placeholder="Your Phone Number" value="+" required />
+                      placeholder="Your Phone Number" required />
                     <span id="valid-msg" class="hide text-success"></span>
                     <span id="error-msg" class="hide text-danger"></span>
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Email*</label>
+                    <label for=""><small>Email*</small></label>
                     <input name="email" type="email" class="form-control" placeholder="Email *" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Upload photo*</label>
+                    <label for=""><small>Upload photo*</small></label>
                     <input id="photo-upload" name="photo" type="file" class="form-control" accept="image/*" required />
                   </div>
                 </div>
                 <br />
-                <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
-                  <i class="bi bi-gear"></i> <small>Account Detail</small>
+                <h4 class="fw-bold fs-5 pt-3 fs-6" style="color: #134a9b">
+                  <i class="bi bi-gear"></i> <small> Account Detail</small>
                 </h4>
                 <hr />
                 <div class="row d-flex justify-content-center">
                   <div class="col-md-10 form-group">
-                    <label for="">Username*</label>
+                    <label for=""><small>Username*</small></label>
                     <input name="username" type="text" class="form-control" placeholder="Your Username" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Password*</label>
+                    <label for=""><small>Password*</small></label>
                     <input name="password" type="password" id="password" class="form-control"
                       placeholder="Your Password" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="">Confirm password*</label>
+                    <label for=""><small>Confirm password*</small></label>
                     <input name="confirm_password" type="password" class="form-control"
                       placeholder="Confirm Your Password" required />
                   </div>
                 </div>
 
                 <div class="container mt-4">
-                  <h4 class="fw-bold fs-5 pt-3" style="color: #134a9b">
-                    <i class="bi bi-credit-card"></i> <small>Payment Method</small>
+                  <h4 class="fw-bold fs-5 pt-3 fs-6" style="color: #134a9b">
+                    <i class="bi bi-credit-card"></i><small> Payment Method</small>
                   </h4>
                   <hr>
                   <div class="row d-flex justify-content-center">
@@ -164,9 +166,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="text-center pt-2">
-                  <button type="submit" class="btn btn-warning" style="border-radius: 36px">
-                    Create Account & Proceed
+                <div class="text-center pt-2 mt-4">
+                  <button type="submit" class="btn btn-warning fs-6" style="border-radius: 36px">
+                    <small>Create Account & Proceed</small>
                   </button>
                 </div>
               </form>
