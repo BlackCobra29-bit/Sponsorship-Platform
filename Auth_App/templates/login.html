@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load custom_filters %}
+
 {% block main-body %}
 
 <div class="login-box">
@@ -57,6 +59,39 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Payment Method Selection -->
+                {% if request.GET.family_id or request.GET|get_item:'family-id' %}
+                <div class="row d-flex justify-content-center">
+                        <p class="login-box-msg">Sign In to continue</p>
+                    <hr>
+                    <div class="col-12 mb-3">
+                        <label class="form-check p-2 d-flex align-items-center"
+                            style="border: 1px solid #f4e5d7; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                style="margin-left: 10px; margin-right: 15px; position: static;">
+                            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                <span>PayPal</span>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo"
+                                    style="height: 24px;" class="ms-auto" />
+                            </span>
+                        </label>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-check p-2 d-flex align-items-center"
+                            style="border: 1px solid #d6e9f9; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="cardPayment"
+                                value="card" required style="margin-left: 10px; margin-right: 15px; position: static;">
+                            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                <span>Cards</span>
+                                <div class="d-flex gap-2 ms-auto">
+                                    {% include 'cards_svg.html' %}
+                                </div>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
 
                 <!-- CAPTCHA Field -->
                 <div class="form-group text-center">
@@ -68,7 +103,6 @@
                         placeholder="Enter CAPTCHA">
                     <input type="hidden" name="captcha_0" value="{{ captcha_key }}">
                 </div>
-                
 
                 <!-- Submit Button -->
                 <div class="row">

@@ -27,10 +27,18 @@ from .mixins import MessageContextMixin, SponsorPaymentNotificationMixin
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
 from django.dispatch import receiver
 from paypal.standard.ipn.signals import valid_ipn_received
+import paypalrestsdk
 
 
 logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+# Configure PayPal SDK
+paypalrestsdk.configure({
+    "mode": settings.PAYPAL_MODE,
+    "client_id": settings.PAYPAL_CLIENT_ID,
+    "client_secret": settings.PAYPAL_SECRET_KEY,
+})
 
 
 # Custom mixin to restrict access for superusers
@@ -181,7 +189,7 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                 line_items=[
                     {
                         "price_data": {
-                            "currency": "aud",
+                            "currency": "usd",
                             "unit_amount": amount_in_cents,
                             "product_data": {
                                 "name": selected_family.family_name,
@@ -277,37 +285,65 @@ class WebhookManagerView(View):
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
             
-class PayPalCheckoutView(SuperAdminRequiredMixin, TemplateView):
-    template_name = "paypal_checkout.html"  # Create this template
-    login_url = "/login-page"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        family_id = self.kwargs.get('family_id')
-        
+class PayPalCheckoutView(SuperAdminRequiredMixin, View):
+    def get(self, request, family_id, *args, **kwargs):
         try:
             monthly_amount = MonthlyAmount.objects.first().amount
-            amount_in_dollars = str(monthly_amount)  # PayPal uses string format for amounts
-
             selected_family = get_object_or_404(FamilyList, pk=family_id)
 
-            paypal_dict = {
-                "business": settings.PAYPAL_RECEIVER_EMAIL,
-                "amount": str(monthly_amount),
-                "item_name": selected_family.family_name,
-                "item_number": selected_family.id,
-                "currency_code": "USD",
-                "notify_url": self.request.build_absolute_uri(reverse('paypal-ipn')),
-                "return_url": self.request.build_absolute_uri(reverse("payment-success")),
-                "cancel_url": self.request.build_absolute_uri(reverse("payment-cancel")),
-                "custom": f"{selected_family.id}|{self.request.user.id}",
-            }
+            payment = paypalrestsdk.Payment({
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"
+                },
+                "redirect_urls": {
+                    "return_url": request.build_absolute_uri(
+                        f"{reverse('payment-success')}?family_id={family_id}"
+                    ),
+                    "cancel_url": request.build_absolute_uri(reverse("payment-cancel"))
+                },
+                "transactions": [{
+                    "item_list": {
+                        "items": [{
+                            "name": selected_family.family_name,
+                            "sku": str(selected_family.id),
+                            "price": str(monthly_amount),
+                            "currency": "USD",
+                            "quantity": 1
+                        }]
+                    },
+                    "amount": {
+                        "total": str(monthly_amount),
+                        "currency": "USD"
+                    },
+                    "description": f"Sponsorship payment for {selected_family.family_name}",
+                    "custom": f"{selected_family.id}|{request.user.id}"
+                }],
+                "application_context": {
+                    "brand_name": "Your Brand Name",
+                    "locale": "en-US",
+                    "shipping_preference": "NO_SHIPPING",  # Disables shipping fields
+                    "landing_page": "LOGIN",
+                    "user_action": "PAY_NOW",
+                    "payment_method": {
+                        "payee_preferred": "IMMEDIATE_PAYMENT_REQUIRED"
+                    }
+                }
+            })
 
-            context['form'] = PayPalPaymentsForm(initial=paypal_dict)
-            return context
+            if payment.create():
+                for link in payment.links:
+                    if link.method == "REDIRECT" and link.rel == "approval_url":
+                        return redirect(link.href)
+            
+            else:
+                logger.error(f"Failed to create PayPal payment: {payment.error}")
+                messages.error(request, "Failed to initialize PayPal checkout.")
+                return redirect("family-list-page")
 
         except Exception as e:
             logger.error(f"Error during PayPal checkout: {str(e)}")
+            messages.error(request, "An error occurred during checkout.")
             return redirect("family-list-page")
 
 # Add this signal receiver for PayPal IPN
@@ -341,7 +377,7 @@ def paypal_payment_received(sender, **kwargs):
             if not family_sponsored.is_sponsored:
                 family_sponsored.is_sponsored = True
                 family_sponsored.save()
-
+  
         except Exception as e:
             logger.error(f"Error processing PayPal IPN: {str(e)}")
 
