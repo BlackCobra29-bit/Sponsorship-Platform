@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'captcha',
     'stripe',
     'django_countries',
+    'paypal.standard.ipn',
 ]
 
 CAPTCHA_FONT_SIZE = 40
@@ -154,3 +155,7 @@ EMAIL_HOST_PASSWORD = 'uixo hcnw afjg rfkq'
 STRIPE_PUBLISHABLE_KEY = "pk_test_51OIB3vDukDI7g1h0sDzi3Mx2oRzARIoiDmuBoYcxh5bpPuiSWM9FmzWvkW3q8CWOoEhtpjxTzUEuCpoEN6H23Qef00pv6Iqe1b"
 STRIPE_SECRET_KEY = "sk_test_51OIB3vDukDI7g1h0VREjlwcJc3ZHniPtQESOjgm4MSTVOyjX6Vo9KzRJzfZNDkDAlsmzFVG84IkjlJ7CdXLktpLP001kF8LGZC"
 STRIPE_WEBHOOK_SECRET = "whsec_e2e5aaae0e26a925dd59a934247ce737e5e61fdbfb163c4c773ffd0c1bbefd74"
+
+PAYPAL_CLIENT_ID = "ARDwgsy_tNRfW2inVJ-bBD5BsppiEY3-t0vpuHDWISdMFbEyaLlhee2R_oBdK_xai5oDL3oWCqf9kiHL"
+PAYPAL_SECRET_KEY = "EC28vsKv6XKLQte7u5P5qpgHz8CFgyDqnp1R2gbz7SP5A0P9omh9a3GlyWq3jWBG6m4wt5r9pZ5DOooz"
+PAYPAL_MODE = "sandbox"

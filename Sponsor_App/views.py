@@ -1,5 +1,6 @@
 import stripe
 import logging
+import paypalrestsdk
 from django.db.models import Sum
 from django.views import View
 from .models import SponsorFamilyRelation
@@ -271,6 +272,69 @@ class WebhookManagerView(View):
             print(f"Payment successfully created for user {user.id} and family {family_id}")
         except Exception as e:
             print(f"Error saving payment: {str(e)}")
+            
+class PayPalCheckoutView(SuperAdminRequiredMixin, View):
+    
+    login_url = "/login-page"
+
+    def get(self, request, family_id, *args, **kwargs):
+        try:
+            # Retrieve the monthly amount and convert it to dollars
+            monthly_amount = MonthlyAmount.objects.first().amount
+            amount_in_dollars = str(monthly_amount)  # PayPal uses string format for amounts
+
+            selected_family = get_object_or_404(FamilyList, pk=family_id)
+
+            # Create the PayPal payment
+            payment = paypalrestsdk.Payment({
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"
+                },
+                "redirect_urls": {
+                    "return_url": request.build_absolute_uri(reverse("payment-success")),
+                    "cancel_url": request.build_absolute_uri(reverse("payment-cancel"))
+                },
+                "transactions": [{
+                    "item_list": {
+                        "items": [{
+                            "name": selected_family.family_name,
+                            "sku": selected_family.id,
+                            "price": amount_in_dollars,
+                            "currency": "USD",  # Use USD or your preferred currency
+                            "quantity": 1
+                        }]
+                    },
+                    "amount": {
+                        "total": amount_in_dollars,
+                        "currency": "USD"
+                    },
+                    "description": f"Monthly sponsorship for {selected_family.family_name}."
+                }],
+                "metadata": {
+                    "family_id": selected_family.id,
+                    "sponsor_id": request.user.id,
+                    "amount_paid": monthly_amount,
+                }
+            })
+
+            if payment.create():
+                # Redirect user to PayPal for payment approval
+                for link in payment.links:
+                    if link.rel == "approval_url":
+                        return redirect(link.href)  # Redirect the user to PayPal
+
+            else:
+                # Handle payment creation failure
+                logger.error(f"PayPal payment creation failed: {payment.error}")
+                return redirect("family-list-page")
+        
+        except paypalrestsdk.exceptions.PayPalError as e:
+            logger.error(f"PayPal error: {str(e)}")
+            return redirect("family-list-page")
+        except Exception as e:
+            logger.error(f"Error during PayPal checkout: {str(e)}")
+            return redirect("family-list-page")
 
 class PaymentSuccessView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
