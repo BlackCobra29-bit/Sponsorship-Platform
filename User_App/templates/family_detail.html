@@ -310,8 +310,18 @@
         // This function runs when form is valid
         submitHandler: function (form) {
           var formData = new FormData(form);
+          var selectedPaymentMethod = $("input[name='flexRadioDefault']:checked").val();
+
+          // Determine the URL based on the selected payment method
+          var actionUrl;
+          if (selectedPaymentMethod === "card") {
+            actionUrl = '{% url "stripe-checkout" family.id %}';
+          } else {
+            actionUrl = '{% url "paypal-checkout" family.id %}';
+          }
+
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", '{% url "family-detail" %}');
+          xhr.open("POST", actionUrl);
           xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
           // Show the spinner when the form is submitted
@@ -332,7 +342,7 @@
                 confirmButtonText: "OK",
                 timer: 1200,
               }).then(function () {
-                window.location.href = '{% url "stripe-checkout" family.id %}';
+                window.location.href = actionUrl;
               });
             } else {
               // Error SweetAlert
