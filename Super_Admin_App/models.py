@@ -68,7 +68,7 @@ class Payment(models.Model):
     sponsor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
     family = models.ForeignKey(FamilyList, on_delete=models.CASCADE, related_name='payments')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_date = models.DateTimeField(auto_now_add=True)
+    payment_date = models.DateTimeField(auto_now_add=True, editable=True)
     is_active = models.BooleanField(default=True)
     is_seen = models.BooleanField(default=False)
 

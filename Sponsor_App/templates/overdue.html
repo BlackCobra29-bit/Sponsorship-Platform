@@ -1,0 +1,98 @@
+{% extends 'sponsor_base.html' %}
+{% load static %}
+
+{% block main-body %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><i class="fa fa-exclamation-triangle text-danger"></i> Overdue payments</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <!-- New row to properly nest col-md-3 and col-md-9 -->
+                    <div class="row">
+
+                        <!-- Main mailbox content -->
+                        <div class="col-md-12">
+                            <div class="card card-default">
+                                <div class="card-body">
+                                    <table id="example" class="table table-striped" style="width: 100%">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Index</th>
+                                                <th>Family Name</th>
+                                                <th>Address</th>
+                                                <th>Contact Information</th>
+                                                <th>Overdue Days</th>
+                                                <th>Pay Now</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for overdue in overdue_payments %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    {{ overdue.family.family_name }}
+                                                </td>
+                                                <td>
+                                                    {{ overdue.family.location }}
+                                                </td>
+                                                <td>
+                                                    {{ overdue.family.contact_address }}
+                                                </td>
+                                                <td>
+                                                    {{ overdue.days_overdue }} days
+                                                </td>
+                                                <td>
+                                                    <a href="" class="badge badge-warning">
+                                                        <span class="bi bi-paypal"></span> 
+                                                        Paypal
+                                                    </a>
+                                                    <a href="" class="badge badge-success">
+                                                        <span class="bi bi-credit-card"></span> 
+                                                        Cards
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <!-- /.table -->
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- End of new row -->
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->
+ 
+{% endblock %}

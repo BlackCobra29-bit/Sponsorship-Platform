@@ -100,6 +100,17 @@ class PaymentTransactionHistory(SuperAdminRequiredMixin, SponsorPaymentNotificat
         ).order_by('-payment_date')
         return context
 
+class OverduePayments(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
+    template_name = "overdue.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context["monthly_amount"] = MonthlyAmount.objects.first().amount
+
+        return context
+
 class ReceivedMessages(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "received_messages.html"
     login_url = "/login-page"

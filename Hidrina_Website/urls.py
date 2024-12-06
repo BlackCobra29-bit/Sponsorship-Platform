@@ -24,6 +24,7 @@ from Sponsor_App.views import (
     WebhookManagerView,
     PaymentTransactionHistory,
     PayPalCheckoutView,
+    OverduePayments,
 )
 
 # import Super_Admin_App urls
@@ -81,6 +82,7 @@ urlpatterns = [
     path("payment-success/", PaymentSuccessView.as_view(), name = "payment-success"),
     path("payment-cancel/", PaymentCancelView.as_view(), name = "payment-cancel"),
     path("transaction-history/", PaymentTransactionHistory.as_view(), name = "transaction-history"),
+    path("overdue-payments/", OverduePayments.as_view(), name = "overdue-payments"),
 
     # url pattern for Super_Admin_Base
     path("dashboard/", DashboardView.as_view(), name="admin-dashboard"),
