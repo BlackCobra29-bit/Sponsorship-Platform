@@ -19,7 +19,7 @@ class LoginView(TemplateView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if self.request.GET.get("family-id"):
-                return redirect(reverse("stripe-checkout", args=[self.request.GET.get("family-id")]))
+                logout(request)
             else:
                 return redirect("admin-dashboard" if request.user.is_superuser else "sponsor-home-page")
         
@@ -49,7 +49,7 @@ class LoginView(TemplateView):
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
             login(request, user_auth)
-            
+
             if self.request.GET.get("family-id"):
 
                 if request.POST.get("paymentMethod") == "card":

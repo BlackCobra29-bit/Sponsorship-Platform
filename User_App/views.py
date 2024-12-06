@@ -87,7 +87,7 @@ class FamilyDetailView(DetailView):
         return JsonResponse(
             {
                 "success": True,
-                "message": "Account created successfully.",
+                "message": "Account created successfully. You are being redirected to the checkout page.",
             }
         )
 

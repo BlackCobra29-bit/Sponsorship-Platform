@@ -388,7 +388,7 @@ class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, Spons
             return JsonResponse(
                 {
                     "success": True,
-                    "message": "Account created successfully and email sent.",
+                    "message": "The admin account has been successfully created, and the login details have been sent to the provided email address.",
                 }
             )
 

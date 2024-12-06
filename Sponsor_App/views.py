@@ -53,6 +53,7 @@ paypalrestsdk.configure({
 class SuperAdminRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_superuser:
+            messages.error(request, "Admin accounts cannot be used for sponsorship.")
             return redirect("admin-login")
         return super().dispatch(request, *args, **kwargs)
 

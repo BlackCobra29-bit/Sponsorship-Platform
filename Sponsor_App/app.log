@@ -2223,3 +2223,66 @@ ValueError: The view Auth_App.views.view didn't return an HttpResponse object. I
 2024-12-06 11:07:39,452 - INFO - PayPal-Request-Id: fdd9725b-1134-4eff-88eb-eb4fb382bfe5
 2024-12-06 11:07:39,453 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
 2024-12-06 11:07:40,532 - INFO - Response[201]: Created, Duration: 1.79183s.
+2024-12-06 11:13:36,321 - WARNING - Not Found: /favicon.ico
+2024-12-06 12:08:13,514 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Auth_App\views.py changed, reloading.
+2024-12-06 12:36:07,185 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-06 12:36:09,118 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-06 12:39:06,173 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Auth_App\views.py changed, reloading.
+2024-12-06 12:39:14,232 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Auth_App\views.py changed, reloading.
+2024-12-06 12:39:18,734 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-06 12:39:19,220 - WARNING - Not Found: /favicon.ico
+2024-12-06 12:39:23,135 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-06 12:39:32,858 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Auth_App\views.py changed, reloading.
+2024-12-06 12:39:43,862 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Auth_App\views.py changed, reloading.
+2024-12-06 12:40:11,378 - WARNING - Not Found: /favicon.ico
+2024-12-06 12:44:20,293 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-06 13:22:50,656 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-06 13:22:57,870 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:23:00,632 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-06 13:23:01,317 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:26:01,400 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:26:38,361 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:27:30,383 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:27:37,597 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-06 13:28:44,363 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:29:21,397 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:29:51,742 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:30:54,454 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:30:55,367 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:30:55,852 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:32:46,821 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:32:56,514 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:34:28,919 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-06 13:34:30,040 - INFO - Response[200]: OK, Duration: 1.121665s.
+2024-12-06 13:34:30,043 - INFO - PayPal-Request-Id: 6daabfb7-3483-45a0-b8d6-83a450f3a608
+2024-12-06 13:34:30,043 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:34:31,306 - INFO - Response[201]: Created, Duration: 1.260149s.
+2024-12-06 13:35:28,926 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:35:31,931 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:35:55,635 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:36:14,349 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-06 13:36:16,460 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-06 13:36:59,229 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:39:14,904 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:39:51,087 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-06 13:40:40,466 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:43:08,018 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-06 13:43:09,279 - INFO - Response[200]: OK, Duration: 1.261783s.
+2024-12-06 13:43:09,279 - INFO - PayPal-Request-Id: 026fbab1-c4e8-45a7-804e-45029738c6bd
+2024-12-06 13:43:09,281 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:43:10,310 - INFO - Response[201]: Created, Duration: 1.28654s.
+2024-12-06 13:45:52,761 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:46:43,807 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:46:57,410 - INFO - PayPal-Request-Id: 6c983c38-266f-4fec-8681-1971f43716da
+2024-12-06 13:46:57,411 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:46:58,664 - INFO - Response[201]: Created, Duration: 1.252461s.
+2024-12-06 13:47:43,016 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-06 13:50:04,530 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\User_App\views.py changed, reloading.
+2024-12-06 13:50:20,974 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\User_App\views.py changed, reloading.
+2024-12-06 13:50:27,825 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:51:05,925 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-06 13:51:06,721 - INFO - Response[200]: OK, Duration: 0.796574s.
+2024-12-06 13:51:06,721 - INFO - PayPal-Request-Id: 4fb4a3cf-6e8a-4055-90cf-693afdaa76e0
+2024-12-06 13:51:06,724 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:51:07,821 - INFO - Response[201]: Created, Duration: 1.97596s.
+2024-12-06 13:51:22,090 - WARNING - Not Found: /favicon.ico
