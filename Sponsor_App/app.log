@@ -2304,3 +2304,4 @@ ValueError: The view Auth_App.views.view didn't return an HttpResponse object. I
 2024-12-06 14:46:19,694 - INFO - PayPal-Request-Id: 2b2106b3-6cc4-4028-a01b-8533c5dc4e97
 2024-12-06 14:46:19,694 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
 2024-12-06 14:46:34,676 - INFO - Response[201]: Created, Duration: 14.972272s.
+2024-12-06 18:51:13,986 - WARNING - Not Found: /favicon.ico

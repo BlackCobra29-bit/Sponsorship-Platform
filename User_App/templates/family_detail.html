@@ -270,6 +270,9 @@
         photo: {
           required: true,
         },
+        flexRadioDefault: {
+          required: true,
+        },
       },
       messages: {
         first_name: "Please enter a first name",
@@ -290,6 +293,7 @@
         country_location: "Please select your location",
         phone_number: "Please enter a phone number",
         photo: "Please upload your picture",
+        flexRadioDefault: "Select payment method",
       },
       errorElement: "span",
       errorPlacement: function (error, element) {
@@ -327,7 +331,7 @@
             // Success SweetAlert
             Swal.fire({
               icon: "success",
-              title: "Welcome to Hidrina!",
+              title: "Account Created",
               text: response.message,
               confirmButtonText: "OK",
               timer: 1200,
