@@ -2286,3 +2286,21 @@ ValueError: The view Auth_App.views.view didn't return an HttpResponse object. I
 2024-12-06 13:51:06,724 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
 2024-12-06 13:51:07,821 - INFO - Response[201]: Created, Duration: 1.97596s.
 2024-12-06 13:51:22,090 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:55:32,421 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-06 13:55:33,426 - INFO - Response[200]: OK, Duration: 1.5557s.
+2024-12-06 13:55:33,426 - INFO - PayPal-Request-Id: 3abcd732-e82c-467f-943f-0b3259543f4b
+2024-12-06 13:55:33,426 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:55:34,726 - INFO - Response[201]: Created, Duration: 1.299217s.
+2024-12-06 13:56:13,440 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:56:27,958 - INFO - PayPal-Request-Id: 9703542a-4ef6-41c3-af93-77337e37340c
+2024-12-06 13:56:27,958 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 13:56:29,264 - INFO - Response[201]: Created, Duration: 1.304539s.
+2024-12-06 13:57:34,948 - WARNING - Not Found: /index.html
+2024-12-06 13:57:35,129 - WARNING - Not Found: /favicon.ico
+2024-12-06 13:58:52,253 - WARNING - Not Found: /favicon.ico
+2024-12-06 14:03:42,056 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-06 14:46:11,574 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-06 14:46:19,694 - INFO - Response[200]: OK, Duration: 8.119921s.
+2024-12-06 14:46:19,694 - INFO - PayPal-Request-Id: 2b2106b3-6cc4-4028-a01b-8533c5dc4e97
+2024-12-06 14:46:19,694 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-06 14:46:34,676 - INFO - Response[201]: Created, Duration: 14.972272s.

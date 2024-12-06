@@ -83,6 +83,21 @@
         $('#captchaError').hide();
       }
 
+      // Check if the payment method field is available
+      if ($('input[name="paymentMethod"]').length) {
+        // Check if a payment method is selected
+        if (!$('input[name="paymentMethod"]:checked').length) {
+          $('#paypalPayment').addClass('is-invalid');
+          $('#cardPayment').addClass('is-invalid');
+          $('#paymentError').show(); // Show error message
+          isValid = false;
+        } else {
+          $('#paypalPayment').removeClass('is-invalid');
+          $('#cardPayment').removeClass('is-invalid');
+          $('#paymentError').hide();
+        }
+      }
+
       // Prevent form submission if any field is invalid
       if (!isValid) {
         event.preventDefault();
