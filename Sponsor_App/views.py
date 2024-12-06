@@ -1,3 +1,4 @@
+import os
 import stripe
 import logging
 from django.db.models import Sum
@@ -29,25 +30,31 @@ from django.dispatch import receiver
 from paypal.standard.ipn.signals import valid_ipn_received
 import paypalrestsdk
 
+log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log')
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file_path),
+        logging.StreamHandler()
+    ]
+)
 
 logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# Configure PayPal SDK
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE,
     "client_id": settings.PAYPAL_CLIENT_ID,
     "client_secret": settings.PAYPAL_SECRET_KEY,
 })
 
-
-# Custom mixin to restrict access for superusers
 class SuperAdminRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_superuser:
             return redirect("admin-login")
         return super().dispatch(request, *args, **kwargs)
-
 
 class SponsorHomePage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "sponsor_home.html"
@@ -59,17 +66,11 @@ class SponsorHomePage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, 
         context["unread_messages"] = Message.objects.filter(
             receiver=self.request.user, is_read=False
         )
-
-        # Retrieve families sponsored by the current user
         sponsored_relations = SponsorFamilyRelation.objects.filter(sponsor=self.request.user)
         context["count_family_sponsored"] = sponsored_relations.count() if sponsored_relations.exists() else 0
-
-        # Retrieve the total amount paid by the current user, regardless of is_active status
         total_amount_paid = Payment.objects.filter(sponsor=self.request.user).aggregate(total=Sum('amount'))['total'] or 0
         context["total_amount_paid"] = total_amount_paid
-
         return context
-
 
 class MySponsorshipPage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "my_sponsorship.html"
@@ -81,11 +82,8 @@ class MySponsorshipPage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin
         context["unread_messages"] = Message.objects.filter(
             receiver=self.request.user, is_read=False
         )
-
-        # Retrieve list of families sponsored by the current user
         sponsored_relations = SponsorFamilyRelation.objects.filter(sponsor=self.request.user)
         context["sponsored_families"] = [relation.family for relation in sponsored_relations]
-
         return context
     
 class PaymentTransactionHistory(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, ListView):
@@ -96,7 +94,6 @@ class PaymentTransactionHistory(SuperAdminRequiredMixin, SponsorPaymentNotificat
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add the filtered queryset to the context
         context["transaction_history"] = Payment.objects.filter(
             sponsor=self.request.user
         ).order_by('-payment_date')
@@ -113,7 +110,6 @@ class ReceivedMessages(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin,
             receiver=self.request.user
         ).order_by("-timestamp")
         return context
-
 
 class ViewMessage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     template_name = "view_message.html"
@@ -132,8 +128,6 @@ class ViewMessage(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, Mess
         context["message"] = message
         return context
 
-
-# User Update View (CBV)
 class UserUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, UpdateView):
     model = User
     login_url = "/login-page"
@@ -154,7 +148,6 @@ class UserUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, M
         messages.error(self.request, "There was an error updating the account details.")
         return super().form_invalid(form)
 
-
 class PasswordUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, PasswordChangeView):
     form_class = CustomPasswordChangeForm
     login_url = "/login-page"
@@ -169,19 +162,16 @@ class PasswordUpdateView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixi
         messages.error(self.request, "There was an error updating the Password.")
         return super().form_invalid(form)
 
-
 class StripeCheckoutView(SuperAdminRequiredMixin, View):
     
     login_url = "/login-page"
 
     def get(self, request, family_id, *args, **kwargs):
         try:
-            # Retrieve the monthly amount and convert it to cents
             monthly_amount = MonthlyAmount.objects.first().amount
             amount_in_cents = int(monthly_amount * 100)
             selected_family = get_object_or_404(FamilyList, pk=family_id)
 
-            # Create the Stripe session
             stripe_session = stripe.checkout.Session.create(
                 payment_method_types=[
                     "card",
@@ -193,8 +183,6 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                             "unit_amount": amount_in_cents,
                             "product_data": {
                                 "name": selected_family.family_name,
-                                # Uncomment the line below for production to use real images
-                                # "images": [selected_family.images.first().photo.url] if selected_family.images.exists() else []
                                 "images": [
                                     "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
                                 ],
@@ -260,15 +248,12 @@ class WebhookManagerView(View):
 
         Family_Sponsored = get_object_or_404(FamilyList, pk=family_id)
         try:
-
-            # Save the transaction
             save_payment = Payment.objects.create(
                 sponsor=user,
                 family=Family_Sponsored,
                 amount=stripe_session["metadata"]["amount_paid"]
             )
             
-            # Check if the SponsorFamilyRelation already exists
             exists = SponsorFamilyRelation.objects.filter(sponsor=user, family=Family_Sponsored).exists()
             if not exists:
                 SponsorFamilyRelation.objects.create(
@@ -276,7 +261,6 @@ class WebhookManagerView(View):
                     family=Family_Sponsored
                     )
                 
-            # update family is_sposnored to True
             if Family_Sponsored.is_sponsored is False:
                 Family_Sponsored.is_sponsored = True
                 Family_Sponsored.save()
@@ -320,14 +304,11 @@ class PayPalCheckoutView(SuperAdminRequiredMixin, View):
                     "custom": f"{selected_family.id}|{request.user.id}"
                 }],
                 "application_context": {
-                    "brand_name": "Your Brand Name",
+                    "brand_name": "Hidrina Website",
                     "locale": "en-US",
-                    "shipping_preference": "NO_SHIPPING",  # Disables shipping fields
+                    "shipping_preference": "NO_SHIPPING",
                     "landing_page": "LOGIN",
-                    "user_action": "PAY_NOW",
-                    "payment_method": {
-                        "payee_preferred": "IMMEDIATE_PAYMENT_REQUIRED"
-                    }
+                    "user_action": "commit"
                 }
             })
 
@@ -346,34 +327,27 @@ class PayPalCheckoutView(SuperAdminRequiredMixin, View):
             messages.error(request, "An error occurred during checkout.")
             return redirect("family-list-page")
 
-# Add this signal receiver for PayPal IPN
 @receiver(valid_ipn_received)
 def paypal_payment_received(sender, **kwargs):
     ipn_obj = sender
 
     if ipn_obj.payment_status == "Completed":
         try:
-            # Parse the custom field
             family_id, sponsor_id = ipn_obj.custom.split('|')
-            
-            # Get the objects
             user = User.objects.get(id=sponsor_id)
             family_sponsored = get_object_or_404(FamilyList, pk=family_id)
 
-            # Save the payment
             Payment.objects.create(
                 sponsor=user,
                 family=family_sponsored,
                 amount=ipn_obj.mc_gross
             )
             
-            # Create sponsor-family relation if it doesn't exist
             SponsorFamilyRelation.objects.get_or_create(
                 sponsor=user,
                 family=family_sponsored
             )
             
-            # Update family sponsored status
             if not family_sponsored.is_sponsored:
                 family_sponsored.is_sponsored = True
                 family_sponsored.save()
@@ -384,7 +358,6 @@ def paypal_payment_received(sender, **kwargs):
 class PaymentSuccessView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"
     template_name = "payment_success.html"
-
 
 class PaymentCancelView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"

@@ -73,6 +73,16 @@
         $('#passwordError').hide();
       }
 
+      // Check if the CAPTCHA field is empty
+      if ($('#captcha').val().trim() === '') {
+        $('#captcha').addClass('is-invalid');
+        $('#captchaError').show(); // Show error message
+        isValid = false;
+      } else {
+        $('#captcha').removeClass('is-invalid');
+        $('#captchaError').hide();
+      }
+
       // Prevent form submission if any field is invalid
       if (!isValid) {
         event.preventDefault();

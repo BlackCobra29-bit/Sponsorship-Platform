@@ -9,12 +9,12 @@
 <div class="login-box">
 
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ message }}
-            </div>
-        {% endfor %}
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ message }}
+    </div>
+    {% endfor %}
     {% endif %}
 
     <div class="card card-outline">
@@ -29,8 +29,7 @@
 
             <form method="post" id="auth_form">
                 {% csrf_token %}
-                
-                <!-- Username Field -->
+
                 <div class="form-group">
                     <label for="username" class="text-danger" id="usernameError" style="display: none;">Username is
                         required</label>
@@ -45,7 +44,6 @@
                     </div>
                 </div>
 
-                <!-- Password Field -->
                 <div class="form-group">
                     <label for="password" class="text-danger" id="passwordError" style="display: none;">Password is
                         required</label>
@@ -59,30 +57,34 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Payment Method Selection -->
+
                 {% if request.GET.family_id or request.GET|get_item:'family-id' %}
                 <div class="row d-flex justify-content-center">
-                        <p class="login-box-msg">Sign In to continue</p>
-                    <hr>
+                    <div class="col-12 text-center">
+                        <p class="login-box-msg" style="margin: 0;">Select Payment Method</p>
+                    </div>
+                    <label for="password" class="text-danger" id="captchaError" style="display: none;">Payment method is
+                        required</label>
                     <div class="col-12 mb-3">
                         <label class="form-check p-2 d-flex align-items-center"
                             style="border: 1px solid #f4e5d7; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                                style="margin-left: 10px; margin-right: 15px; position: static;">
-                            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault1"
+                                value="paypal" style="margin-left: 10px; margin-right: 15px; position: static;">
+                            <span
+                                style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                                 <span>PayPal</span>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo"
-                                    style="height: 24px;" class="ms-auto" />
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                                    alt="PayPal Logo" style="height: 24px;" class="ms-auto" />
                             </span>
                         </label>
                     </div>
                     <div class="col-12 mb-3">
                         <label class="form-check p-2 d-flex align-items-center"
                             style="border: 1px solid #d6e9f9; background-color: #fff8f2; border-radius: 10px; display: block; cursor: pointer; padding-left: 20px;">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="cardPayment"
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment"
                                 value="card" required style="margin-left: 10px; margin-right: 15px; position: static;">
-                            <span style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                            <span
+                                style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                                 <span>Cards</span>
                                 <div class="d-flex gap-2 ms-auto">
                                     {% include 'cards_svg.html' %}
@@ -93,18 +95,18 @@
                 </div>
                 {% endif %}
 
-                <!-- CAPTCHA Field -->
                 <div class="form-group text-center">
-                    <!-- CAPTCHA Image -->
+                    <div class="col-12 text-center">
+                        <p class="login-box-msg" style="margin: 0;">Human Verification</p>
+                    </div>
                     <img src="{{ captcha_image }}" class="mb-2" alt="CAPTCHA Image" id="captcha-image">
-                    
-                    <!-- CAPTCHA Input Field -->
+                    <label for="password" class="text-danger" id="captchaError" style="display: none;">Password is
+                        required</label>
                     <input type="text" name="captcha_1" id="captcha" class="form-control mt-2"
                         placeholder="Enter CAPTCHA">
                     <input type="hidden" name="captcha_0" value="{{ captcha_key }}">
                 </div>
 
-                <!-- Submit Button -->
                 <div class="row">
                     <div class="col-12">
                         <button type="submit" class="btn btn-warning btn-block">Sign In</button>
@@ -118,9 +120,7 @@
                 <a href="{% url 'forgot-password' %}">Forgot Username/password?</a>
             </p>
         </div>
-        <!-- /.form-box -->
-    </div><!-- /.card -->
+    </div>
 </div>
-<!-- /.login-box -->
 
 {% endblock %}

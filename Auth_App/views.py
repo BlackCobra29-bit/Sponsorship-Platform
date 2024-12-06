@@ -49,8 +49,14 @@ class LoginView(TemplateView):
         user_auth = authenticate(request, username=username, password=password)
         if user_auth is not None:
             login(request, user_auth)
+            
             if self.request.GET.get("family-id"):
-                return redirect(reverse("stripe-checkout", args=[self.request.GET.get("family-id")]))
+
+                if request.POST.get("paymentMethod") == "card":
+                    return redirect(reverse("stripe-checkout", args=[self.request.GET.get("family-id")]))
+
+                if request.POST.get("paymentMethod") == "paypal":
+                    return redirect(reverse("paypal-checkout", args=[self.request.GET.get("family-id")]))
             else:
                 return redirect("admin-dashboard" if user_auth.is_superuser else "sponsor-home-page")
         else:
