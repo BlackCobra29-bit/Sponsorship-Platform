@@ -2566,3 +2566,8 @@ AttributeError: 'NoneType' object has no attribute 'date'
 2024-12-07 13:26:33,597 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
 2024-12-07 13:26:36,252 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
 2024-12-07 13:27:26,539 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-07 13:30:09,199 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-07 13:30:18,031 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-07 13:30:40,344 - WARNING - Not Found: /payment/21/
+2024-12-07 13:31:43,591 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-07 13:31:45,172 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200

@@ -355,10 +355,16 @@ def paypal_payment_received(sender, **kwargs):
             user = User.objects.get(id=sponsor_id)
             family_sponsored = get_object_or_404(FamilyList, pk=family_id)
 
+            if Payment.objects.exists():
+                overdue_payment = Payment.objects.first().overdue_payment + timezone.timedelta(days=30)
+            else:
+                overdue_payment = timezone.now()
+
             Payment.objects.create(
                 sponsor=user,
                 family=family_sponsored,
-                amount=ipn_obj.mc_gross
+                amount=ipn_obj.mc_gross,
+                overdue_payment = overdue_payment
             )
             
             SponsorFamilyRelation.objects.get_or_create(
