@@ -23,7 +23,7 @@ class SponsorPaymentNotificationMixin:
             ).order_by('-payment_date').first()
             
             if latest_payment:
-                days_difference = (timezone.now().date() - latest_payment.payment_date.date()).days
+                days_difference = (timezone.now().date() - latest_payment.overdue_payment.date()).days
                 if days_difference > 1:
                     overdue_notifications.append({
                         'sponsor': relation.sponsor,

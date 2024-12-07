@@ -9,6 +9,7 @@ from paypal.standard.ipn.models import PayPalIPN
 from .models import SponsorFamilyRelation
 from django.shortcuts import render, redirect, reverse
 from django.conf import settings
+from django.utils import timezone
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -260,10 +261,15 @@ class WebhookManagerView(View):
 
         Family_Sponsored = get_object_or_404(FamilyList, pk=family_id)
         try:
+            if Payment.objects.exists():
+                overdue_payment = Payment.objects.first().overdue_payment + timezone.timedelta(days=30)
+            else:
+                overdue_payment = timezone.now()
             save_payment = Payment.objects.create(
                 sponsor=user,
                 family=Family_Sponsored,
-                amount=stripe_session["metadata"]["amount_paid"]
+                amount=stripe_session["metadata"]["amount_paid"],
+                overdue_payment = overdue_payment
             )
             
             exists = SponsorFamilyRelation.objects.filter(sponsor=user, family=Family_Sponsored).exists()

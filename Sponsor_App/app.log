@@ -2515,3 +2515,54 @@ Traceback (most recent call last):
   File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'paypal' not found. 'paypal' is not a valid view function or pattern name.
+2024-12-07 09:41:51,203 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:42:23,427 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:45:03,010 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:46:05,967 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:46:18,067 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:48:15,353 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 09:49:11,805 - WARNING - Not Found: /favicon.ico
+2024-12-07 09:50:49,360 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\mixins.py changed, reloading.
+2024-12-07 09:50:57,229 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\mixins.py changed, reloading.
+2024-12-07 13:07:44,802 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\mixins.py changed, reloading.
+2024-12-07 13:08:37,716 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\mixins.py changed, reloading.
+2024-12-07 13:09:35,014 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\mixins.py changed, reloading.
+2024-12-07 13:10:12,605 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\mixins.py changed, reloading.
+2024-12-07 13:13:34,737 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-07 13:20:35,071 - ERROR - Internal Server Error: /overdue-payments/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py", line 59, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 226, in get
+    context = self.get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py", line 109, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\mixins.py", line 26, in get_context_data
+    days_difference = (timezone.now().date() - latest_payment.overdue_payment.date()).days
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'date'
+2024-12-07 13:20:35,791 - WARNING - Not Found: /favicon.ico
+2024-12-07 13:20:43,583 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-07 13:22:05,878 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-07 13:22:07,709 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-07 13:26:33,597 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-07 13:26:36,252 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-07 13:27:26,539 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.

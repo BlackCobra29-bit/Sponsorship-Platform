@@ -68,7 +68,9 @@ class Payment(models.Model):
     sponsor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments')
     family = models.ForeignKey(FamilyList, on_delete=models.CASCADE, related_name='payments')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_date = models.DateTimeField(auto_now_add=True, editable=True)
+    payment_date = models.DateTimeField(auto_now_add=True)
+    # for notification field
+    overdue_payment = models.DateTimeField()
     is_active = models.BooleanField(default=True)
     is_seen = models.BooleanField(default=False)
 
@@ -78,6 +80,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.sponsor.first_name} {self.sponsor.last_name}\'s Payment for {self.family.family_name} - {self.family.location} - ${self.amount}'
-
-    def days_since_payment(self):
-        return (timezone.now().date() - self.payment_date.date()).days
