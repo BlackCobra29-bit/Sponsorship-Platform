@@ -163,7 +163,7 @@
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
                             style="overflow-y: scroll; height: 300px;">
                             <span class="dropdown-item dropdown-header">{{ unseen_payments.count }} Unseen
-                                Notifications</span>
+                                Payments</span>
 
                             {% for payment in all_payments %}
 
@@ -202,7 +202,8 @@
                             {% endfor %}
                             <a href="{% url 'payment-history' %}"
                                 style="position: sticky; bottom: 0px; background-color: #fff;"
-                                class="dropdown-item dropdown-footer">See All Messages</a>
+                                class="dropdown-item dropdown-footer">
+                                <span class="fa fa-arrow-right"></span> See All Transaction</a>
                     </li>
                     <!-- End notification Dropdown Menu -->
 

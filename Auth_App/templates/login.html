@@ -25,7 +25,7 @@
             </a>
         </div>
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign In to continue</p>
+            <p class="login-box-msg"><i class="bi bi-1-square-fill"></i> Sign In to continue</p>
 
             <form method="post" id="auth_form">
                 {% csrf_token %}
@@ -59,9 +59,10 @@
                 </div>
 
                 {% if request.GET.family_id or request.GET|get_item:'family-id' %}
-                <div class="row d-flex justify-content-center">
+                <div class="form-group text-center">
+                    <hr>
                     <div class="col-12 text-center">
-                        <p class="login-box-msg" style="margin: 0;">Select Payment Method</p>
+                        <p class="login-box-msg" style="margin: 0;"><i class="bi bi-2-square-fill"></i> Select Payment Method</p>
                     </div>
                     <label for="payment" class="text-danger" id="paymentError" style="display: none;">Payment method is required</label>
                     <div class="col-12 mb-3">
@@ -95,8 +96,9 @@
                 {% endif %}
 
                 <div class="form-group text-center">
+                    <hr>
                     <div class="col-12 text-center">
-                        <p class="login-box-msg" style="margin: 0;">Human Verification</p>
+                        <p class="login-box-msg" style="margin: 0;"><i class="bi bi-3-square-fill"></i> Human Verification</p>
                     </div>
                     <img src="{{ captcha_image }}" class="mb-2" alt="CAPTCHA Image" id="captcha-image">
                     <input type="text" name="captcha_1" id="captcha" class="form-control mt-2"
