@@ -2589,3 +2589,54 @@ AttributeError: 'NoneType' object has no attribute 'date'
 2024-12-08 10:27:22,729 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
 2024-12-08 10:30:48,173 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
 2024-12-08 10:30:49,653 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-08 10:38:08,043 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-08 10:38:08,862 - INFO - Response[200]: OK, Duration: 0.819076s.
+2024-12-08 10:38:08,862 - INFO - PayPal-Request-Id: 95471aec-00b7-463d-8fb1-a38bed54cdac
+2024-12-08 10:38:08,863 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-08 10:38:09,932 - INFO - Response[201]: Created, Duration: 1.68448s.
+2024-12-08 10:40:56,168 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Hidrina_Website\settings.py changed, reloading.
+2024-12-08 11:44:42,601 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-08 11:44:50,106 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-08 11:44:51,151 - INFO - Response[200]: OK, Duration: 1.41834s.
+2024-12-08 11:44:51,156 - INFO - PayPal-Request-Id: 2a110d79-32c6-42cc-8868-702f07e534d2
+2024-12-08 11:44:51,156 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-08 11:44:52,262 - INFO - Response[201]: Created, Duration: 1.105110s.
+2024-12-08 11:44:54,993 - WARNING - Not Found: /favicon.ico
+2024-12-08 11:44:59,061 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-08 11:45:01,086 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2024-12-08 11:45:01,086 - INFO - error_code=None error_message='Invalid payment_method_types[1]: must be one of card, acss_debit, affirm, afterpay_clearpay, alipay, au_becs_debit, bacs_debit, bancontact, blik, boleto, cashapp, customer_balance, eps, fpx, giropay, grabpay, ideal, klarna, konbini, link, multibanco, oxxo, p24, paynow, paypal, pix, promptpay, sepa_debit, sofort, swish, us_bank_account, wechat_pay, revolut_pay, mobilepay, zip, amazon_pay, alma, twint, kr_card, naver_pay, kakao_pay, payco, or samsung_pay' error_param=payment_method_types[1] error_type=invalid_request_error message='Stripe v1 API error received'
+2024-12-08 11:45:01,091 - ERROR - Stripe error: Request req_Df2tEYJPqN5w5S: Invalid payment_method_types[1]: must be one of card, acss_debit, affirm, afterpay_clearpay, alipay, au_becs_debit, bacs_debit, bancontact, blik, boleto, cashapp, customer_balance, eps, fpx, giropay, grabpay, ideal, klarna, konbini, link, multibanco, oxxo, p24, paynow, paypal, pix, promptpay, sepa_debit, sofort, swish, us_bank_account, wechat_pay, revolut_pay, mobilepay, zip, amazon_pay, alma, twint, kr_card, naver_pay, kakao_pay, payco, or samsung_pay
+2024-12-08 11:45:36,167 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-08 11:45:43,106 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-08 11:45:44,772 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2024-12-08 11:45:44,772 - INFO - error_code=None error_message='The payment method `afterpay_clearpay` requires collecting shipping information. Either set `shipping_address_collection` or provide shipping information via `payment_intent_data[shipping]`.' error_param=None error_type=invalid_request_error message='Stripe v1 API error received'
+2024-12-08 11:45:44,772 - ERROR - Stripe error: Request req_bmhftJtOqcE18r: The payment method `afterpay_clearpay` requires collecting shipping information. Either set `shipping_address_collection` or provide shipping information via `payment_intent_data[shipping]`.
+2024-12-08 11:46:01,651 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-08 11:46:31,911 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-08 11:46:34,037 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2024-12-08 11:46:34,039 - INFO - error_code=None error_message='The payment method type provided: amazon_pay is invalid. Please ensure the provided type is activated in your dashboard (https://dashboard.stripe.com/account/payments/settings) and your account is enabled for any preview features that you are trying to use. See https://stripe.com/docs/payments/payment-methods/integration-options for supported payment method, currency, and country combinations.' error_param=payment_method_types error_type=invalid_request_error message='Stripe v1 API error received'
+2024-12-08 11:46:34,041 - ERROR - Stripe error: Request req_PReqtW0KCyEOGJ: The payment method type provided: amazon_pay is invalid. Please ensure the provided type is activated in your dashboard (https://dashboard.stripe.com/account/payments/settings) and your account is enabled for any preview features that you are trying to use. See https://stripe.com/docs/payments/payment-methods/integration-options for supported payment method, currency, and country combinations.
+2024-12-08 11:46:42,741 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-08 11:47:20,980 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-08 11:47:23,218 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-08 12:00:43,730 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Hidrina_Website\settings.py changed, reloading.
+2024-12-08 12:01:05,106 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Hidrina_Website\settings.py changed, reloading.
+2024-12-09 10:29:38,829 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-09 10:29:41,408 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-09 10:30:06,911 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-09 10:30:30,167 - WARNING - Not Found: /favicon.ico
+2024-12-09 10:30:43,325 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-09 10:32:27,055 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-09 10:32:27,881 - WARNING - Not Found: /favicon.ico
+2024-12-09 10:32:49,641 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-09 10:32:51,757 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-09 10:33:11,376 - WARNING - Not Found: /favicon.ico
+2024-12-09 10:33:45,143 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/oauth2/token
+2024-12-09 10:33:46,165 - INFO - Response[200]: OK, Duration: 1.21841s.
+2024-12-09 10:33:46,167 - INFO - PayPal-Request-Id: 8246e61c-e34a-499e-b8fd-7563cfd26efb
+2024-12-09 10:33:46,168 - INFO - Request[POST]: https://api.sandbox.paypal.com/v1/payments/payment
+2024-12-09 10:33:47,179 - INFO - Response[201]: Created, Duration: 1.9552s.
+2024-12-09 10:33:52,564 - WARNING - Not Found: /favicon.ico
+2024-12-09 10:34:06,000 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-09 10:34:06,782 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-09 10:34:39,725 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.

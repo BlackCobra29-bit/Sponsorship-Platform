@@ -196,6 +196,7 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                             "unit_amount": amount_in_cents,
                             "product_data": {
                                 "name": selected_family.family_name,
+                                 "description": selected_family.family_bio,
                                 "images": [
                                     "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
                                 ],
