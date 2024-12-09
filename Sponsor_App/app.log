@@ -2640,3 +2640,11 @@ AttributeError: 'NoneType' object has no attribute 'date'
 2024-12-09 10:34:06,000 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
 2024-12-09 10:34:06,782 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
 2024-12-09 10:34:39,725 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-09 11:55:35,971 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 11:56:46,428 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 11:57:31,741 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 11:59:41,085 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 12:00:21,059 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 12:01:02,801 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 12:02:35,283 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-09 12:02:40,478 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.

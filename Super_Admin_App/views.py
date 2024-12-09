@@ -429,3 +429,5 @@ class PaymentDetailView(SuperAdminRequiredMixin, TransactionContextMixin, Sponso
             payment.save()
         
         return payment
+
+# End of the view page
