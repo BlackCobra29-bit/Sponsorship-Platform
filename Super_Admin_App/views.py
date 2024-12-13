@@ -75,7 +75,7 @@ class SponsorManagementPage(SuperAdminRequiredMixin, TransactionContextMixin, Sp
 class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, CreateView):
     template_name = "add_family.html"
     model = FamilyList
-    fields = ['family_name', 'location', 'contact_address', 'no_of_family_members', 'family_bio']
+    fields = ['family_name', 'location', 'contact_address', 'family_bio']
 
     def post(self, request, *args, **kwargs):
         family = FamilyList.objects.create(
@@ -83,7 +83,6 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPay
             location=request.POST.get('location'),
             contact_address=request.POST.get('contact_address'),
             bank_account = request.POST.get('bank_account'),
-            no_of_family_members=request.POST.get('no_of_family_members'),
             family_bio=request.POST.get('family_bio'),
         )
 

@@ -2648,3 +2648,310 @@ AttributeError: 'NoneType' object has no attribute 'date'
 2024-12-09 12:01:02,801 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
 2024-12-09 12:02:35,283 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
 2024-12-09 12:02:40,478 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-11 05:36:19,746 - WARNING - Not Found: /favicon.ico
+2024-12-11 05:48:44,241 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 05:52:09,804 - ERROR - Internal Server Error: /add-family/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\views.py", line 31, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 178, in get
+    return super().get(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 142, in get
+    return self.render_to_response(self.get_context_data())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 7, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 15, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 72, in get_context_data
+    kwargs["form"] = self.get_form()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 108, in get_form_class
+    return model_forms.modelform_factory(model, fields=self.fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) specified for FamilyList
+2024-12-11 05:53:34,380 - ERROR - Internal Server Error: /add-family/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\views.py", line 31, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 178, in get
+    return super().get(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 142, in get
+    return self.render_to_response(self.get_context_data())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 7, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 15, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 72, in get_context_data
+    kwargs["form"] = self.get_form()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 108, in get_form_class
+    return model_forms.modelform_factory(model, fields=self.fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) specified for FamilyList
+2024-12-11 05:55:03,187 - ERROR - Internal Server Error: /add-family/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\views.py", line 31, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 178, in get
+    return super().get(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 142, in get
+    return self.render_to_response(self.get_context_data())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 7, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 15, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 72, in get_context_data
+    kwargs["form"] = self.get_form()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 108, in get_form_class
+    return model_forms.modelform_factory(model, fields=self.fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) specified for FamilyList
+2024-12-11 05:57:37,108 - ERROR - Internal Server Error: /add-family/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\views.py", line 31, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 178, in get
+    return super().get(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 142, in get
+    return self.render_to_response(self.get_context_data())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 7, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 15, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 72, in get_context_data
+    kwargs["form"] = self.get_form()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 108, in get_form_class
+    return model_forms.modelform_factory(model, fields=self.fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) specified for FamilyList
+2024-12-11 05:58:00,309 - ERROR - Internal Server Error: /add-family/
+Traceback (most recent call last):
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\views.py", line 31, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 178, in get
+    return super().get(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 142, in get
+    return self.render_to_response(self.get_context_data())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 7, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\hidrina_Website\Super_Admin_App\mixins.py", line 15, in get_context_data
+    context = super().get_context_data(**kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 72, in get_context_data
+    kwargs["form"] = self.get_form()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\views\generic\edit.py", line 108, in get_form_class
+    return model_forms.modelform_factory(model, fields=self.fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 654, in modelform_factory
+    return type(form)(class_name, (form,), form_class_attrs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\emine\OneDrive\Documents\Hidrina_Org\venv\Lib\site-packages\django\forms\models.py", line 334, in __new__
+    raise FieldError(message)
+django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) specified for FamilyList
+2024-12-11 05:58:25,430 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-11 05:58:34,237 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-11 14:25:22,835 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:25:51,214 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:27:08,540 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:28:04,968 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:28:18,059 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:28:29,324 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\admin.py changed, reloading.
+2024-12-11 14:28:41,556 - WARNING - Not Found: /favicon.ico
+2024-12-11 14:28:53,916 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:30:09,361 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\models.py changed, reloading.
+2024-12-11 14:33:10,958 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-11 20:52:47,812 - WARNING - Not Found: /media/family_photos/Screenshot_2_1.png
+2024-12-11 20:52:51,044 - WARNING - Not Found: /media/family_photos/Screenshot_2_1.png
+2024-12-11 20:53:26,832 - WARNING - Not Found: /media/family_photos/Screenshot_2_1.png
+2024-12-11 20:55:00,634 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\views.py changed, reloading.
+2024-12-11 22:00:06,221 - WARNING - Not Found: /favicon.ico
+2024-12-12 16:13:58,064 - WARNING - Not Found: /favicon.ico
+2024-12-12 16:27:50,508 - WARNING - Not Found: /favicon.ico
+2024-12-12 18:40:52,113 - WARNING - Not Found: /favicon.ico
+2024-12-12 18:43:37,505 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-12 18:44:02,502 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 18:44:04,224 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2024-12-12 18:44:04,227 - INFO - error_code=email_invalid error_message='Invalid email address: ' error_param=customer_email error_type=invalid_request_error message='Stripe v1 API error received'
+2024-12-12 18:44:04,228 - ERROR - Stripe error: Request req_c86b8d11r1QqxA: Invalid email address: 
+2024-12-12 18:45:15,369 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 18:45:17,599 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=400
+2024-12-12 18:45:17,600 - INFO - error_code=email_invalid error_message='Invalid email address: ' error_param=customer_email error_type=invalid_request_error message='Stripe v1 API error received'
+2024-12-12 18:45:17,601 - ERROR - Stripe error: Request req_u9MqxSjDYUCSPg: Invalid email address: 
+2024-12-12 18:46:50,709 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 18:46:52,829 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 19:00:28,461 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-12 19:01:11,413 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 19:01:14,018 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 19:08:21,247 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 19:08:23,769 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 19:09:17,273 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-12 19:59:57,764 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-12 20:00:31,888 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:00:33,752 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:01:22,512 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-12 20:01:57,166 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:01:59,236 - WARNING - Forbidden (CSRF token from POST incorrect.): /login-page/
+2024-12-12 20:01:59,484 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:02:34,684 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:02:37,155 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:04:49,208 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Sponsor_App\views.py changed, reloading.
+2024-12-12 20:05:17,389 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:05:19,666 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:13:10,098 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:13:12,447 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:14:25,155 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:14:34,758 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:17:31,402 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:17:38,732 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:17:46,021 - WARNING - Not Found: /accounts/login/
+2024-12-12 20:19:27,573 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:19:29,870 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:21:00,009 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:21:09,639 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:21:18,181 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:22:14,103 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:22:30,822 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:23:54,663 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:23:57,149 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 20:25:20,576 - WARNING - Not Found: /favicon.ico
+2024-12-12 20:27:00,166 - INFO - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/checkout/sessions
+2024-12-12 20:27:02,506 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
+2024-12-12 22:55:35,039 - WARNING - Not Found: /favicon.ico
+2024-12-13 09:28:25,179 - WARNING - Not Found: /favicon.ico

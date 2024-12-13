@@ -198,7 +198,9 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                                 "name": selected_family.family_name,
                                  "description": selected_family.family_bio,
                                 "images": [
-                                    "https://www.ippf.org/sites/default/files/2022-05/ippf_humanitarian_tigray_crisis_sudan_2022_89763_ippf_hannah_maule-ffinch_sudan_ippf.jpg"
+                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_58.png",
+                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_57.png",
+                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_56.png"
                                 ],
                             },
                         },

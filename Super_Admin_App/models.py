@@ -8,7 +8,6 @@ class FamilyList(models.Model):
     family_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     contact_address = models.CharField(max_length=100, null=True, blank=True)
-    no_of_family_members = models.PositiveIntegerField()
     bank_account = models.CharField(max_length=255, null=True, blank=True)
     family_bio = models.TextField()
     is_sponsored = models.BooleanField(default=False)

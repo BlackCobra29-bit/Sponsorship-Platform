@@ -37,7 +37,6 @@
                     <th>Family Name</th>
                     <th>Address</th>
                     <th>Contact Information</th>
-                    <th>Family Members</th>
                     <th>Sponsored?</th>
                     <th>Sponsored On</th>
                     <th>Sponsored By</th>
@@ -60,7 +59,6 @@
                       <span class="text-sm">N/A</span>
                       {% endif %}
                     </td>
-                    <td>{{ item.family.no_of_family_members }}</td>
                     <td>
                       {% if not item.family.is_sponsored %}
                       <span class="badge rounded-pill bg-danger">Unsponsored</span>

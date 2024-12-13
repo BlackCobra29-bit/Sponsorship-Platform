@@ -403,14 +403,12 @@
                 rules: {
                     family_name: { required: true },
                     location: { required: true },
-                    no_of_family_members: { required: true, number: true },
                     family_bio: { required: true },
                 },
                 messages: {
                     family_name: "Please enter a family name",
                     location: "Please enter a location",
-                    no_of_family_members: "Please enter a valid number of family members",
-                    family_bio: "Please enter a family bio"
+                    family_bio: "Please enter a family status"
                 },
                 errorElement: 'span',
                 errorPlacement: function (error, element) {

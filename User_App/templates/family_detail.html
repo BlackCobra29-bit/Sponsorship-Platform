@@ -23,22 +23,19 @@
                     {% empty %}
                     <div class="m-2">
                       <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
-                        alt="No Image Available" style="height: 200`px; width: auto" />
+                        alt="No Image Available" style="height: 200px; width: auto" />
                     </div>
                     {% endfor %}
                   </div>
-                  <ul>
-                    <li class="d-flex align-items-center">
+                  <ul class="d-flex flex-column align-items-center">
+                    <li class="d-flex align-items-center list-item-padding">
                       <i class="bi bi-person"></i>
                       <small>{{ family.family_name }}</small>
                     </li>
-                    <li class="d-flex align-items-center">
+                    <br>
+                    <li class="d-flex align-items-center list-item-padding">
                       <i class="bi bi-geo-alt"></i>
                       <small>{{ family.location }}</small>
-                    </li>
-                    <li class="d-flex align-items-center">
-                      <i class="bi bi-people ms-2 me-1"></i>
-                      <small>{{ family.no_of_family_members }} Family Members</small>
                     </li>
                   </ul>
                 </div>
