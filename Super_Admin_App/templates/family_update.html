@@ -54,6 +54,14 @@
                                                         <input type="text" class="form-control" name="contact_address" placeholder="Enter contact number" value="{{ family.contact_address }}">
                                                     </div>
                                                 </div>
+                                                {% if family.bank_account %}
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputContact">Bank Account:</label>
+                                                        <input type="text" class="form-control" name="bank_account" placeholder="Enter contact number" value="{{ family.bank_account }}">
+                                                    </div>
+                                                </div>
+                                                {% endif %}
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">

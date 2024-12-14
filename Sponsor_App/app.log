@@ -2955,3 +2955,6 @@ django.core.exceptions.FieldError: Unknown field(s) (no_of_family_members) speci
 2024-12-12 20:27:02,506 - INFO - message='Stripe API response' path=https://api.stripe.com/v1/checkout/sessions response_code=200
 2024-12-12 22:55:35,039 - WARNING - Not Found: /favicon.ico
 2024-12-13 09:28:25,179 - WARNING - Not Found: /favicon.ico
+2024-12-13 18:05:09,690 - WARNING - Not Found: /favicon.ico
+2024-12-13 21:53:22,200 - WARNING - Not Found: /favicon.ico
+2024-12-14 11:07:08,580 - INFO - C:\Users\emine\OneDrive\Documents\Hidrina_Org\Hidrina_Website\Super_Admin_App\forms.py changed, reloading.
