@@ -1,4 +1,0 @@
-# email should be checked for all even the superuser
-
-# Django debug toolbar should be deleted at the end of the hosting 
-        from settings.py and urls.py
