@@ -50,7 +50,7 @@ class MonthlyAmount(models.Model):
     amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        verbose_name="Monthly Amount"
+        verbose_name="Monthly Amount", default="30.00"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -79,3 +79,13 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.sponsor.first_name} {self.sponsor.last_name}\'s Payment for {self.family.family_name} - {self.family.location} - ${self.amount}'
+    
+class EmailCredential(models.Model):
+    email_host_user = models.EmailField()
+    email_host_password = models.CharField(max_length=255)
+    
+    class Meta:
+        verbose_name_plural = "AppEmail"
+        
+    def __str__(self):
+        return f'{self.email_host_user} - Hidrina AppEmail'

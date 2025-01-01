@@ -1,4 +1,5 @@
 import os
+import uuid
 import stripe
 import logging
 from django.db.models import Sum
@@ -29,7 +30,7 @@ from .mixins import MessageContextMixin, SponsorPaymentNotificationMixin
 from Super_Admin_App.forms import UserModelForm, CustomPasswordChangeForm
 from django.dispatch import receiver
 from paypal.standard.ipn.signals import valid_ipn_received
-import paypalrestsdk
+from paypal.standard.forms import PayPalPaymentsForm
 
 log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log')
 
@@ -44,12 +45,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-paypalrestsdk.configure({
-    "mode": settings.PAYPAL_MODE,
-    "client_id": settings.PAYPAL_CLIENT_ID,
-    "client_secret": settings.PAYPAL_SECRET_KEY,
-})
 
 class SuperAdminRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
@@ -291,96 +286,32 @@ class WebhookManagerView(View):
             print(f"Error saving payment: {str(e)}")
             
 class PayPalCheckoutView(SuperAdminRequiredMixin, View):
+    
     def get(self, request, family_id, *args, **kwargs):
         try:
             monthly_amount = MonthlyAmount.objects.first().amount
             selected_family = get_object_or_404(FamilyList, pk=family_id)
 
-            payment = paypalrestsdk.Payment({
-                "intent": "sale",
-                "payer": {
-                    "payment_method": "paypal"
-                },
-                "redirect_urls": {
-                    "return_url": request.build_absolute_uri(
-                        f"{reverse('payment-success')}?family_id={family_id}"
-                    ),
-                    "cancel_url": request.build_absolute_uri(reverse("payment-cancel"))
-                },
-                "transactions": [{
-                    "item_list": {
-                        "items": [{
-                            "name": selected_family.family_name,
-                            "sku": str(selected_family.id),
-                            "price": str(monthly_amount),
-                            "currency": "USD",
-                            "quantity": 1
-                        }]
-                    },
-                    "amount": {
-                        "total": str(monthly_amount),
-                        "currency": "USD"
-                    },
-                    "description": f"Sponsorship payment for {selected_family.family_name}",
-                    "custom": f"{selected_family.id}|{request.user.id}"
-                }],
-                "application_context": {
-                    "brand_name": "Hidrina Website",
-                    "locale": "en-US",
-                    "shipping_preference": "NO_SHIPPING",
-                    "landing_page": "LOGIN",
-                    "user_action": "commit"
-                }
-            })
+            paypal_dict = {
+                "business": settings.PAYPAL_RECEIVER_EMAIL,
+                "amount": str(monthly_amount),
+                "item_name": f"Sponsorship payment for {selected_family.family_name}",
+                "invoice": str(uuid.uuid4()),
+                "currency_code": "USD",
+                "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+                "return": request.build_absolute_uri(reverse("payment-success")),
+                "cancel_return": request.build_absolute_uri(reverse("payment-cancel")),
+                "custom": f"{selected_family.id}|{request.user.id}",
+            }
 
-            if payment.create():
-                for link in payment.links:
-                    if link.method == "REDIRECT" and link.rel == "approval_url":
-                        return redirect(link.href)
-            
-            else:
-                logger.error(f"Failed to create PayPal payment: {payment.error}")
-                messages.error(request, "Failed to initialize PayPal checkout.")
-                return redirect("family-list-page")
+            form = PayPalPaymentsForm(initial=paypal_dict)
+            return render(request, 'process_payment.html', {'form': form})
+
 
         except Exception as e:
             logger.error(f"Error during PayPal checkout: {str(e)}")
             messages.error(request, "An error occurred during checkout.")
             return redirect("family-list-page")
-
-@receiver(valid_ipn_received)
-def paypal_payment_received(sender, **kwargs):
-    ipn_obj = sender
-
-    if ipn_obj.payment_status == "Completed":
-        try:
-            family_id, sponsor_id = ipn_obj.custom.split('|')
-            user = User.objects.get(id=sponsor_id)
-            family_sponsored = get_object_or_404(FamilyList, pk=family_id)
-
-            if Payment.objects.exists():
-                overdue_payment = Payment.objects.first().overdue_payment + timezone.timedelta(days=30)
-            else:
-                overdue_payment = timezone.now()
-
-            Payment.objects.create(
-                sponsor=user,
-                family=family_sponsored,
-                amount=ipn_obj.mc_gross,
-                overdue_payment = overdue_payment
-            )
-            
-            SponsorFamilyRelation.objects.get_or_create(
-                sponsor=user,
-                family=family_sponsored
-            )
-            
-            if not family_sponsored.is_sponsored:
-                family_sponsored.is_sponsored = True
-                family_sponsored.save()
-  
-        except Exception as e:
-            logger.error(f"Error processing PayPal IPN: {str(e)}")
 
 class PaymentSuccessView(SuperAdminRequiredMixin, SponsorPaymentNotificationMixin, MessageContextMixin, TemplateView):
     login_url = "/login-page"

@@ -99,12 +99,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'admin-account' %}" class="nav-link"><i class="fa fa-user-shield"></i>
+                            <a href="{% url 'admin-account' %}"
+                                class="nav-link {% if request.resolver_match.url_name == 'admin-account' %}active{% endif %}"><i
+                                    class="fa fa-user-shield"></i>
                                 Admins</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{% url 'monthly-sponsorship-settings' %}" class="nav-link"><i
-                                    class="fa fa-cog"></i> Settings</a>
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"
+                                class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'monthly-sponsorship-settings' or request.resolver_match.url_name == 'email-service-settings' %}active{% endif %}">
+                                <i class="fa fa-cog"></i> Settings
+                            </a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                <li><a href="{% url 'monthly-sponsorship-settings' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'monthly-sponsorship-settings' %}active{% endif %}">
+                                        <span class="fa fa-dollar-sign"></span> Monthly Amount</a></li>
+                                <li><a href="{% url 'email-service-settings' %}"
+                                        class="dropdown-item {% if request.resolver_match.url_name == 'email-service-settings' %}active{% endif %}">
+                                        <i class="fab fa-yahoo"></i> Email Service</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -122,21 +135,25 @@
                             </span>
                             {% endif %}
                         </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="overflow-y: scroll; height: 300px;">
-                            <span class="dropdown-item dropdown-header">{{ overdue_payments|length }} Unseen Notifications</span>
-                    
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                            style="overflow-y: scroll; height: 300px;">
+                            <span class="dropdown-item dropdown-header">{{ overdue_payments|length }} Unseen
+                                Notifications</span>
+
                             {% for notification in overdue_payments %}
-                            <a href="" class="dropdown-item">
+                            <a class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                    <img src="{{ notification.sponsor.sponosraccount.sponsor_photo.url }}" alt="User Avatar"
-                                        class="img-size-50 mr-3 img-circle">
+                                    <img src="{{ notification.sponsor.sponosraccount.sponsor_photo.url }}"
+                                        alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
-                                            <b class="text-danger">{{ notification.sponsor.first_name }} {{ notification.sponsor.last_name }}</b>
+                                            <b class="text-danger">{{ notification.sponsor.first_name }} 
+                                                {{ notification.sponsor.last_name }}</b>
                                         </h3>
                                         <p class="text-sm">
-                                            Overdue Payment for <b>{{ notification.family.family_name }}</b> by <strong>{{ notification.days_overdue }}</strong> days
+                                            Overdue Payment for <b>{{ notification.family.family_name }}</b> by
+                                            <strong>{{ notification.days_overdue }}</strong> days
                                         </p>
                                     </div>
                                 </div>
@@ -144,8 +161,6 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             {% endfor %}
-                            <a href="{% url 'payment-history' %}" style="position: sticky; bottom: 0px; background-color: #fff;" 
-                               class="dropdown-item dropdown-footer">See All Messages</a>
                         </div>
                     </li>
                     <!-- End message Dropdown Menu -->
@@ -562,6 +577,94 @@
     </script>
 
 
+    <!-- Asyncio script responsible for Email Service Updating -->
+    <script>
+        $(document).ready(function () {
+
+            // Validate the form
+            $('#update_email_service').validate({
+                rules: {
+                    update_email_user: { required: true, email: true },
+                    update_email_password: { required: true } // Updated to match the input name
+                },
+                messages: {
+                    update_email_user: {
+                        required: "Please enter an email address",
+                        email: "Please enter a valid email address"
+                    }, // Updated to match the input name
+                    update_email_password: "This field is required." // Updated to match the input name
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    error.insertAfter(element);
+                },
+                highlight: function (element) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass('is-invalid');
+                },
+
+                // This function runs when the form is valid
+                submitHandler: function (form) {
+                    var formData = new FormData(form); // Collect the form data, including files
+                    $.ajax({
+                        url: "{% url 'email-service-settings' %}", // The URL of the Django view handling the form
+                        type: "POST",
+                        data: formData,
+                        processData: false,  // Prevent jQuery from processing the data
+                        contentType: false,  // Prevent jQuery from overriding content type
+                        beforeSend: function () {
+                            // Show loading spinner
+                            $('#loadingIndicator').show();
+                        },
+                        success: function (response) {
+                            // Hide loading spinner
+                            $('#loadingIndicator').hide();
+
+                            if (response.success) {
+                                // Success SweetAlert
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: response.message,
+                                    confirmButtonText: 'OK',
+                                    timer: 3000
+                                }).then(() => {
+                                    // Redirect and reload after 1 second
+                                    setTimeout(function () {
+                                        location.reload(); // Reload the page
+                                    }, 500); // 1000 milliseconds = 1 second
+                                });
+                            } else {
+                                // Error SweetAlert
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: response.message,
+                                    confirmButtonText: 'Try Again',
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Hide loading spinner
+                            $('#loadingIndicator').hide();
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while updating. Please try again later.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
     <!-- Asyncio script responsible for asyncio messaging -->
     <script>
         $(document).ready(function () {
@@ -740,26 +843,26 @@
     <!-- swal for logout -->
     <script>
         function confirmLogout() {
-          Swal.fire({
-            title: "Are you sure?",
-            text: `Are you sure you want to signout?`,
-            showCancelButton: true,
-            confirmButtonColor: "#7066e0",
-            cancelButtonColor: "#d33",
-            confirmButtonText:
-              'Continue <span class="fa fa-arrow-right"></span> ',
-            cancelButtonText: "Cancel",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              const form = document.createElement("form");
-              form.action = `{% url 'admin-logout' %}`;
-              form.innerHTML = `{% csrf_token %}`;
-              document.body.appendChild(form);
-              form.submit();
-            }
-          });
+            Swal.fire({
+                title: "Are you sure?",
+                text: `Are you sure you want to signout?`,
+                showCancelButton: true,
+                confirmButtonColor: "#7066e0",
+                cancelButtonColor: "#d33",
+                confirmButtonText:
+                    'Continue <span class="fa fa-arrow-right"></span> ',
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement("form");
+                    form.action = `{% url 'admin-logout' %}`;
+                    form.innerHTML = `{% csrf_token %}`;
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
         }
-      </script>
+    </script>
 
 </body>
 

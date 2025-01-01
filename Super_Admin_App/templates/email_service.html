@@ -1,0 +1,88 @@
+{% extends 'super_admin_base.html' %}
+
+{% load static %}
+
+{% block main-body %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"><i class="fab fa-yahoo"></i> Email Service</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <!-- center column -->
+                <div class="col-lg-10 ">
+                    <!-- general form elements -->
+                    <div class="card card-default">
+                        <!-- form start -->
+                        <form method="POST" enctype="multipart/form-data" id="update_email_service">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label for="Email">Email: <code>*</code></label>
+                                            <input type="email" class="form-control" name="update_email_user"
+                                                placeholder="Update email" value="{{ email_user }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Email">Email App Password: <code>*</code></label>
+                                            <input type="text" class="form-control" name="update_email_password"
+                                                placeholder="Update email app password" value="{{ email_password }}" required>
+                                        </div>
+                                        <div class="float-right">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Centered loading spinner styling -->
+<style>
+    #loadingIndicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        /* Ensure it's above other elements */
+    }
+</style>
+
+<!-- Loading spinner -->
+<div id="loadingIndicator">
+    <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
+</div>
+
+<!-- Page specfic script -->
+
+<!-- Include SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% endblock %}

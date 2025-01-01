@@ -10,7 +10,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
-from .models import FamilyList, FamilyImage, MonthlyAmount
+from .models import FamilyList, FamilyImage, MonthlyAmount, EmailCredential
 from Sponsor_App.models import SponosrAccount, SponsorFamilyRelation
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
@@ -279,6 +279,28 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin,
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
 
+# Email service settings
+class EmailService(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
+    template_name = "email_service.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        email_service = get_object_or_404(EmailCredential)
+        context['email_user'] = email_service.email_host_user
+        context['email_password'] = email_service.email_host_password
+        return context
+
+    def post(self, request, *args, **kwargs):
+        email_service = get_object_or_404(EmailCredential)
+        new_email_user = request.POST.get('update_email_user')
+        new_email_password = request.POST.get('update_email_password')
+        if new_email_user and new_email_password:
+            email_service.email_host_user = new_email_user
+            email_service.email_host_password = new_email_password
+            email_service.save()
+
+        return JsonResponse({"success": True, "message": "Email service credentials updated successfully!"})
+
 class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, UpdateView):
     model = User
     form_class = UserModelForm
@@ -330,7 +352,7 @@ class CreateAdminAccount(SuperAdminRequiredMixin, TransactionContextMixin, Spons
                     "message": "Email already taken. Please use another.",
                 }
             )
-        
+            
         # Check if username already exists
         if User.objects.filter(username=username).exists():
             return JsonResponse(

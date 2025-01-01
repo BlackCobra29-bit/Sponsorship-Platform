@@ -38,6 +38,7 @@ from Super_Admin_App.views import (
     DeleteFamilyImageView,
     ExportFamilyDataView,
     MonthlySponsorshipAmount,
+    EmailService,
     SponsorManagementPage,
     PasswordAdminUpdateView,
     UserAdminUpdateView,
@@ -115,6 +116,11 @@ urlpatterns = [
         MonthlySponsorshipAmount.as_view(),
         name="monthly-sponsorship-settings",
     ),
+    path(
+        "email-service-settings/",
+        EmailService.as_view(),
+        name="email-service-settings",
+    ),
     path("admin-account/<int:pk>/update/", UserAdminUpdateView.as_view(), name="admin-account-update"),
     path("admin-password/change/", PasswordAdminUpdateView.as_view(), name="password_admin_change"),
     path("create-admin-account/", CreateAdminAccount.as_view(), name = "admin-account"),
@@ -133,5 +139,5 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 
     # Add this new PayPal URL pattern
-    path('paypal/', include('paypal.standard.ipn.urls')),
+    path('paypal/', include("paypal.standard.ipn.urls")),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

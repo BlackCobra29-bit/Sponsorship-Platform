@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+import django
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,12 +147,19 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+django.setup()
+
+from Super_Admin_App.models import EmailCredential
+from django.shortcuts import get_object_or_404
+
+email_service = get_object_or_404(EmailCredential)
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tekalyshgute@gmail.com'
-EMAIL_HOST_PASSWORD = 'uixo hcnw afjg rfkq'
+EMAIL_HOST_USER = email_service.email_host_user
+EMAIL_HOST_PASSWORD = email_service.email_host_password
 
 STRIPE_PUBLISHABLE_KEY = "pk_test_51OIB3vDukDI7g1h0sDzi3Mx2oRzARIoiDmuBoYcxh5bpPuiSWM9FmzWvkW3q8CWOoEhtpjxTzUEuCpoEN6H23Qef00pv6Iqe1b"
 STRIPE_SECRET_KEY = "sk_test_51OIB3vDukDI7g1h0VREjlwcJc3ZHniPtQESOjgm4MSTVOyjX6Vo9KzRJzfZNDkDAlsmzFVG84IkjlJ7CdXLktpLP001kF8LGZC"
