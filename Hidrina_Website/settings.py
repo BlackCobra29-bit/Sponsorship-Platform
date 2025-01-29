@@ -17,11 +17,6 @@ import django
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Django Debug Toolbar / can be deleted during deployment
-import socket
-hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-INTERNAL_IPS = [ip[: ip.rfind('.')] + '.1' for ip in ips] + ['127.0.0.1']
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -161,9 +156,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = email_service.email_host_user
 EMAIL_HOST_PASSWORD = email_service.email_host_password
 
-STRIPE_PUBLISHABLE_KEY = "pk_test_51OIB3vDukDI7g1h0sDzi3Mx2oRzARIoiDmuBoYcxh5bpPuiSWM9FmzWvkW3q8CWOoEhtpjxTzUEuCpoEN6H23Qef00pv6Iqe1b"
-STRIPE_SECRET_KEY = "sk_test_51OIB3vDukDI7g1h0VREjlwcJc3ZHniPtQESOjgm4MSTVOyjX6Vo9KzRJzfZNDkDAlsmzFVG84IkjlJ7CdXLktpLP001kF8LGZC"
-STRIPE_WEBHOOK_SECRET = "whsec_e2e5aaae0e26a925dd59a934247ce737e5e61fdbfb163c4c773ffd0c1bbefd74"
+STRIPE_PUBLISHABLE_KEY = "pk_test_51MesyURrwQfTWptQiWgSRQNztyLlr0pnM0duElooidTFonJNz6GBg9sV9pe1JkudWCzjZl1YrbFuo7xj7VpfGBQV00FYBavB6B"
+STRIPE_SECRET_KEY = "sk_test_51MesyURrwQfTWptQ4xBQh3VVU59pLrqI6PLFpYfLbio7OX6WYIpsu9aqF3L91ilG2EzDeO9wdKcdP7zplWqyG5Jx00rloWK0S1"
+STRIPE_WEBHOOK_SECRET = "whsec_4nz4DAIYfdO5P47UMMLomY2Hnp0z5iGa"
 
 PAYPAL_CLIENT_ID = "ARDwgsy_tNRfW2inVJ-bBD5BsppiEY3-t0vpuHDWISdMFbEyaLlhee2R_oBdK_xai5oDL3oWCqf9kiHL"
 PAYPAL_SECRET_KEY = "EC28vsKv6XKLQte7u5P5qpgHz8CFgyDqnp1R2gbz7SP5A0P9omh9a3GlyWq3jWBG6m4wt5r9pZ5DOooz"

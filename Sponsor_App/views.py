@@ -192,11 +192,6 @@ class StripeCheckoutView(SuperAdminRequiredMixin, View):
                             "product_data": {
                                 "name": selected_family.family_name,
                                  "description": selected_family.family_bio,
-                                "images": [
-                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_58.png",
-                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_57.png",
-                                    "https://coderspdf.com/wp-content/uploads/2024/12/Screenshot_56.png"
-                                ],
                             },
                         },
                         "quantity": 1,

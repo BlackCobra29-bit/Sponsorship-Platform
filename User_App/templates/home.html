@@ -20,7 +20,6 @@
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
   <!-- Vendor CSS Files -->
-  <!-- Vendor CSS Files -->
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
@@ -30,10 +29,10 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
-
-  <script type="text/javascript"
-    src="https://platform-api.sharethis.com/js/sharethis.js#property=66fab4780661ee0019d47ad4&product=sticky-share-buttons&source=platform"
-    async="async"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/theme-toggle@0.1.5/dist/theme-toggle.js"
+    crossorigin="anonymous"></script>
 
 </head>
 
@@ -44,6 +43,7 @@
       width: 50%;
       margin-bottom: 10px;
     }
+
     .letters {
       white-space: nowrap;
       font-size: 60%;
@@ -70,21 +70,17 @@
 
           <nav id="navmenu" class="navmenu">
             <ul>
-              <li><a href="{% url 'home-page' %}" class="active"><i class="bi bi-bank"></i>&nbsp Home<br></a></li>
-              <li><a href="{% url 'family-list-page' %}"><i class="bi bi-people"></i>&nbsp Martyer's Family</a>
+              <li><a href="{% url 'home-page' %}" class="active"> <ion-icon name="home-outline"></ion-icon>&nbsp; Home<br></a>
               </li>
-              <li><a href="{% url 'about-us-page' %}"><i class="bi bi-file-person"></i>&nbsp About Us</a></li>
-              <li><a href="{% url 'admin-login' %}"><i class="bi bi-telephone-outbound-fill"></i>&nbsp Sign in</a></li>
-
-              <div class="social-links d-none d-md-flex align-items-center">
-                <a href="https://x.com/Hidrina1_Org" target="_blank" class="twitter me-2 text-info"><i
-                    class="bi bi-twitter-x"></i></a>
-                <a href="https://www.facebook.com/HidrinaOrg" target="_blank" class="facebook me-2 text-info"><i
-                    class="bi bi-facebook"></i></a>
-                <a href="https://www.instagram.com/hidrina_org/?hl=en" target="_blank"
-                  class="instagram me-2 text-info"><i class="bi bi-instagram"></i></a>
-              </div>
-
+              <li><a href="{% url 'family-list-page' %}"><ion-icon name="person-outline"></ion-icon>&nbsp; Martyer's Family</a>
+              </li>
+              <li><a href="{% url 'about-us-page' %}"><ion-icon name="id-card-outline"></ion-icon>&nbsp; About Us</a></li>
+              <li><a href="{% url 'admin-login' %}"><ion-icon name="key-outline"></ion-icon>&nbsp; Sign in</a></li>
+              <li>
+                <a class="nav-link" id="themeToggleLink">
+                  <theme-toggle storable="true" width="20" theme="light"></theme-toggle>
+                </a>
+              </li>
 
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -105,9 +101,27 @@
 
             <h1 class="ml10">
               <span class="text-wrapper">
-                <span class="letters">Welcome to Hidrina</span>
+                <span class="letters">
+                  Welcome to <span class="hidrina">Hidrina</span>
+                </span>
               </span>
             </h1>
+
+
+            <style>
+              @media (max-width: 768px) {
+
+                /* Adjust the max-width as needed */
+                h1.ml10 .letters {
+                  font-size: 3rem;
+                  /* Increased font size for mobile */
+                }
+
+                .hidrina {
+                  white-space: pre-wrap;
+                }
+              }
+            </style>
 
             <p class="animate__animated animate__rollIn">Our mission is to provide physical, psychological, financial,
               and social support services to improve the
@@ -128,17 +142,17 @@
   <main class="main">
 
     <section id="services" class="services section">
-    
+
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Our Sponsorship Steps</h2>
         <p>Join us in supporting families in need by following these simple steps.</p>
       </div><!-- End Section Title -->
-    
+
       <div class="container">
-    
+
         <div class="row gy-4">
-    
+
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item position-relative">
               <div class="icon">
@@ -148,32 +162,53 @@
               <p>User will select a family in need and create an account to begin their sponsorship journey.</p>
             </div>
           </div><!-- End Service Item -->
-    
+
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="service-item position-relative">
               <div class="icon">
                 <i class="bi bi-cash-coin"></i> <!-- Updated icon -->
               </div>
               <h3><i class="bi bi-2-circle-fill"></i> Monthly Donation</h3>
-              <p>Sponsor will donate a <span class="fw-bold text-success">{{ monthly_amount.amount }}$</span> monthly amount to support the selected family and their needs.</p>
+              <p>Sponsor will donate a <span class="fw-bold text-success">{{ monthly_amount.amount }}$</span> monthly
+                amount to support the selected family and their needs.</p>
             </div>
           </div><!-- End Service Item -->
-    
+
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="service-item position-relative">
               <div class="icon">
                 <i class="bi bi-envelope-open"></i> <!-- Updated icon -->
               </div>
               <h3><i class="bi bi-3-circle-fill"></i> Monthly Updates</h3>
-              <p>Sponsor will receive monthly updates about the family they sponsored, fostering a meaningful connection.</p>
+              <p>Sponsor will receive monthly updates about the family they sponsored, fostering a meaningful
+                connection.</p>
             </div>
           </div><!-- End Service Item -->
-    
+
         </div>
-    
+
       </div>
-    
+
     </section><!-- /Services Section -->
+
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section dark-background">
+
+      <div class="container">
+        <img src="{% static 'img/cover.jpeg' %}" alt="">
+        <div class="content row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-10">
+            <div class="text-center">
+              <a href="https://www.youtube.com/watch?v=NB3pEcVzsKY" class="glightbox play-btn"></a>
+              <h3>Guide to Sponsorship</h3>
+              <p>A short and engaging video guide that walks you through the process of sponsoring a family. Clear
+                steps, helpful tips, and everything you need to get started—all in one video!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Call To Action Section -->
 
     <!-- Sponsor Section -->
     <section id="sponsor" class="team section">
@@ -206,7 +241,8 @@
               <!-- Sponsor Button -->
               <div class="d-flex justify-content-center mt-3">
                 <!-- Trigger Button for Modal -->
-                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}" class="btn btn-warning btn-sm">
+                <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
+                  class="btn btn-warning btn-sm">
                   <i class="bi bi-chat-heart"></i> Sponsor
                 </a>
               </div>
@@ -235,12 +271,56 @@
 
   <footer id="footer" class="footer accent-background">
 
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-12 footer-about">
+          <h4>About Us</h4>
+          <p>Hidrina was established in 2021 by Tigryans from all over the world. The organisations aims to create a
+            long term service to the families of those who are fighting for our future and sacrificing their lives.</p>
+        </div>
+
+
+        <div class="col-lg-3 col-6 footer-links">
+          <h4>Our Value</h4>
+          <p>To honour and value the lives paid for the freedom and liberty of our people, we vow to keep our promises
+            to the martyrs and their families.</p>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="{% url 'home-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Home</a></li>
+            <li><a href="{% url 'family-list-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Martyer's Family</a></li>
+            <li><a href="{% url 'about-us-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> About Us</a></li>
+            <li><a href="{% url 'admin-login' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Sign In</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+          <p><strong>Email:</strong> <span>hidrinaorg@gmail.com</span></p>
+          <div class="social-links d-flex mt-4">
+            <a href="https://x.com/Hidrina1_Org" target="_blank"><i class="bi bi-twitter-x text-dark"></i></a>
+            <a href="https://www.facebook.com/HidrinaOrg" target="_blank"><i
+                class="bi bi-facebook text-primary"></i></a>
+            <a href="https://www.instagram.com/hidrina_org/?hl=en" target="_blank"><i
+                class="bi bi-instagram text-danger"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr>
+
     <div class="container copyright text-center mt-4">
       <p>&copy Copyright <span id="copyright-year"></span><strong class="px-1 sitename">Hidrina.</strong> <span>All
           Rights Reserved</span></p>
       <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
       <div class="credits">
-        Developed by <a href="https://www.linkedin.com/in/tesfahiwet-truneh%E2%99%BE%EF%B8%8F-2a2139179/" target="_blank">Tesfahiwet
+        <span class="bi bi-file-person-fill"></span> Developed by <a
+          href="https://www.linkedin.com/in/tesfahiwet-truneh%E2%99%BE%EF%B8%8F-2a2139179/" target="_blank">Tesfahiwet
           Truneh</a>
       </div>
     </div>
@@ -264,7 +344,6 @@
   <!-- Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/custom.js' %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 
   <!-- text animation page specfic script -->
   <script>

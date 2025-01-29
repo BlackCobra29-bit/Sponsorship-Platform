@@ -29,10 +29,11 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <script type="text/javascript"
-    src="https://platform-api.sharethis.com/js/sharethis.js#property=66fab4780661ee0019d47ad4&product=sticky-share-buttons&source=platform"
-    async="async"></script>
+  <script type="module" src="https://unpkg.com/theme-toggle@0.1.5/dist/theme-toggle.js"
+    crossorigin="anonymous"></script>
 
 </head>
 
@@ -53,21 +54,19 @@
 
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="{% url 'home-page' %}"><i class="bi bi-bank"></i>&nbsp Home<br></a></li>
-            <li><a href="{% url 'family-list-page' %}"><i class="bi bi-people"></i>&nbsp Martyer's Family</a>
+            <li><a href="{% url 'home-page' %}" class="active"> <ion-icon name="home-outline"></ion-icon>&nbsp;
+                Home<br></a>
             </li>
-            <li><a href="{% url 'about-us-page' %}"><i class="bi bi-file-person"></i>&nbsp About Us</a></li>
-            <li><a href="{% url 'admin-login' %}"><i class="bi bi-telephone-outbound-fill"></i>&nbsp Sign in</a></li>
-
-            <div class="social-links d-none d-md-flex align-items-center">
-              <a href="https://x.com/Hidrina1_Org" target="_blank" class="twitter me-2 text-info"><i
-                  class="bi bi-twitter-x"></i></a>
-              <a href="https://www.facebook.com/HidrinaOrg" target="_blank" class="facebook me-2 text-info"><i
-                  class="bi bi-facebook"></i></a>
-              <a href="https://www.instagram.com/hidrina_org/?hl=en" target="_blank" class="instagram me-2 text-info"><i
-                  class="bi bi-instagram"></i></a>
-            </div>
-
+            <li><a href="{% url 'family-list-page' %}"><ion-icon name="person-outline"></ion-icon>&nbsp; Martyer's
+                Family</a>
+            </li>
+            <li><a href="{% url 'about-us-page' %}"><ion-icon name="id-card-outline"></ion-icon>&nbsp; About Us</a></li>
+            <li><a href="{% url 'admin-login' %}"><ion-icon name="key-outline"></ion-icon>&nbsp; Sign in</a></li>
+            <li>
+              <a class="nav-link" id="themeToggleLink">
+                <theme-toggle storable="true" width="20" theme="light"></theme-toggle>
+              </a>
+            </li>
 
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -82,19 +81,60 @@
   {% block main-block %}
 
   {% endblock %}
+  
   <footer id="footer" class="footer accent-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-12 footer-about">
+          <h4>About Us</h4>
+          <p>Hidrina was established in 2021 by Tigryans from all over the world. The organisations aims to create a
+            long term service to the families of those who are fighting for our future and sacrificing their lives.</p>
+        </div>
+
+
+        <div class="col-lg-3 col-6 footer-links">
+          <h4>Our Value</h4>
+          <p>To honour and value the lives paid for the freedom and liberty of our people, we vow to keep our promises
+            to the martyrs and their families.</p>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="{% url 'home-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Home</a></li>
+            <li><a href="{% url 'family-list-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Martyer's Family</a></li>
+            <li><a href="{% url 'about-us-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> About Us</a></li>
+            <li><a href="{% url 'admin-login' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Sign In</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+          <p><strong>Email:</strong> <span>hidrinaorg@gmail.com</span></p>
+          <div class="social-links d-flex mt-4">
+            <a href="https://x.com/Hidrina1_Org" target="_blank"><i class="bi bi-twitter-x text-dark"></i></a>
+            <a href="https://www.facebook.com/HidrinaOrg" target="_blank"><i
+                class="bi bi-facebook text-primary"></i></a>
+            <a href="https://www.instagram.com/hidrina_org/?hl=en" target="_blank"><i
+                class="bi bi-instagram text-danger"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr>
 
     <div class="container copyright text-center mt-4">
       <p>&copy Copyright <span id="copyright-year"></span><strong class="px-1 sitename">Hidrina.</strong> <span>All
           Rights Reserved</span></p>
       <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
       <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Developed by <a href="https://www.linkedin.com/in/tesfahiwet-truneh%E2%99%BE%EF%B8%8F-2a2139179/"
-          target="_blank">Tesfahiwet Truneh</a>
+        <span class="bi bi-file-person-fill"></span> Developed by <a
+          href="https://www.linkedin.com/in/tesfahiwet-truneh%E2%99%BE%EF%B8%8F-2a2139179/" target="_blank">Tesfahiwet
+          Truneh</a>
       </div>
     </div>
 
@@ -120,20 +160,24 @@
   <!-- Modify the background color for the select2 default -->
   <style>
     .select2-selection.select2-selection--single {
-  display: block;
-  width: 100%;
-  height: calc(2.25rem + 2px);
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fdf9f9; /* Light gray background */
-  background-clip: padding-box;
-  border: 1px solid #ccc; /* Slightly darker border for better contrast */
-  border-radius: .25rem;
-  box-shadow: inset 0 0 0 transparent;; /* Light inner shadow */
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;   
+      display: block;
+      width: 100%;
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fdf9f9;
+      /* Light gray background */
+      background-clip: padding-box;
+      border: 1px solid #ccc;
+      /* Slightly darker border for better contrast */
+      border-radius: .25rem;
+      box-shadow: inset 0 0 0 transparent;
+      ;
+      /* Light inner shadow */
+      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
   </style>
 </body>

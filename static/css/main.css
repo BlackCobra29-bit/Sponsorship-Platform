@@ -88,14 +88,14 @@ body {
 }
 
 a {
-  color: var(--accent-color);
+  color: #263e61;
   text-decoration: none;
   transition: 0.3s;
 }
 
 a:hover {
-  color: color-mix(in srgb, var(--accent-color), transparent 25%);
-  text-decoration: none;
+  color: #06214e;
+  font-weight: bold;
 }
 
 h1,
@@ -104,7 +104,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--heading-color);
+  color: #000;
   font-family: var(--heading-font);
 }
 
@@ -288,7 +288,7 @@ h6 {
 }
 
 .header .topbar .social-links a {
-  color: color-mix(in srgb, var(--contrast-color), transparent 40%);
+  color: #222222;
   line-height: 0;
   transition: 0.3s;
   margin-left: 20px;
@@ -316,7 +316,7 @@ h6 {
   font-size: 30px;
   margin: 0;
   font-weight: 700;
-  color: var(--heading-color);
+  color: #272222;
 }
 
 .header .logo span {
@@ -361,7 +361,7 @@ h6 {
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-color);
+    color: #272222;
     font-size: 15px;
     padding: 0 2px;
     font-family: var(--nav-font);
@@ -404,7 +404,7 @@ h6 {
   .navmenu li:hover>a,
   .navmenu .active,
   .navmenu .active:focus {
-    color: var(--nav-color);
+    color: #272222;
   }
 
   .navmenu .dropdown ul {
@@ -467,7 +467,7 @@ h6 {
 /* Mobile Navigation */
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
-    color: var(--nav-color);
+    color: #222222;
     font-size: 28px;
     line-height: 0;
     margin-right: 10px;
@@ -594,8 +594,8 @@ h6 {
 # Global Footer
 --------------------------------------------------------------*/
 .footer {
-  color: var(--default-color);
-  background-color: #0F172B;
+  color: #000;
+  background-color: #f5f5f5;
   font-size: 14px;
   position: relative;
 }
@@ -615,7 +615,7 @@ h6 {
 }
 
 .footer .footer-about .logo span {
-  color: var(--heading-color);
+  color: #000;
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -624,7 +624,6 @@ h6 {
 
 .footer .footer-about p {
   font-size: 14px;
-  font-family: var(--heading-font);
 }
 
 .footer .social-links a {
@@ -634,7 +633,7 @@ h6 {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
+  border: 1px solid color-mix(in srgb, #373535, transparent 50%);
   font-size: 16px;
   color: color-mix(in srgb, var(--default-color), transparent 50%);
   margin-right: 10px;
@@ -680,13 +679,14 @@ h6 {
 }
 
 .footer .footer-links ul a {
-  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  color: #000;
   display: inline-block;
   line-height: 1;
 }
 
 .footer .footer-links ul a:hover {
-  color: var(--default-color);
+  color: #06214e;
+  font-weight: bold;
 }
 
 .footer .footer-contact p {
@@ -902,7 +902,7 @@ section,
   width: 100%;
   position: relative;
   padding: 140px 0 0 0;
-  background: linear-gradient(rgb(0 0 0 / 95%), rgb(0 0 0 / 75%)), url(../../static/img/cover.jpeg);
+  background: #fff;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -921,33 +921,32 @@ section,
 }
 
 .hero h2 .accent {
-  color: var(--conrast-color);
+  color: #000;
 }
 
 .hero p {
-  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  color: #000;
   font-weight: 400;
   margin-bottom: 30px;
   font-size: 17px;
 }
 
 .hero .btn-get-started {
-  color: var(--contrast-color);
-  background: var(--accent-color);
+  color: black;
   font-family: var(--heading-font);
-  font-weight: 500;
+  font-weight: bolder;
   font-size: 14px;
   letter-spacing: 1px;
   display: inline-block;
-  padding: 14px 40px;
-  border-radius: 50px;
+  padding: 13px 30px;
+  border-radius: .825rem;
   transition: 0.3s;
-  border: 2px solid color-mix(in srgb, var(--default-color), transparent 90%);
-  background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+  border: 2px solid color-mix(in srgb, #ffc107, transparent 90%);
+  background-color: #dea804;
 }
 
 .hero .btn-get-started:hover {
-  border-color: color-mix(in srgb, var(--default-color), transparent 60%);
+  background-color: #d7a921;
 }
 
 .hero .btn-watch-video {
@@ -2877,12 +2876,12 @@ section,
 }
 
 .header.scrolled {
-  background-color: #0F172B;
-  /* Turns black when scrolled */
+  background-color: #fff;  /* Fourth color */
 }
 
 #non-home-header {
-  background-color: #0F172B;
+  background-color: white;
+  box-shadow: 0px 0 18px rgba(0, 0, 0, 0.1);
 }
 
 #img-circle {
@@ -2918,10 +2917,21 @@ section,
 }
 
 .ml10 .letter {
-  display: inline-block;
   line-height: 1em;
   transform-origin: 0 0;
+  white-space: normal;
 }
+
+@media (max-width: 768px) {
+                /* Adjust the max-width as needed */
+                h1.ml10 .letters {
+                  font-size: 3rem;
+                  /* Increased font size for mobile */
+                }
+                .hidrina{
+                  white-space: pre-wrap;
+    }
+    }
 
 .form-control {
   display: block;
