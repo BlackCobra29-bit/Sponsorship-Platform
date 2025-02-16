@@ -40,13 +40,24 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label for="exampleInputFile">Gender: <code>*</code></label>
+                                            <select class="form-control" name="gender" required>
+                                                <option selected="" disabled="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Unknown">Unknown</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="exampleInputAddress">Address: <code>*</code></label>
                                             <input type="text" class="form-control" name="location"
                                                 placeholder="Enter address" required>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputContact">Family Contact Number:</label>
@@ -54,6 +65,8 @@
                                                 placeholder="Enter contact number">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputContact">Bank Account:</label>
@@ -61,24 +74,25 @@
                                                 placeholder="Enter Bank Account">
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Family Photos:</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="images"
+                                                        accept="image/*" multiple>
+                                                    <label class="custom-file-label">Select Images</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputBio">Family Bio: <code>*</code></label>
+                                            <label for="exampleInputBio">Family Bio:</label>
                                             <textarea class="form-control" rows="10" name="family_bio"
-                                                placeholder="Enter family bio..." required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">Family Photos: <code>*</code></label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" required class="custom-file-input" name="images" accept="image/*" multiple>
-                                                    <label class="custom-file-label">Select Multiple Images</label>
-                                                </div>
-                                            </div>
+                                                placeholder="Enter family bio..."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -90,37 +104,37 @@
 
                     </div>
                     <!-- /.card -->
-                     </div>
-                    <!-- ./col -->
                 </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content -->
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-wrapper -->
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-    <!-- Centered loading spinner styling -->
-    <style>
-        #loadingIndicator {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            /* Ensure it's above other elements */
-        }
-    </style>
+<!-- Centered loading spinner styling -->
+<style>
+    #loadingIndicator {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        /* Ensure it's above other elements */
+    }
+</style>
 
-    <!-- Loading spinner -->
-    <div id="loadingIndicator">
-        <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
-    </div>
+<!-- Loading spinner -->
+<div id="loadingIndicator">
+    <img src="{% static 'img/Spinner-loading.gif' %}" alt="Loading...">
+</div>
 
-    <!-- Page specfic script -->
+<!-- Page specfic script -->
 
-    <!-- Include SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Include SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {% endblock %}
+{% endblock %}

@@ -142,19 +142,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django.setup()
-
-from Super_Admin_App.models import EmailCredential
-from django.shortcuts import get_object_or_404
-
-email_service = get_object_or_404(EmailCredential)
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = email_service.email_host_user
-EMAIL_HOST_PASSWORD = email_service.email_host_password
+EMAIL_HOST = 'mail.hidrinasponsorship.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "hidrina@hidrinasponsorship.com"
+EMAIL_HOST_PASSWORD = "hidrinasponsorship"
+EMAIL_USE_SSL = True
 
 STRIPE_PUBLISHABLE_KEY = "pk_test_51MesyURrwQfTWptQiWgSRQNztyLlr0pnM0duElooidTFonJNz6GBg9sV9pe1JkudWCzjZl1YrbFuo7xj7VpfGBQV00FYBavB6B"
 STRIPE_SECRET_KEY = "sk_test_51MesyURrwQfTWptQ4xBQh3VVU59pLrqI6PLFpYfLbio7OX6WYIpsu9aqF3L91ilG2EzDeO9wdKcdP7zplWqyG5Jx00rloWK0S1"

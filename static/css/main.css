@@ -932,21 +932,23 @@ section,
 }
 
 .hero .btn-get-started {
-  color: black;
+  color: #fff;
   font-family: var(--heading-font);
   font-weight: bolder;
   font-size: 14px;
   letter-spacing: 1px;
   display: inline-block;
-  padding: 13px 30px;
-  border-radius: .825rem;
+  padding: 7px 30px;
+  border-radius: 2.25rem;
   transition: 0.3s;
   border: 2px solid color-mix(in srgb, #ffc107, transparent 90%);
   background-color: #dea804;
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
 }
 
 .hero .btn-get-started:hover {
-  background-color: #d7a921;
+  font-weight: normal;
 }
 
 .hero .btn-watch-video {
@@ -2903,7 +2905,7 @@ section,
 /* Hero image text animation https://tobiasahlin.com/ */
 .ml10 {
   position: relative;
-  font-weight: 900;
+  font-weight: 790;
   font-size: 3em;
 }
 

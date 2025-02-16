@@ -35,6 +35,7 @@
                   <tr>
                     <th>Index</th>
                     <th>Family Name</th>
+                    <th>Gender</th>
                     <th>Address</th>
                     <th>Contact Information</th>
                     <th>Sponsored?</th>
@@ -51,6 +52,7 @@
                     
                     <td>{{ forloop.counter }}</td>
                     <td>{{ item.family.family_name }}</td>
+                    <td>{{ item.family.gender }}</td>
                     <td>{{ item.family.location }}</td>
                     <td>
                       {% if item.family.contact_address %}

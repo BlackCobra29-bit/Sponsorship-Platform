@@ -6,10 +6,16 @@ from django.core.exceptions import ValidationError
 
 class FamilyList(models.Model):
     family_name = models.CharField(max_length=100)
+    Gender_Choices = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Unknown', 'Unknown')
+    ]
+    gender = models.CharField(max_length=255, choices=Gender_Choices, null=True, blank=True)
     location = models.CharField(max_length=100)
     contact_address = models.CharField(max_length=100, null=True, blank=True)
     bank_account = models.CharField(max_length=255, null=True, blank=True)
-    family_bio = models.TextField()
+    family_bio = models.TextField(null=True, blank=True)
     is_sponsored = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -29,7 +35,7 @@ def validate_image(image):
     
 class FamilyImage(models.Model):
     family = models.ForeignKey(FamilyList, related_name='images', on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='family_photos/', validators=[validate_image])
+    photo = models.ImageField(upload_to='family_photos/', validators=[validate_image], blank=True)
 
     def __str__(self):
         return f"{self.family.family_name} - photo"
@@ -79,13 +85,3 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.sponsor.first_name} {self.sponsor.last_name}\'s Payment for {self.family.family_name} - {self.family.location} - ${self.amount}'
-    
-class EmailCredential(models.Model):
-    email_host_user = models.EmailField()
-    email_host_password = models.CharField(max_length=255)
-    
-    class Meta:
-        verbose_name_plural = "AppEmail"
-        
-    def __str__(self):
-        return f'{self.email_host_user} - Hidrina AppEmail'

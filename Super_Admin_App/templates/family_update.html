@@ -40,34 +40,39 @@
                                                         <input type="text" class="form-control" name="family_name" placeholder="Enter full name" value="{{ family.family_name }}" required>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-6">
+                                                  Gender <span class="required" style="color: #dc3545;">*</span>
+                                                  {{ form.gender }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputAddress">Address: <code>*</code></label>
                                                         <input type="text" class="form-control" name="location" placeholder="Enter address" value="{{ family.location }}" required>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
+                                                
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputContact">Family Contact:</label>
                                                         <input type="text" class="form-control" name="contact_address" placeholder="Enter contact number" value="{{ family.contact_address }}">
                                                     </div>
                                                 </div>
-                                                {% if family.bank_account %}
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputContact">Bank Account:</label>
                                                         <input type="text" class="form-control" name="bank_account" placeholder="Enter contact number" value="{{ family.bank_account }}">
                                                     </div>
                                                 </div>
-                                                {% endif %}
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="exampleInputBio">Family Bio: <code>*</code></label>
-                                                        <textarea class="form-control" rows="10" name="family_bio" placeholder="Enter family bio..." required>{{ family.family_bio }}</textarea>
+                                                        <label for="exampleInputBio">Family Bio: </label>
+                                                        <textarea class="form-control" rows="10" name="family_bio" placeholder="Enter family bio...">{{ family.family_bio }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>

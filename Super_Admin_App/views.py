@@ -10,7 +10,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View, TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
-from .models import FamilyList, FamilyImage, MonthlyAmount, EmailCredential
+from .models import FamilyList, FamilyImage, MonthlyAmount
 from Sponsor_App.models import SponosrAccount, SponsorFamilyRelation
 from .forms import FamilyListForm
 from django.urls import reverse_lazy
@@ -80,6 +80,7 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPay
     def post(self, request, *args, **kwargs):
         family = FamilyList.objects.create(
             family_name=request.POST.get('family_name'),
+            gender=request.POST.get('gender'),
             location=request.POST.get('location'),
             contact_address=request.POST.get('contact_address'),
             bank_account = request.POST.get('bank_account'),
@@ -87,8 +88,16 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPay
         )
 
         images = request.FILES.getlist('images')
-        for image in images:
-            FamilyImage.objects.create(family=family, photo=image)
+
+        if not images:
+            if request.POST.get("gender") == "Male":
+                FamilyImage.objects.create(family=family, photo='avatars/male.jpg')
+            else:
+                FamilyImage.objects.create(family=family, photo='avatars/female.png')
+        else:
+            for image in images:
+                FamilyImage.objects.create(family=family, photo=image)
+
 
         return JsonResponse({"success": True, "message": "Family added successfully!"})
 
@@ -278,28 +287,6 @@ class MonthlySponsorshipAmount(SuperAdminRequiredMixin, TransactionContextMixin,
             monthly_amount.save()
 
         return JsonResponse({"success": True, "message": "Monthly amount updated successfully!"})
-
-# Email service settings
-class EmailService(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
-    template_name = "email_service.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        email_service = get_object_or_404(EmailCredential)
-        context['email_user'] = email_service.email_host_user
-        context['email_password'] = email_service.email_host_password
-        return context
-
-    def post(self, request, *args, **kwargs):
-        email_service = get_object_or_404(EmailCredential)
-        new_email_user = request.POST.get('update_email_user')
-        new_email_password = request.POST.get('update_email_password')
-        if new_email_user and new_email_password:
-            email_service.email_host_user = new_email_user
-            email_service.email_host_password = new_email_password
-            email_service.save()
-
-        return JsonResponse({"success": True, "message": "Email service credentials updated successfully!"})
 
 class UserAdminUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, UpdateView):
     model = User

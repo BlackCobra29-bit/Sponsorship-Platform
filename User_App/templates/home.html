@@ -70,11 +70,14 @@
 
           <nav id="navmenu" class="navmenu">
             <ul>
-              <li><a href="{% url 'home-page' %}" class="active"> <ion-icon name="home-outline"></ion-icon>&nbsp; Home<br></a>
+              <li><a href="{% url 'home-page' %}" class="active"> <ion-icon name="home-outline"></ion-icon>&nbsp;
+                  Home<br></a>
               </li>
-              <li><a href="{% url 'family-list-page' %}"><ion-icon name="person-outline"></ion-icon>&nbsp; Martyer's Family</a>
+              <li><a href="{% url 'family-list-page' %}"><ion-icon name="person-outline"></ion-icon>&nbsp; Martyer's
+                  Family</a>
               </li>
-              <li><a href="{% url 'about-us-page' %}"><ion-icon name="id-card-outline"></ion-icon>&nbsp; About Us</a></li>
+              <li><a href="{% url 'about-us-page' %}"><ion-icon name="id-card-outline"></ion-icon>&nbsp; About Us</a>
+              </li>
               <li><a href="{% url 'admin-login' %}"><ion-icon name="key-outline"></ion-icon>&nbsp; Sign in</a></li>
               <li>
                 <a class="nav-link" id="themeToggleLink">
@@ -96,13 +99,11 @@
     <section id="hero" class="hero section accent-background d-flex align-items-center pt-2">
       <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
         <div class="row justify-content-center">
-          <div class="col-lg-8 d-flex flex-column justify-content-center">
-
-
+          <div class="col-lg-9 d-flex flex-column justify-content-center">
             <h1 class="ml10">
-              <span class="text-wrapper">
-                <span class="letters">
-                  Welcome to <span class="hidrina">Hidrina</span>
+              <span class="text-wrapper text-center">
+                <span class="letters" style="font-size: 3rem; font-family: Arial,Helvetica,sans-serif;">
+                  Discover, and Support Martyr’s Families with Hidrina
                 </span>
               </span>
             </h1>
@@ -289,16 +290,19 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="{% url 'home-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Home</a></li>
-            <li><a href="{% url 'family-list-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Martyer's Family</a></li>
-            <li><a href="{% url 'about-us-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> About Us</a></li>
-            <li><a href="{% url 'admin-login' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Sign In</a></li>
+            <li><a href="{% url 'home-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Home</a>
+            </li>
+            <li><a href="{% url 'family-list-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span>
+                Martyer's Family</a></li>
+            <li><a href="{% url 'about-us-page' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> About
+                Us</a></li>
+            <li><a href="{% url 'admin-login' %}" target="_blank"><span class="bi bi-arrow-right-short"></span> Sign
+                In</a></li>
           </ul>
         </div>
 
         <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
           <h4>Contact Us</h4>
-          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
           <p><strong>Email:</strong> <span>hidrinaorg@gmail.com</span></p>
           <div class="social-links d-flex mt-4 justify-content-center">
             <a href="https://x.com/Hidrina1_Org" target="_blank"><i class="bi bi-twitter-x text-dark"></i></a>
