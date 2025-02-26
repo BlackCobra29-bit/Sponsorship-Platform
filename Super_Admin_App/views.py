@@ -90,10 +90,7 @@ class AddFamilyView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPay
         images = request.FILES.getlist('images')
 
         if not images:
-            if request.POST.get("gender") == "Male":
-                FamilyImage.objects.create(family=family, photo='avatars/male.jpg')
-            else:
-                FamilyImage.objects.create(family=family, photo='avatars/female.png')
+                FamilyImage.objects.create(family=family, photo='avatars/allgender.png')
         else:
             for image in images:
                 FamilyImage.objects.create(family=family, photo=image)
@@ -187,7 +184,25 @@ class FamilyListUpdateView(SuperAdminRequiredMixin, TransactionContextMixin, Spo
     def form_invalid(self, form):
         messages.error(self.request, 'There was an error updating the family details.')
         return super().form_invalid(form)
+    
+# Delete Family Image View (CBV)
+class FamilyListDeleteView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
+    model = FamilyList
+    success_url = reverse_lazy("family-management")
 
+    def post(self, request, *args, **kwargs):
+        family = get_object_or_404(FamilyList, pk=kwargs['pk'])
+        
+        # Check if there are any unpaid payments
+        total_unpaid_amount = Payment.objects.filter(family=family, is_active=True).aggregate(total=Sum('amount'))['total'] or 0
+        
+        if total_unpaid_amount == 0:
+            family.delete()
+            messages.success(request, "Family removed successfully.")
+        else:
+            messages.error(request, "Family cannot be deleted because there are unpaid payments.")
+
+        return redirect(self.success_url)
 
 # Update Family Image View (CBV)
 class UpdateFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPaymentNotificationMixin, TemplateView):
@@ -210,6 +225,7 @@ class DeleteFamilyImageView(SuperAdminRequiredMixin, TransactionContextMixin, Sp
         family_id = image.family.id
         image.photo.delete()
         image.delete()
+        messages.success(request, "The family image was successfully deleted.")
         return redirect('family-update', pk=family_id)
 
 
@@ -228,7 +244,7 @@ class FamilyUnsponsorView(SuperAdminRequiredMixin, TransactionContextMixin, Spon
         # Remove the SponsorFamilyRelation
         SponsorFamilyRelation.objects.filter(family=family).delete()  # Delete all relations for the family
 
-        messages.success(request, f"{family.family_name} has been unsponsored and is now in the unsponsored category.")
+        messages.success(request, "Family removed successfully.")
         return redirect(self.success_url)
 
 # Export Family Data View (CBV)

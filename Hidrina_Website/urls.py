@@ -33,6 +33,7 @@ from Super_Admin_App.views import (
     AddFamilyView,
     FamilyManagementView,
     FamilyListUpdateView,
+    FamilyListDeleteView,
     FamilyUnsponsorView,
     UpdateFamilyImageView,
     DeleteFamilyImageView,
@@ -97,6 +98,9 @@ urlpatterns = [
     path('mark-payments-paid/<int:family_id>/', MarkPaymentsPaidView.as_view(), name='mark-payments-paid'),
     path(
         "family/<int:pk>/update/", FamilyListUpdateView.as_view(), name="family-update"
+    ),
+    path(
+        "family/<int:pk>/delete/", FamilyListDeleteView.as_view(), name="family-delete"
     ),
     path("family/<int:pk>/delete/", FamilyUnsponsorView.as_view(), name="family-unsponsor"),
     path(

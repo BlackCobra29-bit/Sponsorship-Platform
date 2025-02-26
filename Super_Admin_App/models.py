@@ -9,7 +9,7 @@ class FamilyList(models.Model):
     Gender_Choices = [
         ('Male', 'Male'),
         ('Female', 'Female'),
-        ('Unknown', 'Unknown')
+        ('Unknown', 'Unknown'),
     ]
     gender = models.CharField(max_length=255, choices=Gender_Choices, null=True, blank=True)
     location = models.CharField(max_length=100)
