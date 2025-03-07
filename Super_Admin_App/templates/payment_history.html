@@ -41,8 +41,8 @@
                             <td>
                                 {{ forloop.counter }}
                             </td>
-                            <td>{{ payment.sponsor.first_name }} {{ payment.sponsor.last_name }}</td>
-                            <td>{{ payment.family.family_name }}</td>
+                            <td>{{ payment.sponsor_name }}</td>
+                            <td>{{ payment.family_name }}</td>
                             <td>{{ payment.family.location }}</td>
                             <td><strong class="text-success">${{ payment.amount }}</strong></td>
                             <td>{{ payment.payment_date|date:"F d, Y" }}</td>

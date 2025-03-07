@@ -20,11 +20,12 @@ class FamilyListForm(forms.ModelForm):
 class UserModelForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", 'email']
+        fields = ["first_name", "last_name", 'email', 'username']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'})
         }
         
 class CustomPasswordChangeForm(PasswordChangeForm):

@@ -149,6 +149,8 @@ EMAIL_HOST_USER = "hidrina@hidrinasponsorship.com"
 EMAIL_HOST_PASSWORD = "hidrinasponsorship"
 EMAIL_USE_SSL = True
 
+DEFAULT_FROM_EMAIL = 'hidrina@hidrinasponsorship.com'
+
 STRIPE_PUBLISHABLE_KEY = "pk_test_51MesyURrwQfTWptQiWgSRQNztyLlr0pnM0duElooidTFonJNz6GBg9sV9pe1JkudWCzjZl1YrbFuo7xj7VpfGBQV00FYBavB6B"
 STRIPE_SECRET_KEY = "sk_test_51MesyURrwQfTWptQ4xBQh3VVU59pLrqI6PLFpYfLbio7OX6WYIpsu9aqF3L91ilG2EzDeO9wdKcdP7zplWqyG5Jx00rloWK0S1"
 STRIPE_WEBHOOK_SECRET = "whsec_4nz4DAIYfdO5P47UMMLomY2Hnp0z5iGa"

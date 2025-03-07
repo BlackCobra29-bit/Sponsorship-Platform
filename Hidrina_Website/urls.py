@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls import handler404
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 # import User_App view urls
-from User_App.views import HomeView, FamiliesListPage, FamilyDetailView, AboutUsPage
+from User_App.views import HomeView, FamiliesListPage, FamilyDetailView, AboutUsPage, custom_404
 
 # import Auth_App urls
 from Auth_App.views import LoginView, LogoutView, ForgotPasswordView, DeleteAccountView
@@ -102,7 +103,7 @@ urlpatterns = [
     path(
         "family/<int:pk>/delete/", FamilyListDeleteView.as_view(), name="family-delete"
     ),
-    path("family/<int:pk>/delete/", FamilyUnsponsorView.as_view(), name="family-unsponsor"),
+    path("family/<int:pk>/unsponsor/", FamilyUnsponsorView.as_view(), name="family-unsponsor"),
     path(
         "family/image/<int:image_id>/update/",
         UpdateFamilyImageView.as_view(),
@@ -139,3 +140,6 @@ urlpatterns = [
     # Add this new PayPal URL pattern
     path('paypal/', include("paypal.standard.ipn.urls")),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+# 404 page not found handler
+handler404 = "User_App.views.custom_404"

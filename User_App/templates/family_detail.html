@@ -27,25 +27,12 @@
                     </div>
                     {% endfor %}
                   </div>
-                  <ul class="d-flex flex-column align-items-center">
-                    <li class="d-flex align-items-center list-item-padding">
-                      <i class="bi bi-person"></i>
-                      <small>{{ family.family_name }}</small>
-                    </li>
-                    <br>
-                    <li class="d-flex align-items-center list-item-padding">
-                      <i class="bi bi-geo-alt"></i>
-                      <small>{{ family.location }}</small>
-                    </li>
-                  </ul>
                 </div>
                 <div class="content">
-                  <p>
-                    <small><span class="bi bi-file-person fw-bold"> Gender:</span> {{ family.gender }}</small>
-                  </p>
-                  <p>
-                    <small>{{ family.family_bio }}</small>
-                  </p>
+                      <p><small><span class="bi bi-person-fill fw-bold"></span><b> Name:</b> {{ family.family_name }}</small></p>
+                      <p><small><span class="bi bi-geo-alt-fill fw-bold"></span><b> Address:</b> {{ family.location }}</small></p>
+                      <p><small><span class="bi bi-file-person fw-bold"> Gender:</span> {{ family.gender }}</small></p>
+                      <p><small><span class="bi bi-info-circle-fill fw-bold"></span><b> Details:</b> {{ family.family_bio }}</small></p>
                 </div>
               </article>
             </div>
@@ -75,15 +62,15 @@
                 <br />
                 <div class="row d-flex justify-content-center">
                   <div class="col-md-10 form-group">
-                    <label for=""><small>First name*</small></label>
+                    <label for=""><small>First name <span class="text-danger">*</span></small></label>
                     <input name="first_name" type="text" class="form-control" placeholder="Your First Name*" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Last name*</small></label>
+                    <label for=""><small>Last name <span class="text-danger">*</span></small></label>
                     <input name="last_name" type="text" class="form-control" placeholder="Your Last Name*" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for="country-select" class="form-label"><small>Country*</small></label>
+                    <label for="country-select" class="form-label"><small>Country <span class="text-danger">*</span></small></label>
                     <select id="country-select" name="country_location" class="form-control form-select"
                       style="width: 100%;" required style="background-color: red;">
                       <option value="" disabled selected>Select a country</option>
@@ -95,7 +82,7 @@
                     </select>
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Phone number* <span class="text-success" style="font-size: 11px;">Example: +1 (555)
+                    <label for=""><small>Phone number <span class="text-danger">*</span><span class="text-success" style="font-size: 11px;">Example: +1 (555)
                           123-4567</span></small></label><br>
                     <input name="phone_number" type="tel" class="form-control" id="phone"
                       placeholder="Your Phone Number" required />
@@ -103,11 +90,11 @@
                     <span id="error-msg" class="hide text-danger"></span>
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Email*</small></label>
+                    <label for=""><small>Email <span class="text-danger">*</span></small></label>
                     <input name="email" type="email" class="form-control" placeholder="Email *" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Upload photo*</small></label>
+                    <label for=""><small>Upload photo <span class="text-danger">*</span></small></label>
                     <input id="photo-upload" name="photo" type="file" class="form-control" accept="image/*" required />
                   </div>
                 </div>
@@ -118,16 +105,16 @@
                 <hr />
                 <div class="row d-flex justify-content-center">
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Username*</small></label>
+                    <label for=""><small>Username <span class="text-danger">*</span></small></label>
                     <input name="username" type="text" class="form-control" placeholder="Your Username" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Password*</small></label>
+                    <label for=""><small>Password <span class="text-danger">*</span></small></label>
                     <input name="password" type="password" id="password" class="form-control"
                       placeholder="Your Password" required />
                   </div>
                   <div class="col-md-10 form-group">
-                    <label for=""><small>Confirm password*</small></label>
+                    <label for=""><small>Confirm password <span class="text-danger">*</span></small></label>
                     <input name="confirm_password" type="password" class="form-control"
                       placeholder="Confirm Your Password" required />
                   </div>

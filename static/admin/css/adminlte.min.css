@@ -14401,13 +14401,8 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
 .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-    background-color: #007bff;
-    color: #fff
-}
-
-.sidebar-dark-primary .nav-sidebar.nav-legacy>.nav-item>.nav-link.active,
-.sidebar-light-primary .nav-sidebar.nav-legacy>.nav-item>.nav-link.active {
-    border-color: #007bff
+    background-color: #01ff70;
+    color: #1f2d3d;
 }
 
 .sidebar-dark-secondary .nav-sidebar>.nav-item>.nav-link.active,
@@ -47877,7 +47872,7 @@ blockquote.quote-gray-dark h6 {
 }
 
 .elevation-1 {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24) !important
+    box-shadow: 1px 0px 20px 0px rgba(69, 90, 100, 0.08);
 }
 
 .elevation-2 {
@@ -55885,10 +55880,6 @@ input[type=tel] {
     width: 600px;
 }
 
-.navbar-light .navbar-nav .nav-link {
-    color: #fff;
-}
-
 .btn-xs {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
@@ -55913,12 +55904,11 @@ input[type=tel] {
 
 /* navbar link menus active and hover property */
 .nav-link.active {
-    border-bottom: 1px solid #ec775c;
     font-weight: bold;
 }
 
 .nav-link:hover {
-   background-color: #3d444a;
+   font-weight: bold;
 }
 
 nav{

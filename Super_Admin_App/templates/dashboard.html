@@ -61,7 +61,7 @@
             <div class="inner">
               <h3>{{ sponsored_families }}</h3>
 
-              <strong>Sponsored Families</strong>
+              <strong>Sponsored Homes</strong>
             </div>
             <div class="icon">
               <i class="fa fa-hands-helping"></i>
@@ -95,7 +95,7 @@
             <div class="inner">
               <h3>${{ total_amount_paid }}</h3>
 
-              <strong>Total Sponsored Amount</strong>
+              <strong>Total Support $</strong>
             </div>
             <div class="icon">
               <i class="fas fa-dollar-sign"></i>
@@ -108,10 +108,79 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
+       
+      <!-- row -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script>
+  window.onload = function () {
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+      animationEnabled: true,
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top", // Move legend to the top
+        horizontalAlign: "center" // Center the legend horizontally
+      },
+      data: [{
+        type: "pie",
+        showInLegend: true,
+        toolTipContent: "{name}: <strong>{y}</strong>",
+        indexLabel: "{name} - {y}",
+        dataPoints: [
+          { y: {{ male_families }}, name: "Male"},
+          { y: {{ female_families }}, name: "Female"},
+          { y: {{ unknown_families }}, name: "Unknown"},
+        ]
+      }]
+    });
+    chart.render();
+
+    var chart2 = new CanvasJS.Chart("chartContainer2", {
+    animationEnabled: true,
+      legend: {
+        cursor: "pointer",
+        verticalAlign: "top", // Move legend to the top
+        horizontalAlign: "center" // Center the legend horizontally
+      },
+    data: [{
+      type: "doughnut",
+      showInLegend: true,
+      startAngle: 60,
+      indexLabel: "{label} - #percent%",
+      toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+      dataPoints: [
+        { y: {{ sponsored_families }}, name: "Sponsored Families" },
+        { y: {{ unsponsored_families }}, name: "Unsponsored Families" }
+      ]
+    }]
+  });
+  chart2.render();
+
+  }
+  
+</script>
+
+<script src="{% static 'admin/js/canvas.js' %}"></script>
 
 {% endblock %}

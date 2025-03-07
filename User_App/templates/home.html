@@ -241,11 +241,55 @@
               <span><b>Address: </b>{{ family.location }}</span>
               <!-- Sponsor Button -->
               <div class="d-flex justify-content-center mt-3">
-                <!-- Trigger Button for Modal -->
+                <a href="#" class="btn btn-success btn-sm me-2" data-bs-toggle="modal"
+                  data-bs-target="#familyModal{{ family.id }}">
+                  View
+                </a>
                 <a href="{% url 'family-detail' %}?family-id={{ family.id }}&family-name={{ family.family_name|slugify }}"
                   class="btn btn-warning btn-sm">
-                  <i class="bi bi-chat-heart"></i> Sponsor
+                  Sponsor
                 </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="familyModal{{ family.id }}" tabindex="-1"
+            aria-labelledby="familyModalLabel{{ family.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="familyModalLabel{{ family.id }}">{{ family.family_name }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="container">
+                    <div class="meta-top">
+                      <div class="d-flex flex-wrap justify-content-center" style="padding-bottom: 30px">
+                        {% for image in family.images.all %}
+                        <div class="m-2">
+                          <img src="{{ image.photo.url }}" class="img-fluid rounded" alt="{{ family.family_name }}"
+                            style="height: 200px; width: auto" />
+                        </div>
+                        {% empty %}
+                        <div class="m-2">
+                          <img src="{% static 'img/default_family/default.png' %}" class="img-fluid rounded"
+                            alt="No Image Available" style="height: 200px; width: auto" />
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="content">
+                      <p><small><span class="bi bi-person-fill fw-bold"></span><b> Name:</b> {{ family.family_name }}</small></p>
+                      <p><small><span class="bi bi-geo-alt-fill fw-bold"></span><b> Address:</b> {{ family.location }}</small></p>
+                      <p><small><span class="bi bi-file-person fw-bold"> Gender:</span> {{ family.gender }}</small></p>
+                      <p><small><span class="bi bi-info-circle-fill fw-bold"></span><b> Details:</b> {{ family.family_bio }}</small></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>

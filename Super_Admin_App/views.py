@@ -45,8 +45,12 @@ class DashboardView(SuperAdminRequiredMixin, TransactionContextMixin, SponsorPay
         # Retrieve statistics
         context["total_families"] = FamilyList.objects.count()
         context["sponsored_families"] = FamilyList.objects.filter(is_sponsored=True).count()
+        context["unsponsored_families"] = FamilyList.objects.filter(is_sponsored=False).count()
         context["unique_sponsors"] = User.objects.filter(sponsored_families__isnull=False).distinct().count()
         context["total_amount_paid"] = Payment.objects.aggregate(total=Sum('amount'))['total'] or 0
+        context["male_families"] = FamilyList.objects.filter(gender = "Male").count()
+        context["female_families"] = FamilyList.objects.filter(gender = "Female").count()
+        context["unknown_families"] = FamilyList.objects.filter(gender = "Unknown").count()
 
         return context
 

@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from Super_Admin_App.models import FamilyList, MonthlyAmount
 from Sponsor_App.models import SponosrAccount
 from django_countries import countries
+from django.shortcuts import render
 
 
 class HomeView(ListView):
@@ -110,3 +111,7 @@ class FamiliesListPage(TemplateView):
 
 class AboutUsPage(TemplateView):
     template_name = "about_us.html"
+    
+# 404 / page not found handler view
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
